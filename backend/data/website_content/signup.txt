@@ -1,0 +1,213 @@
+Page: Sign Up - Create Account
+URL: http://localhost:3000/signup
+Crawled: 2025-10-08
+
+Create Your CampusCrew Account
+
+Join CampusCrew - Free Registration
+
+Welcome to CampusCrew! Create your free account and start exploring amazing campus events. Registration is quick, easy, and completely free.
+
+How to Sign Up:
+1. Enter your full name
+2. Provide your email address (use your campus email)
+3. Create a strong password
+4. Confirm your password
+5. Accept terms and conditions
+6. Click "Sign Up" button
+7. Check your email for verification link
+8. Click verification link
+9. Your account is active!
+
+Registration Requirements:
+- Valid email address (preferably campus email)
+- Strong password (minimum 8 characters)
+- Full name
+- Must be 16 years or older
+- Agree to terms of service and privacy policy
+
+Password Requirements:
+Your password must have:
+- At least 8 characters
+- At least one uppercase letter (A-Z)
+- At least one lowercase letter (a-z)
+- At least one number (0-9)
+- At least one special character (!@#$%^&*)
+
+Examples of Strong Passwords:
+✅ Campus@2025
+✅ MyEvent#123
+✅ CampusCrew!Pass
+❌ password (too weak)
+❌ 12345678 (too weak)
+❌ name123 (too weak)
+
+Email Verification:
+After signing up:
+1. Check your inbox for verification email from CampusCrew
+2. Email subject: "Verify Your CampusCrew Account"
+3. Click the verification link in the email
+4. You'll be redirected to login page
+5. Login with your credentials
+
+Didn't Receive Verification Email?
+- Check spam/junk folder
+- Wait a few minutes (can take up to 5 minutes)
+- Check if email address is correct
+- Request resend verification email
+- Contact support: support@campuscrew.com
+
+Why Create an Account?
+
+**For Students:**
+✅ Browse all campus events
+✅ Register for events with one click
+✅ Get event reminders via email
+✅ Track your event history
+✅ Download participation certificates
+✅ Personalized event recommendations
+✅ Save favorite events
+✅ Manage your profile
+
+**For Event Organizers:**
+✅ All student features PLUS
+✅ Create and publish events
+✅ Manage event registrations
+✅ View participant lists
+✅ Send notifications to participants
+✅ Generate attendance reports
+✅ Analytics dashboard
+✅ Certificate generation tools
+
+Account Types:
+
+**Regular User Account (Default)**
+- Free for everyone
+- Browse and register for events
+- View joined events
+- Manage profile
+- Download certificates
+
+**Organizer/Admin Account**
+- Contact admin to upgrade
+- All regular features included
+- Event creation capabilities
+- Participant management
+- Advanced analytics
+
+Registration is 100% Free:
+- No credit card required
+- No subscription fees
+- No hidden charges
+- Free forever
+- All features included
+
+Privacy & Security:
+- Your email is never shared with third parties
+- Password is encrypted and hashed
+- Data stored securely
+- GDPR compliant
+- You can delete your account anytime
+
+What Happens After Signup?
+1. **Immediate Access**: Browse all public events
+2. **Email Verification**: Required to register for events
+3. **Profile Setup**: Add more details to your profile
+4. **Start Exploring**: Find events that interest you
+5. **Register**: One-click registration for events
+6. **Get Notified**: Receive updates via email
+
+Benefits of Verified Account:
+✅ Register for unlimited events
+✅ Priority access to limited-seat events
+✅ Receive important notifications
+✅ Trusted member badge
+✅ Better recommendations
+✅ Full platform access
+
+Terms of Service Highlights:
+- You must be 16+ years old
+- One account per person
+- Accurate information required
+- No spam or abusive behavior
+- Respect other users
+- Follow event guidelines
+- We reserve right to suspend accounts violating terms
+
+Data We Collect:
+- Name and email address
+- Events you register for
+- Events you create (if organizer)
+- Profile information (optional)
+- Usage analytics (anonymous)
+
+Data We DON'T Collect:
+- Credit card information (payment via bKash)
+- Social security numbers
+- Sensitive personal data
+- Browsing history outside CampusCrew
+
+Account Management:
+After creating account, you can:
+- Update profile information
+- Change password anytime
+- Update email address
+- Upload profile picture
+- Set notification preferences
+- Delete account (if needed)
+
+Already Have an Account?
+- Click "Login" to access your account
+- Don't create duplicate accounts
+- Use password reset if you forgot password
+
+Trouble Signing Up?
+
+**"Email Already Registered"**
+- You may already have an account
+- Try logging in instead
+- Use password reset if forgotten
+
+**"Invalid Email Format"**
+- Check email spelling
+- Remove extra spaces
+- Use valid email format (user@domain.com)
+
+**"Weak Password"**
+- Follow password requirements
+- Use mix of characters
+- Make it at least 8 characters
+
+**"Network Error"**
+- Check internet connection
+- Try again after a moment
+- Clear browser cache
+- Try different browser
+
+Campus Email Benefits:
+Using your campus email (.edu):
+- Easier verification
+- Campus-specific events
+- Trusted member status
+- Connect with classmates
+- Institutional recognition
+
+Personal Email OK Too:
+- Any valid email works
+- Gmail, Yahoo, Outlook, etc.
+- Professional emails accepted
+- Verification required for all
+
+Need Help?
+- Use chatbot for instant support
+- Email: support@campuscrew.com
+- Check FAQ section
+- Watch tutorial videos (coming soon)
+
+Ready to Join?
+Create your free CampusCrew account now and never miss a campus event again! Join thousands of students already using CampusCrew. 🎓
+
+Sign up takes less than 2 minutes! 🚀
+
+---
+Description: Create your free CampusCrew account. Sign up to browse events, register with one click, get notifications, and manage your campus event experience.

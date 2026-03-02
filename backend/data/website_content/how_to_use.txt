@@ -1,0 +1,43 @@
+How to Use CampusCrew
+
+GETTING STARTED:
+1. Sign Up: Create an account using your email address
+2. Verify Email: Check your inbox and verify your email address
+3. Complete Profile: Add your profile picture and personal information
+4. Explore Events: Browse the events page to discover upcoming activities
+
+FOR STUDENTS (Event Attendees):
+1. Browse Events: Visit the "Upcoming Events" page to see all available events
+2. Event Details: Click on any event to view full details, location, and requirements
+3. Register: Click the "Register" button to sign up for an event
+4. Payment (if required): Complete payment through bKash for paid events
+5. Confirmation: Receive email confirmation of your registration
+6. Attend Event: Show up at the event location on the scheduled date and time
+7. Get Certificate: After attending, download your participation certificate from "My Events"
+
+FOR EVENT ORGANIZERS:
+1. Create Account: Sign up and request organizer permissions
+2. Create Event: Go to "Create Event" page and fill in event details
+   - Event title and description
+   - Date and time
+   - Location
+   - Category
+   - Maximum capacity
+   - Upload event image
+3. Submit for Approval: Wait for admin approval
+4. Manage Event: Edit details, view registrations, and track attendance
+5. Check Attendees: View list of registered participants
+6. Mark Attendance: Mark participants as attended after the event
+
+DASHBOARD FEATURES:
+- View all your registered events
+- Track your event participation history
+- Download certificates
+- Manage your created events (for organizers)
+- View recommendations based on your interests
+
+TROUBLESHOOTING:
+- Forgot Password: Use "Forgot Password" link on login page
+- Email not verified: Check spam folder or request new verification email
+- Payment issues: Contact support or try alternative payment method
+- Event full: Join waitlist or check for similar events

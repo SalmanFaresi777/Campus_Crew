@@ -1,0 +1,105 @@
+Page: Upcoming Events
+URL: http://localhost:3000/upcoming-events
+Crawled: 2025-10-08
+
+Upcoming Campus Events - CampusCrew
+
+Browse and Register for Exciting Campus Events
+
+Welcome to the Upcoming Events page! Here you can discover all the exciting events happening on campus. From technical workshops and hackathons to cultural festivals and sports tournaments, there's always something happening at CampusCrew.
+
+How to Browse Events:
+1. Scroll through the list of upcoming events
+2. Each event card shows the event name, date, venue, and a brief description
+3. Click on any event card to see full details
+4. Use the search bar to find specific events
+5. Filter events by category (Technical, Cultural, Sports, Academic, etc.)
+
+Event Information Displayed:
+- Event Title and Banner Image
+- Event Date and Time
+- Venue/Location
+- Registration Deadline
+- Number of Participants Registered
+- Event Category
+- Registration Fee (if applicable)
+- Event Organizer Details
+
+How to Register for an Event:
+1. Click on the event you're interested in
+2. Read the full event details and requirements
+3. Click the "Register" button
+4. Fill in your details in the registration form
+5. Complete payment if it's a paid event (via bKash)
+6. Receive confirmation email
+7. Your registration is complete!
+
+Types of Events You Can Find:
+- **Technical Events**: Hackathons, coding competitions, tech talks, workshops on new technologies
+- **Cultural Events**: Music festivals, dance competitions, drama performances, art exhibitions
+- **Sports Events**: Tournaments, matches, athletic competitions, sports day
+- **Academic Events**: Seminars, conferences, guest lectures, research presentations
+- **Career Events**: Job fairs, career counseling, industry visits, networking events
+- **Social Events**: Meetups, social gatherings, community service, club activities
+
+Event Status Indicators:
+- 🟢 Open for Registration: You can register now
+- 🟡 Registration Closing Soon: Limited time left
+- 🔴 Registration Closed: No more registrations accepted
+- ⏰ Event Completed: Event has already taken place
+
+Registration Benefits:
+- Secure your spot in popular events
+- Receive event reminders via email
+- Get event updates and announcements
+- Earn participation certificates
+- Track all your registrations in one place
+- Easy cancellation if plans change
+
+Popular Events:
+Check out the most popular events with high participation:
+- Tech workshops with industry experts
+- Inter-college competitions
+- Cultural nights and festivals
+- Sports tournaments
+- Career guidance sessions
+
+Search and Filter:
+Use our powerful search and filter features:
+- Search by event name or keyword
+- Filter by event category
+- Filter by date range
+- Sort by popularity or date
+- View only free events or paid events
+
+Stay Updated:
+- Check the "Upcoming Events" page regularly for new events
+- Follow your favorite event organizers
+- Enable email notifications for new events
+- Check your dashboard for personalized recommendations
+
+Missing an Event?
+If you don't see an event you're looking for:
+- Use the search feature
+- Check if it's in "Past Events"
+- Contact the event organizer
+- Suggest a new event through the contact form
+
+Registration Tips:
+- Register early for popular events (limited seats)
+- Read all event details before registering
+- Make sure you're available on the event date
+- Complete payment promptly for paid events
+- Check your email for confirmation
+- Save your registration confirmation
+
+Need Help?
+- Use the chatbot for quick assistance
+- Contact event organizers directly
+- Email support@campuscrew.com
+- Check the FAQ section
+
+Start exploring and register for events that inspire you! 🎉
+
+---
+Description: Browse and register for upcoming campus events including technical workshops, cultural festivals, sports tournaments, and academic seminars.

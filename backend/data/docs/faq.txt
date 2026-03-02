@@ -1,0 +1,31 @@
+Frequently Asked Questions - CampusCrew
+
+Q: How do I register for an event?
+A: To register for an event, browse the upcoming events, click on the event you're interested in, and click the "Register" button. You may need to pay a registration fee if applicable.
+
+Q: Can I cancel my registration?
+A: Yes, you can cancel your registration before the event deadline. Go to your profile and click on "Joined Events" to see your registrations.
+
+Q: How do I get a certificate after attending an event?
+A: Certificates are automatically generated after the event ends. You can download them from your profile under "Certificates".
+
+Q: What payment methods are accepted?
+A: We accept payments through bKash mobile banking system. The registration fee must be paid to confirm your spot.
+
+Q: Can I create events as a student?
+A: Yes, any registered user can create events. Simply log in and click "Create Event" from your dashboard.
+
+Q: How do I contact event organizers?
+A: You can find the organizer's contact information on the event details page, or use our messaging system to contact them directly.
+
+Q: What if an event gets cancelled?
+A: If an event is cancelled, all participants will be notified via email and any registration fees will be refunded automatically.
+
+Q: How do I update my profile information?
+A: Go to your profile page and click "Edit Profile" to update your personal information, contact details, and preferences.
+
+Q: Can I see who else is attending an event?
+A: For privacy reasons, the full attendee list is only visible to event organizers. However, you can see the number of registered participants.
+
+Q: How do I report inappropriate content or events?
+A: Use the "Report" button on any event or content that violates our community guidelines. Our team will review and take appropriate action.

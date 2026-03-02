@@ -1,0 +1,498 @@
+Editevent Page
+
+Not authorized
+      <
+
+fd.append("tags", tag));
+        } else if (k !== "current_image") {
+          fd.append(k, v);
+        }
+      });
+      const { data } = await apiService.updateEvent(id, fd);
+      if (data.success) {
+        showSuccessToast("Event updated");
+        
+        // Clear events cache to ensure updated event shows up correctly
+        clearEventCaches();
+        
+        navigate(`/events/${id}`);
+      } else {
+        const msg = data.message || "Update failed";
+        setError(msg);
+        showErrorToast(msg);
+      }
+    } catch (err) {
+      const msg = err.response?.data?.message || "Update failed";
+      setError(msg);
+      showErrorToast(msg);
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  return (
+    <
+
+Edit Event
+          <
+
+Back
+          <
+
+)}
+        {!loading && error && (
+          <
+
+)}
+        {!loading && !error && form && (
+          <
+
+Image<
+
+) : form.current_image ? (
+                    <
+
+) : (
+                    <
+
+Click to Upload<
+
+)}
+                  <
+
+JPG/PNG up to 3MB<
+
+Title<
+
+Description<
+
+Date<
+
+Registration Deadline<
+
+Catagory<
+
+Tags<
+
+Location<
+
+Organizer<
+
+Fee (৳)<
+
+Prize Money (৳)<
+
+Cancel
+              <
+
+)}
+      <
+
+);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const { data } = await apiService.getEvent(id);
+        if (data.success) {
+          const ev = data.event;
+          setForm({
+            title: ev.title,
+            description: ev.description,
+            date: new Date(ev.date).toISOString().slice(0, 16),
+            registration_deadline: new Date(ev.registration_deadline)
+              .toISOString()
+              .slice(0, 16),
+            location: ev.location,
+            organizer: ev.organizer,
+            prize_money: ev.prize_money,
+            registration_fee: ev.registration_fee,
+            category: ev.category,
+            tags: ev.tags?.join(
+
+,
+            image: null,
+            current_image: ev.event_image ||
+
+,
+          });
+        } else setError(data.message ||
+
+);
+      } catch (e) {
+        setError(e.response?.data?.message ||
+
+);
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, [id]);
+
+  if (!user?.isAdmin)
+    return (
+      <div style={{ padding:
+
+, textAlign:
+
+}}>
+        Not authorized
+      </div>
+    );
+
+  const onChange = (e) => {
+    const { name, value, files, type } = e.target;
+    if (type ===
+
+) {
+      const f = files[0];
+      if (f) {
+        if (!f.type.startsWith(
+
+)) {
+          const msg =
+
+;
+          setError(msg);
+          showErrorToast(msg);
+          e.target.value =
+
+;
+          return;
+        }
+        if (f.size > 3 * 1024 * 1024) {
+          const msg =
+
+;
+          setError(msg);
+          showErrorToast(msg);
+          e.target.value =
+
+;
+          return;
+        }
+        setError(
+
+);
+        setForm((p) => ({ ...p, image: f }));
+      }
+    } else setForm((p) => ({ ...p, [name]: value }));
+  };
+
+  const submit = async (e) => {
+    e.preventDefault();
+    if (!form) return; // pre-check size again
+    if (form.image && form.image.size > 3 * 1024 * 1024) {
+      const msg =
+
+;
+      setError(msg);
+      showErrorToast(msg);
+      return;
+    }
+    setSaving(true);
+    setError(
+
+);
+    try {
+      const fd = new FormData();
+      Object.entries(form).forEach(([k, v]) => {
+        if (k ===
+
+) {
+          if (v) fd.append(
+
+, v);
+        } else if (k ===
+
+) {
+          const tagsArray = v
+            .split(
+
+)
+            .map((tag) => tag.trim())
+            .filter((tag) => tag.length > 0);
+          tagsArray.forEach((tag) => fd.append(
+
+, tag));
+        } else if (k !==
+
+) {
+          fd.append(k, v);
+        }
+      });
+      const { data } = await apiService.updateEvent(id, fd);
+      if (data.success) {
+        showSuccessToast(
+
+);
+        
+        // Clear events cache to ensure updated event shows up correctly
+        clearEventCaches();
+        
+        navigate(`/events/${id}`);
+      } else {
+        const msg = data.message ||
+
+;
+        setError(msg);
+        showErrorToast(msg);
+      }
+    } catch (err) {
+      const msg = err.response?.data?.message ||
+
+;
+      setError(msg);
+      showErrorToast(msg);
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  return (
+    <div className=
+
+style={{ fontFamily:
+
+}}>
+      <Header />
+      <main className=
+
+>
+        <div
+          style={{
+            display:
+
+,
+            justifyContent:
+
+,
+            alignItems:
+
+,
+            flexWrap:
+
+,
+            gap:
+
+,
+          }}
+        >
+          <h1 className=
+
+>
+            Edit Event
+          </h1>
+          <Link
+            to={`/events/${id}`}
+            className=
+
+style={{ textDecoration:
+
+}}
+          >
+            Back
+          </Link>
+        </div>
+        {loading && (
+          <Loader
+            color={
+              document.documentElement.getAttribute(
+
+}
+          />
+        )}
+        {!loading && error && (
+          <p style={{ color:
+
+}}>{error}</p>
+        )}
+        {!loading && !error && form && (
+          <form onSubmit={submit} className=
+
+>
+            <div className=
+
+>
+              <div className=
+
+>
+                <label>Image</label>
+                <div
+                  className=
+
+onClick={() =>
+                    document.getElementById(
+
+).click()
+                  }
+                >
+                  {form.image ? (
+                    <img src={URL.createObjectURL(form.image)} alt=
+
+/>
+                  ) : form.current_image ? (
+                    <img src={form.current_image} alt=
+
+/>
+                  ) : (
+                    <div className=
+
+>Click to Upload</div>
+                  )}
+                  <input
+                    id=
+
+hidden
+                    onChange={onChange}
+                  />
+                </div>
+                <small className=
+
+>JPG/PNG up to 3MB</small>
+              </div>
+              <div className=
+
+>
+                <label>Title</label>
+                <input
+                  name=
+
+value={form.title}
+                  onChange={onChange}
+                  required
+                />
+              </div>
+              <div className=
+
+>
+                <label>Description</label>
+                <textarea
+                  name=
+
+value={form.description}
+                  rows={5}
+                  onChange={onChange}
+                  required
+                />
+              </div>
+              <div className=
+
+>
+                <label>Date</label>
+                <input
+                  type=
+
+value={form.date}
+                  onChange={onChange}
+                  required
+                />
+              </div>
+              <div className=
+
+>
+                <label>Registration Deadline</label>
+                <input
+                  type=
+
+value={form.registration_deadline}
+                  onChange={onChange}
+                  required
+                />
+              </div>
+              <div className=
+
+>
+                <label>Catagory</label>
+                <input
+                  name=
+
+value={form.category}
+                  onChange={onChange}
+                  required
+                />
+              </div>
+              <div className=
+
+>
+                <label>Tags</label>
+                <input
+                  name=
+
+value={form.tags}
+                  onChange={onChange}
+                  required
+                />
+              </div>
+              <div className=
+
+>
+                <label>Location</label>
+                <input
+                  name=
+
+value={form.location}
+                  onChange={onChange}
+                  required
+                />
+              </div>
+              <div className=
+
+>
+                <label>Organizer</label>
+                <input
+                  name=
+
+value={form.organizer}
+                  onChange={onChange}
+                  required
+                />
+              </div>
+              <div className=
+
+>
+                <label>Fee (৳)</label>
+                <input
+                  type=
+
+value={form.registration_fee}
+                  onChange={onChange}
+                  required
+                />
+              </div>
+              <div className=
+
+>
+                <label>Prize Money (৳)</label>
+                <input
+                  type=
+
+value={form.prize_money}
+                  onChange={onChange}
+                  required
+                />
+              </div>
+            </div>
+            <div className=
+
+style={{ marginTop:
+
+}}>
+              <button
+                type=
+
+onClick={() => navigate(-1)}
+              >
+                Cancel
+              </button>
+              <button
+                type=
+
+className={`ed-primaryBtn ${saving ?
+
+}`}
+                disabled={saving}
+              >
+                {saving ?
+
+Save Changes

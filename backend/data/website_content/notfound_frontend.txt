@@ -1,0 +1,75 @@
+Notfound Page
+
+clearTimeout(timer);
+  }, []);
+
+  return (
+    <
+
+}
+      <
+
+404<
+
+Page Not Found<
+
+The path <
+
+does not exist.
+          {pathname === '/create-events' && ' Did you mean /create-event ?'}
+        <
+
+Home<
+
+Events<
+
+Create Event<
+
+,flexDirection:
+
+}}>
+      {loading && <Loader color={document.documentElement.getAttribute(
+
+} />}
+      <Header />
+      <main style={{flex:1,display:
+
+,flexDirection:
+
+,alignItems:
+
+,justifyContent:
+
+,textAlign:
+
+}}>
+        <h1 style={{fontSize:
+
+,margin:0}}>404</h1>
+        <h2 style={{margin:
+
+}}>Page Not Found</h2>
+        <p style={{maxWidth:480,lineHeight:1.5}}>
+          The path <code style={{background:
+
+,borderRadius:4}}>{pathname}</code> does not exist.
+          {pathname ===
+
+Did you mean /create-event ?
+
+,justifyContent:
+
+}}>
+          <Link to=
+
+><span className=
+
+>Home</span></Link>
+          <Link to=
+
+><span className=
+
+>Events</span></Link>
+          <Link to=
+
+><span className=

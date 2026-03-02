@@ -1,0 +1,680 @@
+Home Page
+
+window.removeEventListener("keydown", handler);
+  }, [events.length, nextEvent, prevEvent]);
+
+  return (
+    <
+
+}
+      <
+
+Why CampusCrew?<
+
+A complete platform to plan, promote, and manage student events with
+            ease.
+          <
+
+Create Events Easily<
+
+Set up event pages, registration forms, and schedules in
+                minutes—no coding required.
+              <
+
+Increase Participation<
+
+Smart reminders and personalized updates ensure students never
+                miss an event.
+              <
+
+Simplify Management<
+
+Automate approvals, track attendance, and manage waitlists with
+                zero hassle.
+              <
+
+Get Valuable Insights<
+
+Visualize attendance trends, engagement levels, and event
+                performance metrics.
+              <
+
+Secure & Reliable<
+
+Keep data safe with role-based access and secure authentication.
+              <
+
+Build Campus Community<
+
+Turn events into lasting connections and foster an active
+                student network.
+              <
+
+Upcoming <
+
+Spotlight<
+
+Hover over image to slide and reveal event details. Navigate
+                with arrows.
+              <
+
+Loading events...<
+
+)}
+            {!evLoading && evError && (
+              <
+
+)}
+            {!evLoading && !evError && events.length === 0 && (
+              <
+
+No upcoming events yet.<
+
+0 && (
+              <
+
+&lt;
+                <
+
+&gt;
+                <
+
+) : (
+                            <
+
+No Image<
+
+)}
+                        <
+
+)}
+                          {ev.event_type && (
+                            <
+
+)}
+                          {ev.description && (
+                            <
+
+)}
+                        <
+
+);
+                })}
+              <
+
+)}
+            <
+
+View All Events
+              <
+
+How CampusCrew Works<
+
+(
+                <
+
+))}
+            <
+
+(
+                <
+
+))}
+            <
+
+&copy; 2025 Your Company. All rights reserved.<
+
+About<
+
+Contact<
+
+Privacy Policy<
+
+*/}
+      <
+
+react-icons/fa
+
+);
+  const [currentIdx, setCurrentIdx] = useState(0);
+  const [isPaused, setIsPaused] = useState(false); // pause on hover/focus
+  const [loading, setLoading] = useState(true);
+
+  // Basic scroll reveal (CSS class toggling)
+  useEffect(() => {
+    // Scroll reveal for elements with .reveal
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) e.target.classList.add(
+
+);
+        });
+      },
+      { threshold: 0.15 }
+    );
+    const revealEls = document.querySelectorAll(
+
+);
+    revealEls.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+
+  // Fetch a small set of upcoming events (limit 6)
+  useEffect(() => {
+    let ignore = false;
+    (async () => {
+      try {
+        let UserID = user && user._id ? user._id :
+
+;
+        const { data } = await axios.get(
+          `${backend_link}/api/suggested_events/${UserID}`
+        );
+        if (data.success) {
+          console.log(data.recommended);
+          setEvents(data.recommended);
+        }
+      } catch (e) {
+        if (!ignore) setEvError(
+
+);
+      } finally {
+        if (!ignore) {
+          setEvLoading(false);
+          setLoading(false);
+        }
+      }
+    })();
+    return () => {
+      ignore = true;
+    };
+  }, [backend_link]);
+
+  // Navigation handlers for single event showcase
+  const nextEvent = useCallback(() => {
+    setCurrentIdx((i) => (events.length ? (i + 1) % events.length : 0));
+  }, [events.length]);
+  const prevEvent = useCallback(() => {
+    setCurrentIdx((i) =>
+      events.length ? (i - 1 + events.length) % events.length : 0
+    );
+  }, [events.length]);
+
+  // Autoplay (skip if user prefers reduced motion)
+  useEffect(() => {
+    if (isPaused) return; // paused due to hover/focus
+    if (events.length < 2) return; // nothing to rotate
+    const mq = window.matchMedia(
+
+);
+    if (mq.matches) return; // respect user preference
+    const id = setInterval(() => {
+      setCurrentIdx((i) => (i + 1) % events.length);
+    }, 6500); // 6.5s interval
+    return () => clearInterval(id);
+  }, [events.length, isPaused]);
+
+  // Keyboard navigation (left/right arrows) when section in view
+  useEffect(() => {
+    const handler = (e) => {
+      if (!events.length) return;
+      if (e.key ===
+
+) nextEvent();
+      if (e.key ===
+
+) prevEvent();
+    };
+    window.addEventListener(
+
+, handler);
+    return () => window.removeEventListener(
+
+, handler);
+  }, [events.length, nextEvent, prevEvent]);
+
+  return (
+    <div className=
+
+>
+      {loading && <Loader color={document.documentElement.getAttribute(
+
+} />}
+      <Header />
+
+      <main>
+        <HeroBanner />
+
+        <section className=
+
+>
+          <h2 className=
+
+>Why CampusCrew?</h2>
+          <p className=
+
+>
+            A complete platform to plan, promote, and manage student events with
+            ease.
+          </p>
+
+          <div className=
+
+>
+            <div className=
+
+>
+              <div className=
+
+>
+                <FaRocket />
+              </div>
+              <h3 className=
+
+>Create Events Easily</h3>
+              <p className=
+
+>
+                Set up event pages, registration forms, and schedules in
+                minutes—no coding required.
+              </p>
+            </div>
+
+            <div className=
+
+>
+              <div className=
+
+>
+                <FaBullseye />
+              </div>
+              <h3 className=
+
+>Increase Participation</h3>
+              <p className=
+
+>
+                Smart reminders and personalized updates ensure students never
+                miss an event.
+              </p>
+            </div>
+
+            <div className=
+
+>
+              <div className=
+
+>
+                <FaCogs />
+              </div>
+              <h3 className=
+
+>Simplify Management</h3>
+              <p className=
+
+>
+                Automate approvals, track attendance, and manage waitlists with
+                zero hassle.
+              </p>
+            </div>
+
+            <div className=
+
+>
+              <div className=
+
+>
+                <FaChartLine />
+              </div>
+              <h3 className=
+
+>Get Valuable Insights</h3>
+              <p className=
+
+>
+                Visualize attendance trends, engagement levels, and event
+                performance metrics.
+              </p>
+            </div>
+
+            <div className=
+
+>
+              <div className=
+
+>
+                <FaLock />
+              </div>
+              <h3 className=
+
+>Secure & Reliable</h3>
+              <p className=
+
+>
+                Keep data safe with role-based access and secure authentication.
+              </p>
+            </div>
+
+            <div className=
+
+>
+              <div className=
+
+>
+                <FaUsers />
+              </div>
+              <h3 className=
+
+>Build Campus Community</h3>
+              <p className=
+
+>
+                Turn events into lasting connections and foster an active
+                student network.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Event Showcase Section (Single Image Hover-Reveal) */}
+        <section
+          className=
+
+aria-labelledby=
+
+>
+          <div className=
+
+>
+            <header className=
+
+>
+              <h2 id=
+
+>
+                Upcoming <span className=
+
+>Spotlight</span>
+              </h2>
+              <p className=
+
+>
+                Hover over image to slide and reveal event details. Navigate
+                with arrows.
+              </p>
+            </header>
+            {evLoading && (
+              <div className=
+
+>Loading events...</div>
+            )}
+            {!evLoading && evError && (
+              <div className=
+
+>{evError}</div>
+            )}
+            {!evLoading && !evError && events.length === 0 && (
+              <div className=
+
+>No upcoming events yet.</div>
+            )}
+            {!evLoading && !evError && events.length > 0 && (
+              <div
+                className=
+
+aria-label=
+
+onMouseEnter={() => setIsPaused(true)}
+                onMouseLeave={() => setIsPaused(false)}
+                onFocus={() => setIsPaused(true)}
+                onBlur={(e) => {
+                  // If focus leaves the wrapper entirely
+                  if (!e.currentTarget.contains(e.relatedTarget))
+                    setIsPaused(false);
+                }}
+              >
+                <button
+                  aria-label=
+
+onClick={prevEvent}
+                  disabled={events.length < 2}
+                >
+                  &lt;
+                </button>
+                <button
+                  aria-label=
+
+onClick={nextEvent}
+                  disabled={events.length < 2}
+                >
+                  &gt;
+                </button>
+                {events.map((ev, i) => {
+                  const active = i === currentIdx;
+                  const d = ev.date ? new Date(ev.date) : null;
+                  const month = d
+                    ? d.toLocaleDateString(
+
+})
+                    :
+
+;
+                  const day = d ? d.getDate() :
+
+;
+                  const direction = i % 2 === 0 ?
+
+;
+                  return (
+                    <div
+                      key={ev._id || i}
+                      className={`eventSlide ${
+                        active ?
+
+} dir-${direction}`}
+                      aria-hidden={!active}
+                    >
+                      <Link
+                        to={`/events/${ev._id}`}
+                        className=
+
+tabIndex={active ? 0 : -1}
+                      >
+                        <div className=
+
+>
+                          {ev.event_image ? (
+                            <img
+                              src={ev.event_image}
+                              alt={ev.title}
+                              loading=
+
+/>
+                          ) : (
+                            <div className=
+
+>No Image</div>
+                          )}
+                        </div>
+                        <div className=
+
+>
+                          <div className=
+
+>
+                            <span className=
+
+>{month}</span>
+                            <span className=
+
+>{day}</span>
+                          </div>
+                          <h3 className=
+
+title={ev.title}>
+                            {ev.title}
+                          </h3>
+                          {ev.location && (
+                            <p className=
+
+>{ev.location}</p>
+                          )}
+                          {ev.event_type && (
+                            <span className=
+
+>
+                              {ev.event_type}
+                            </span>
+                          )}
+                          {ev.description && (
+                            <p className=
+
+>{ev.description}</p>
+                          )}
+                        </div>
+                      </Link>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+            <div className=
+
+>
+              <Link to=
+
+>
+                View All Events
+              </Link>
+            </div>
+          </div>
+          <div className=
+
+aria-hidden=
+
+/>
+          <div className=
+
+aria-hidden=
+
+/>
+        </section>
+        <section className=
+
+>
+          <div className=
+
+>
+            <h2 className=
+
+>How CampusCrew Works</h2>
+            <div className=
+
+>
+              {[
+                {
+                  step:
+
+,
+                  title:
+
+,
+                  text:
+
+,
+                },
+                {
+                  step:
+
+,
+                  title:
+
+,
+                  text:
+
+,
+                },
+                {
+                  step:
+
+,
+                  title:
+
+,
+                  text:
+
+,
+                },
+                {
+                  step:
+
+,
+                  title:
+
+,
+                  text:
+
+,
+                },
+              ].map((item) => (
+                <div key={item.step} className=
+
+>
+                  <span className=
+
+>{item.step}</span>
+                  <h3>{item.title}</h3>
+                  <p>{item.text}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className=
+
+>
+          <div className=
+
+>
+            <div className=
+
+>
+              {[
+
+– Club Lead
+
+“Setup was unbelievably fast.
+
+– Treasurer
+
+“Students loved the UX.
+
+,
+              ].map((t, i) => (
+                <span key={i} className=
+
+>
+                  {t}
+                </span>
+              ))}
+            </div>
+          </div>
+        </section>
+      </main>
+
+      {/* <footer className=
+
+>
+        <p>&copy; 2025 Your Company. All rights reserved.</p>
+        <div className=
+
+>
+          <Link to=
+
+>About</Link>
+          <Link to=
+
+>Contact</Link>
+          <Link to=

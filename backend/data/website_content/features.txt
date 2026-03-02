@@ -1,0 +1,32 @@
+CampusCrew Platform Features
+
+EVENT MANAGEMENT:
+- Create Events: Organizers can create events with detailed information including title, description, date, time, location, and capacity
+- Edit Events: Event creators can update event details at any time
+- Delete Events: Remove cancelled or past events from the platform
+- Event Categories: Categorize events (Academic, Sports, Cultural, Technical, Social, etc.)
+- Capacity Management: Set maximum participant limits for events
+
+USER FEATURES:
+- User Registration & Login: Secure authentication system
+- Profile Management: Update personal information, profile picture, and preferences
+- Event Registration: One-click registration for upcoming events
+- My Events Dashboard: View all registered and attended events
+- Certificate Download: Download participation certificates for completed events
+
+ADMIN FEATURES:
+- Event Approval: Review and approve events before they go live
+- User Management: Manage user accounts and permissions
+- Analytics Dashboard: View platform statistics and event metrics
+- Attendee Management: Track registrations and attendance
+
+NOTIFICATIONS:
+- Email notifications for event registration confirmation
+- Reminders before event start time
+- Updates when event details change
+- Certificate availability notifications
+
+PAYMENT INTEGRATION:
+- Support for paid events through bKash payment gateway
+- Secure payment processing
+- Payment history tracking

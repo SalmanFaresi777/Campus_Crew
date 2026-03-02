@@ -1,0 +1,75 @@
+Frequently Asked Questions (FAQ)
+
+ACCOUNT QUESTIONS:
+Q: How do I create an account?
+A: Click the "Sign Up" button, enter your email and password, then verify your email address.
+
+Q: I forgot my password. What should I do?
+A: Click "Forgot Password" on the login page and follow the instructions sent to your email.
+
+Q: Can I change my email address?
+A: Yes, go to your Profile page and update your email. You'll need to verify the new email address.
+
+EVENT REGISTRATION:
+Q: How do I register for an event?
+A: Find an event you're interested in, click on it to view details, then click the "Register" button.
+
+Q: Can I cancel my event registration?
+A: Yes, you can cancel registration from your "My Events" page before the event starts.
+
+Q: What happens if an event is full?
+A: You can join the waitlist, and you'll be notified if a spot opens up.
+
+Q: Do I need to pay for events?
+A: Some events are free, while others may require payment. The event details page will show if payment is required.
+
+CERTIFICATES:
+Q: How do I download my event certificate?
+A: Certificates are downloaded from your Profile section:
+   1. Click on your Profile Icon (top right corner)
+   2. Click "View Certificates" button
+   3. You'll see all your earned certificates
+   4. Click "Download" next to the certificate you want
+   5. Certificate saves as PDF to your device
+
+Q: Where can I find my certificates?
+A: Go to your Profile page (click Profile Icon) and click "View Certificates" button. All your certificates are there.
+
+Q: What if I don't see my certificate?
+A: Certificates are issued ONLY if:
+   - You attended the event (organizer marked attendance)
+   - Your attendance status is "Attended"
+   - Payment is completed (for paid events)
+   - Usually available 24-48 hours after event
+   Contact the event organizer if you attended but attendance wasn't marked.
+
+Q: Why is my certificate not available yet?
+A: Check these requirements:
+   - Attendance must be marked by organizer as "Attended"
+   - Wait 24-48 hours after event completion
+   - Complete payment if it was a paid event
+   - If still unavailable, contact organizer or support@campuscrew.com
+
+Q: Can I download certificates from My Events page?
+A: No, certificates are only available in Profile > View Certificates. They are NOT on the My Events page.
+
+EVENT CREATION:
+Q: Who can create events?
+A: Students and registered organizations can create events. You may need organizer permissions approved by an admin.
+
+Q: How long does event approval take?
+A: Admin approval typically takes 1-2 business days.
+
+Q: Can I edit my event after creating it?
+A: Yes, go to "Manage Events" and click "Edit" on your event.
+
+TECHNICAL ISSUES:
+Q: The website is not loading properly. What should I do?
+A: Try clearing your browser cache, using a different browser, or checking your internet connection.
+
+Q: I'm not receiving email notifications.
+A: Check your spam folder and ensure your email is verified. Add our email to your contacts.
+
+CONTACT:
+Q: How do I contact support?
+A: Visit the "Contact" page or email support at the address provided on the website.

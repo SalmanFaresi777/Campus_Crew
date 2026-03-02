@@ -1,0 +1,310 @@
+Certificate Page
+
+CERTIFICATE
+            <
+
+CERTIFICATE OF PARTICIPATION
+          <
+
+This is to certify that
+          <
+
+has successfully participated in
+          <
+
+Held on {eventDate} at {eventLocation}
+          <
+
+}
+            <
+
+Verification QR
+            <
+
+Issued on {issueDate} • Certificate ID: {certificateId}
+          <
+
+w-full overflow-auto
+
+0 0 1400 990
+
+>
+        {/* ... paste the same SVG, but replace text nodes with props below ... */}
+        {/* For brevity, only showing dynamic spots: */}
+
+        {/* Header band + logo */}
+        <defs>
+          <linearGradient id=
+
+>
+            <stop offset=
+
+/>
+            <stop offset=
+
+/>
+            <stop offset=
+
+/>
+          </linearGradient>
+          <linearGradient id=
+
+>
+            <stop offset=
+
+/>
+            <stop offset=
+
+/>
+          </linearGradient>
+          <pattern id=
+
+patternUnits=
+
+>
+            <text x=
+
+fontFamily=
+
+Times New Roman
+
+>
+              CERTIFICATE
+            </text>
+          </pattern>
+          <filter id=
+
+>
+            <feDropShadow dx=
+
+stdDeviation=
+
+floodColor=
+
+floodOpacity=
+
+/>
+          </filter>
+        </defs>
+
+        <rect x=
+
+/>
+        <rect x=
+
+url(#watermark)
+
+/>
+        <rect x=
+
+strokeWidth=
+
+/>
+
+        <g filter=
+
+>
+          <rect x=
+
+/>
+          <rect x=
+
+/>
+          <g transform=
+
+>
+  <image href={logo} x=
+
+preserveAspectRatio=
+
+/>
+</g>
+
+
+          <text x=
+
+textAnchor=
+
+fontFamily=
+
+Times New Roman
+
+letterSpacing=
+
+>
+            {orgName}
+          </text>
+
+          <text x=
+
+textAnchor=
+
+fontFamily=
+
+Times New Roman
+
+fontWeight=
+
+letterSpacing=
+
+>
+            CERTIFICATE OF PARTICIPATION
+          </text>
+
+          <text x=
+
+textAnchor=
+
+fontFamily=
+
+Times New Roman
+
+>
+            This is to certify that
+          </text>
+
+          <text x=
+
+textAnchor=
+
+fontFamily=
+
+Times New Roman
+
+fontWeight=
+
+>
+            {participantName}
+          </text>
+
+          <text x=
+
+textAnchor=
+
+fontFamily=
+
+Times New Roman
+
+>
+            has successfully participated in
+          </text>
+
+          <text x=
+
+textAnchor=
+
+fontFamily=
+
+Times New Roman
+
+fontWeight=
+
+>
+            {eventTitle}
+          </text>
+
+          <text x=
+
+textAnchor=
+
+fontFamily=
+
+Times New Roman
+
+>
+            Held on {eventDate} at {eventLocation}
+          </text>
+
+          {/* Signatures */}
+          <g transform=
+
+>
+            <line x1=
+
+strokeWidth=
+
+/>
+            <text x=
+
+textAnchor=
+
+fontFamily=
+
+Times New Roman
+
+>
+              {sigLeftName}
+            </text>
+            <text x=
+
+textAnchor=
+
+fontFamily=
+
+Times New Roman
+
+>
+              {sigLeftTitle}
+            </text>
+          </g>
+          <g transform=
+
+>
+            <line x1=
+
+strokeWidth=
+
+/>
+            <text x=
+
+textAnchor=
+
+fontFamily=
+
+Times New Roman
+
+>
+              {sigCenterName}
+            </text>
+            <text x=
+
+textAnchor=
+
+fontFamily=
+
+Times New Roman
+
+>
+              {sigCenterTitle}
+            </text>
+          </g>
+
+          {/* QR */}
+          <g transform=
+
+>
+            <rect x=
+
+/>
+            {qrUrl && <image href={qrUrl} x=
+
+/>}
+            <text x=
+
+textAnchor=
+
+fontFamily=
+
+Times New Roman
+
+>
+              Verification QR
+            </text>
+          </g>
+
+          {/* Footer */}
+          <text x=
+
+fontFamily=
+
+Times New Roman

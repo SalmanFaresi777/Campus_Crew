@@ -1,0 +1,157 @@
+Eventattendee Page
+
+}
+      <
+
+Event Attendees<
+
+No attendees found.<
+
+) : (
+            <
+
+(
+                <
+
+Email:<
+
+Location:<
+
+Date of Birth:<
+
+Registration Status:<
+
+Payment Status:<
+
+Registered At:<
+
+Ban user
+                  <
+
+))}
+            <
+
+)}
+        <
+
+Confirm Ban User<
+
+Are you sure you want to ban <
+
+from this event?<
+
+This action will remove the user from the event and cannot be undone.<
+
+Cancel
+              <
+
+Yes, Ban User
+              <
+
+)}
+      
+      <
+
+Failed to ban user.
+
+Unregistered successfully.
+
+Unregistration failed.
+
+} />}
+      <Header />
+      <div className=
+
+>
+        <div className=
+
+>
+          <h2>Event Attendees</h2>
+          {users.length === 0 ? (
+            <p>No attendees found.</p>
+          ) : (
+            <div className=
+
+>
+              {users.map((user) => (
+                <div className=
+
+key={user._id}>
+                  <div className=
+
+>
+                    <img
+                      src={user.userId.profilePic || defaultavator}
+                      alt={user.userId.username}
+                      className=
+
+/>
+                  </div>
+                  <h3>{user.userId.username}</h3>
+                  <p>
+                    <strong>Email:</strong> {user.userId.email}
+                  </p>
+                  <p>
+                    <strong>Location:</strong> {user.userId.location}
+                  </p>
+                  <p>
+                    <strong>Date of Birth:</strong>{
+
+}
+                    {new Date(user.userId.dob).toLocaleDateString()}
+                  </p>
+                  <p>
+                    <strong>Registration Status:</strong>{
+
+}
+                    {user.is_registered ?
+
+Not Registered
+
+}
+                    {new Date(user.createdAt).toLocaleString()}
+                  </p>
+                  <button
+                    className=
+
+onClick={() => handleBanClick(user)}
+                  >
+                    Ban user
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+      
+      {/* Confirmation Modal */}
+      {showConfirmModal && (
+        <div className=
+
+>
+          <div className=
+
+>
+            <div className=
+
+>
+              <h3>Confirm Ban User</h3>
+            </div>
+            <div className=
+
+>
+              <p>Are you sure you want to ban <strong>{userToBan?.userId?.username}</strong> from this event?</p>
+              <p className=
+
+>This action will remove the user from the event and cannot be undone.</p>
+            </div>
+            <div className=
+
+>
+              <button className=
+
+onClick={cancelBan}>
+                Cancel
+              </button>
+              <button className=

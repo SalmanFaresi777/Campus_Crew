@@ -1,0 +1,149 @@
+Page: Login
+URL: http://localhost:3000/login
+Crawled: 2025-10-08
+
+Login to CampusCrew - Access Your Account
+
+Secure Login to Your CampusCrew Account
+
+Welcome back! Login to access your CampusCrew account and manage your events, registrations, and profile.
+
+How to Login:
+1. Enter your registered email address
+2. Enter your password
+3. Click "Login" button
+4. You'll be redirected to your dashboard
+
+Login Requirements:
+- Valid email address (that you used during signup)
+- Correct password (case-sensitive)
+- Active internet connection
+- Verified email (check inbox if you haven't verified)
+
+First Time User?
+If you don't have an account yet:
+1. Click on "Sign Up" button
+2. Fill in your details (name, email, password)
+3. Verify your email address
+4. Login with your credentials
+
+Forgot Password?
+No worries! You can reset it:
+1. Click "Forgot Password?" link
+2. Enter your registered email
+3. Check your email for reset link
+4. Click the link and set new password
+5. Login with your new password
+
+Account Security:
+- Use a strong password (mix of letters, numbers, symbols)
+- Don't share your password with anyone
+- Logout when using shared computers
+- Change password regularly
+- Enable two-factor authentication (if available)
+
+Troubleshooting Login Issues:
+
+**"Invalid Email or Password"**
+- Check if email is correct
+- Verify password (case-sensitive)
+- Make sure Caps Lock is off
+- Try resetting password
+
+**"Email Not Verified"**
+- Check your inbox for verification email
+- Check spam/junk folder
+- Request new verification email
+- Contact support if not received
+
+**"Account Locked"**
+- Too many failed login attempts
+- Wait 30 minutes and try again
+- Or reset your password
+
+**"Account Not Found"**
+- You may not have registered yet
+- Click "Sign Up" to create account
+- Check if using correct email address
+
+After Login - What You Can Do:
+- Browse upcoming events
+- Register for events instantly
+- View your joined events
+- Track registration status
+- Download participation certificates
+- Manage your profile
+- View event history
+- Create events (if you're an organizer)
+- Access admin dashboard (if you're admin)
+
+User Types and Access:
+
+**Regular Users:**
+- Browse all events
+- Register for events
+- View joined events
+- Manage profile
+- Download certificates
+
+**Event Organizers (Admin):**
+- All regular user features
+- Create new events
+- Edit event details
+- View participant lists
+- Manage registrations
+- Generate reports
+- Send notifications
+
+Stay Logged In:
+- Check "Remember Me" to stay logged in
+- Useful for personal devices
+- Don't use on public computers
+
+Privacy & Security:
+- Your data is encrypted and secure
+- We never share your information
+- Your password is hashed and protected
+- Session timeout after 24 hours of inactivity
+- Automatic logout on browser close (if not remembered)
+
+Mobile Access:
+- Login works on all devices
+- Mobile-responsive design
+- Access from anywhere
+- Same features as desktop
+
+Benefits of Having an Account:
+✅ One-click event registration
+✅ Personalized event recommendations  
+✅ Event reminders via email
+✅ Participation history tracking
+✅ Digital certificates
+✅ Profile management
+✅ Saved preferences
+✅ Quick re-registration
+
+Need Help Logging In?
+- Use the chatbot for instant help
+- Email: support@campuscrew.com
+- Check FAQ section
+- Contact admin
+
+Social Login (Coming Soon):
+We're working on adding:
+- Login with Google
+- Login with Facebook
+- Login with GitHub
+- Single Sign-On (SSO)
+
+Quick Tips:
+💡 Save your password in a secure password manager
+💡 Use a unique password for CampusCrew
+💡 Don't share your login credentials
+💡 Logout after use on shared devices
+💡 Keep your email updated
+
+Login now and start exploring amazing campus events! 🚀
+
+---
+Description: Secure login page for CampusCrew users. Access your account to register for events, manage your profile, and track your campus activity.

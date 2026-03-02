@@ -1,0 +1,22 @@
+Failure Page
+
+clearTimeout(timer);
+  }, []);
+
+  return (
+    <
+
+}
+      Payment failure {message}
+    <
+
+);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 800);
+    return () => clearTimeout(timer);
+  }, []);
+
+  return (
+    <div>
+      {loading && <Loader color={document.documentElement.getAttribute(

@@ -1,0 +1,78 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+package-lock.json
+yarn.lock
+
+# Build outputs
+dist
+dist-ssr
+build
+.next
+out
+*.tsbuildinfo
+
+# Local env files
+*.local
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.swp
+*.swo
+*~
+
+# Testing and coverage
+coverage/
+.nyc_output/
+test-results/
+playwright-report/
+
+# Environment-specific
+.env.staging
+.env.testing
+
+# OS files
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Temporary files and caches
+*.tmp
+*.temp
+*.cache
+.cache/
+.parcel-cache/
+
+# Vercel
+.vercel
+
+# Storybook
+storybook-static/
+
+# Turborepo
+.turbo
+
