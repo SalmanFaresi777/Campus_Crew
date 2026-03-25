@@ -1,9 +1,15 @@
+/**
+ * Admin Dashboard Page
+ * Displays admin user's created events with management capabilities
+ * Features: event table with pagination, search/filter, edit/delete operations, attendee stats
+ */
+
 import React, { useEffect, useState } from "react";
 import Header from "../Components/Header";
 import Footer from "../Components/Footer";
 import Loader from "../Components/loader";
 import "../CSS/dashboard.css";
-import "../CSS/upEventPage.css"; // reuse existing search bar / fx styles
+import "../CSS/upEventPage.css"; // Reuse search bar and styling
 import { useAuth } from "../contexts/AuthContext";
 import { apiService } from "../utils/apiService";
 import { FaEdit, FaTrash, FaChevronLeft, FaChevronRight } from "react-icons/fa";
@@ -26,10 +32,12 @@ function Dashboard() {
   const [searchQuery, setSearchQuery] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("");
   const [minAttendees, setMinAttendees] = useState("");
-  const [sortOption, setSortOption] = useState("new"); // 'new' | 'attendees'
-  const [sortDir, setSortDir] = useState("desc"); // 'asc' | 'desc'
+  const [sortOption, setSortOption] = useState("new"); // 'new' = sort by creation date, 'attendees' = sort by registration count
+  const [sortDir, setSortDir] = useState("desc"); // 'asc' = ascending, 'desc' = descending
   const [filteredEvents, setFilteredEvents] = useState([]);
   const navigate = useNavigate();
+  
+  // Load admin's events on mount
   useEffect(() => {
     let mounted = true;
 
@@ -46,8 +54,8 @@ function Dashboard() {
             String(ev.createdBy?._id) === String(user?._id)
         );
 
-        // For each event, fetch attendee count
-        // Fetch attendee counts sequentially but could be optimized with backend aggregation
+        // Fetch attendee count for each event sequentially
+        // (Could be optimized with backend aggregation for better performance)
         const counts = [];
         for (const ev of myEvents) {
           try {
@@ -56,15 +64,15 @@ function Dashboard() {
               counts.push({ id: ev._id, count: r.data.registration.length });
             } else counts.push({ id: ev._id, count: 0 });
           } catch {
-            // 404 or other => treat as zero attendees
+            // 404 or other errors => treat as zero attendees
             counts.push({ id: ev._id, count: 0 });
           }
         }
 
-        // attach counts
+        // Attach attendee counts to events
         const withCounts = myEvents.map((ev) => {
           const match = counts.find((c) => c.id === ev._id);
-          // derive a reliable creation timestamp: prefer ev.createdAt; else decode from ObjectId; else fallback to event date
+          // Derive creation timestamp: prefer ev.createdAt, fallback to ObjectId decode, then event date
           let derivedCreatedAt = ev.createdAt;
           if (
             !derivedCreatedAt &&
@@ -73,10 +81,11 @@ function Dashboard() {
             ev._id.length >= 8
           ) {
             try {
-              const ts = parseInt(ev._id.substring(0, 8), 16) * 1000; // ObjectId timestamp seconds -> ms
+              // MongoDB ObjectId format: first 8 hex digits = Unix timestamp in seconds
+              const ts = parseInt(ev._id.substring(0, 8), 16) * 1000;
               derivedCreatedAt = new Date(ts).toISOString();
             } catch {
-              /* ignore */
+              // Silently ignore decode failures
             }
           }
           if (!derivedCreatedAt && ev.date) derivedCreatedAt = ev.date;

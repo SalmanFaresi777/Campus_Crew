@@ -16,23 +16,29 @@ import HeroBanner from "../Components/HeroBanner";
 import Footer from "../Components/Footer";
 import Header from "../Components/Header";
 import Loader from "../Components/loader";
+import { LOADER_TIMEOUTS } from "../constants/config";
 
+/**
+ * Home Page
+ * Landing page featuring recommended events carousel, feature highlights, and call-to-action
+ */
 const Home = () => {
   const { isAuthenticated, logout, user } = useAuth();
   const backend_link = import.meta.env.VITE_BACKEND_LINK;
 
+  // Event showcase state
   const [events, setEvents] = useState([]);
   const [evLoading, setEvLoading] = useState(true);
   const [evError, setEvError] = useState("");
   const [currentIdx, setCurrentIdx] = useState(0);
-  const [isPaused, setIsPaused] = useState(false); // pause on hover/focus
+  const [isPaused, setIsPaused] = useState(false); // Pause carousel on hover
   const [loading, setLoading] = useState(true);
 
-  // Basic scroll reveal (CSS class toggling)
+  // Intersection Observer for scroll-reveal animations
   useEffect(() => {
-    // Scroll reveal for elements with .reveal
     const observer = new IntersectionObserver(
       (entries) => {
+        // Add 'in-view' class to elements when they enter viewport
         entries.forEach((e) => {
           if (e.isIntersecting) e.target.classList.add("in-view");
         });
@@ -44,17 +50,17 @@ const Home = () => {
     return () => observer.disconnect();
   }, []);
 
-  // Fetch a small set of upcoming events (limit 6)
+  // Fetch recommended events for carousel
   useEffect(() => {
     let ignore = false;
     (async () => {
       try {
-        let UserID = user && user._id ? user._id : "68ab36aab6a497f164b55d07";
+        // Use user ID if available, else fallback default for guest recommendations
+        const UserID = user && user._id ? user._id : "68ab36aab6a497f164b55d07";
         const { data } = await axios.get(
           `${backend_link}/api/suggested_events/${UserID}`
         );
         if (data.success) {
-          console.log(data.recommended);
           setEvents(data.recommended);
         }
       } catch (e) {
@@ -71,10 +77,11 @@ const Home = () => {
     };
   }, [backend_link]);
 
-  // Navigation handlers for single event showcase
+  // Carousel navigation handlers
   const nextEvent = useCallback(() => {
     setCurrentIdx((i) => (events.length ? (i + 1) % events.length : 0));
   }, [events.length]);
+  
   const prevEvent = useCallback(() => {
     setCurrentIdx((i) =>
       events.length ? (i - 1 + events.length) % events.length : 0

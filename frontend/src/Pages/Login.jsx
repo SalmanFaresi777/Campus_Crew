@@ -1,16 +1,22 @@
+/**
+ * Login & Sign Up Page
+ * Handles user authentication with separate login and registration forms
+ * Features: email/password auth, password validation, JWT refresh tokens, email verification
+ */
+
 import React, { useState, useRef, useEffect } from "react";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "../CSS/login.css";
 import { Link, useNavigate } from "react-router-dom";
-import Loader from "../Components/loader_login"; // Import the Loader component
+import Loader from "../Components/loader"; // Unified loader component
 import { useAuth } from "../contexts/AuthContext";
-// import { fetchWithToken } from "../Utils/authUtils";
 import PasswordChecklist from "react-password-checklist";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
+import { LOADER_TIMEOUTS, STORAGE_KEYS } from "../constants/config";
 
 import cloud from "../assets/img/cloud.png";
 import coin from "../assets/img/coin.png";
@@ -21,8 +27,10 @@ import stars from "../assets/img/stars.png";
 import white_outline from "../assets/img/white_outline.png";
 
 function Login() {
+  // Get backend URL from environment variables
   const backend_link = import.meta.env.VITE_BACKEND_LINK;
-  console.log(backend_link);
+  
+  // Form display state: true = login form, false = signup form
   const [showLogin, setShowLogin] = useState(true);
   const [loginForm, setLoginForm] = useState({ email: "", password: "" });
   const [registerForm, setRegisterForm] = useState({
@@ -31,12 +39,12 @@ function Login() {
     password: "",
     dob: new Date(),
   });
-  const [loading, setLoading] = useState(false); // Loading state
-  const datePickerRef = useRef(null);
-  const [isPasswordValid, setIsPasswordValid] = useState(false); // Password validity state
-  const [showPassword, setShowPassword] = useState(false);
-  const navigate = useNavigate(); // Initialize useNavigate
-  const { login, isAuthenticated } = useAuth(); // Get login function and auth state from auth context
+  const [loading, setLoading] = useState(false); // Loader visibility state
+  const datePickerRef = useRef(null); // Reference to date picker for focusing
+  const [isPasswordValid, setIsPasswordValid] = useState(false); // Tracks if password meets criteria
+  const [showPassword, setShowPassword] = useState(false); // Password visibility toggle
+  const navigate = useNavigate();
+  const { login, isAuthenticated } = useAuth();
 
   // Redirect to homepage if user is already logged in
   useEffect(() => {
@@ -61,13 +69,16 @@ function Login() {
     }
   };
 
+  /**
+   * Sign in handler - validates credentials and creates authenticated session
+   * Handles admin approval checks and token storage
+   */
   const signin = async () => {
-    console.log("sign in executed");
-    setLoading(true); // Show loader
+    setLoading(true);
     try {
       const response = await axios.post(
         `${backend_link}/api/login`,
-        loginForm, // Axios automatically stringifies JSON
+        loginForm,
         {
           headers: {
             Accept: "application/json",
@@ -76,54 +87,53 @@ function Login() {
         }
       );
 
-      const data = response.data; // Axios response data is here
+      const data = response.data;
 
       if (data.success) {
         const user = data.user;
+        // Check if user is admin but not yet approved
         if (user && user.isAdmin && !user.isApprovedAdmin) {
-          setLoading(false); // allow toast to show unobstructed
+          setLoading(false);
           toast.warning("You are not approved as an admin yet.");
         } else {
-          // Use the auth context login function
+          // Store tokens and update auth context
           await login(data.token, data.refreshtoken, user);
-          localStorage.setItem("refresh-token", data.refreshtoken); // Store refresh token
-          // Hide loader before showing toast so it's visible
+          localStorage.setItem(STORAGE_KEYS.REFRESH_TOKEN, data.refreshtoken);
           setLoading(false);
+          
           toast.success("Login successful! Welcome back!", {
-            autoClose: 1000,
-            onClose: () => navigate("/"), // Navigate after toast closes
+            autoClose: LOADER_TIMEOUTS.TOAST_DURATION,
+            onClose: () => navigate("/"),
           });
-          return; // Skip finally navigation logic
+          return;
         }
       } else {
         toast.error(data.errors || "Login failed. Please try again.");
       }
     } catch (error) {
+      // Handle various error scenarios
       if (error.response) {
-        // Server responded with a status other than 2xx
-        console.error("Server error:", error.response);
         toast.error(
           error.response.data?.errors ||
             `HTTP error! status: ${error.response.status}`
         );
       } else if (error.request) {
-        // Request was made but no response
-        console.error("No response received:", error.request);
         toast.error("No response from server. Please try again.");
       } else {
-        // Other errors
-        console.error("Axios error:", error.message);
         toast.error("An error occurred during login. Please try again.");
       }
     } finally {
-      // If we already turned loading off & scheduled navigation via toast, this is harmless
       setLoading(false);
     }
   };
 
+  /**
+   * Refresh access token using refresh token
+   * Called when access token expires to maintain session continuity
+   */
   const refreshAccessToken = async () => {
     try {
-      const refreshToken = localStorage.getItem("refresh-token");
+      const refreshToken = localStorage.getItem(STORAGE_KEYS.REFRESH_TOKEN);
       if (!refreshToken) throw new Error("No refresh token available");
 
       const response = await fetch(
@@ -141,27 +151,32 @@ function Login() {
       const data = await response.json();
 
       if (data.accessToken) {
-        localStorage.setItem("auth-token", data.accessToken); // Update access token
+        localStorage.setItem(STORAGE_KEYS.AUTH_TOKEN, data.accessToken);
         return data.accessToken;
       } else {
         throw new Error("Failed to refresh token");
       }
     } catch (error) {
-      console.error("Error refreshing access token:", error);
+      // Token refresh failed - user needs to re-authenticate
       toast.error("Session expired, please log in again.");
-      localStorage.removeItem("auth-token");
-      localStorage.removeItem("refresh-token");
+      localStorage.removeItem(STORAGE_KEYS.AUTH_TOKEN);
+      localStorage.removeItem(STORAGE_KEYS.REFRESH_TOKEN);
       window.location.replace("/login");
     }
   };
 
+  /**
+   * Sign up handler - creates new user account with validation
+   * Enforces password criteria and triggers email verification
+   */
   const signup = async () => {
+    // Validate password strength before submission
     if (!isPasswordValid) {
       toast.warning("Password does not meet the criteria.");
-      return; // Exit the function if password criteria are not met
+      return;
     }
-    setLoading(true); // Show loader
-    toast.info("Creating your account...", { autoClose: 1500 });
+    setLoading(true);
+    toast.info("Creating your account...", { autoClose: LOADER_TIMEOUTS.TOAST_DURATION });
 
     try {
       const response = await axios.post(`${backend_link}/api/signup`, {
@@ -185,10 +200,9 @@ function Login() {
         toast.error(data.errors || "Signup failed");
       }
     } catch (error) {
-      console.error("Failed to fetch during signup:", error);
       toast.error(error.response?.data?.errors || "Signup request failed");
     } finally {
-      setLoading(false); // Hide loader
+      setLoading(false);
     }
   };
 
@@ -218,13 +232,13 @@ function Login() {
       signup();
     }
   };
+  // Update password field on each character input
   const handlePasswordChange = (password) => {
-    console.log("Password:", password); // Debugging password change
     setRegisterForm({ ...registerForm, password });
   };
 
+  // Update password validity state when checklist criteria changes
   const handlePasswordValidityChange = (isValid) => {
-    console.log("Is password valid:", isValid); // Debugging password validity
     setIsPasswordValid(isValid);
   };
   const handleForgotPassword = () => {
@@ -241,7 +255,7 @@ function Login() {
         pauseOnHover
         theme="colored"
       />
-      {loading && <Loader />} {/* Render the loader when loading is true */}
+      {loading && <Loader variant="login" />}
       <div className={`form-container ${loading ? "blurred" : ""}`}>
         {" "}
         {/* Optionally blur the form when loading */}

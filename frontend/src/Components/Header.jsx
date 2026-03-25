@@ -1,3 +1,9 @@
+/**
+ * Header Component
+ * Navigation bar with logo, menu links, user profile dropdown, and theme toggle
+ * Responsive design with mobile hamburger menu
+ */
+
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate, NavLink } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
@@ -10,26 +16,36 @@ import "../CSS/themes.css";
 function Header() {
   const { isAuthenticated, logout, user } = useAuth();
   const { isDarkMode, toggleTheme } = useTheme();
+  
+  // Dropdown menu state
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMobileDropdownOpen, setIsMobileDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  
+  // Refs for click-outside handling
   const dropdownRef = useRef(null);
   const mobileDropdownRef = useRef(null);
   const mobileMenuRef = useRef(null);
-  const isAdmin = user && user.isAdmin; // Use isAdmin property from backend data
+  
+  const isAdmin = user && user.isAdmin; // Check if user has admin role
   const navigate = useNavigate();
+  
+  // Toggle desktop dropdown menu
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
+  // Toggle mobile dropdown menu
   const toggleMobileDropdown = () => {
     setIsMobileDropdownOpen(!isMobileDropdownOpen);
   };
 
+  // Toggle mobile navigation menu (hamburger)
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
+  // Handle user logout and close all menus
   const handleLogout = () => {
     logout();
     setIsDropdownOpen(false);
@@ -37,11 +53,12 @@ function Header() {
     setIsMobileMenuOpen(false);
   };
 
+  // Close mobile menu
   const closeMobileMenu = () => {
     setIsMobileMenuOpen(false);
   };
 
-  // Close dropdown and mobile menu when clicking outside
+  // Close dropdown/menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -67,7 +84,11 @@ function Header() {
     };
   }, []);
 
-  // Get user's initials if no profile picture
+  /**
+   * Extract user initials for avatar fallback when no profile picture exists
+   * @param {Object} user - User object
+   * @returns {string} Two-character initials
+   */
   const getUserInitials = (user) => {
     if (user?.username) {
       return user.username
