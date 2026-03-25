@@ -18,6 +18,7 @@ const VerifyEmail = () => {
   useEffect(() => {
     const verificationId = uuidv4(); // Generate a unique ID for this attempt
 
+    // Run verification once when token route is loaded.
     (async () => {
       try {
         const response = await axios.get(`${backend_link}/api/verify-email/${token}`, {
@@ -42,6 +43,7 @@ const VerifyEmail = () => {
   }, [verificationStatus]);
 
   const handleLoginRedirect = () => {
+    // Ensure stale auth state does not survive after verification flow.
     // Clear localStorage or cookies related to authentication if any
     localStorage.removeItem('auth-token'); // Example for localStorage
     // Add other cleanup logic if needed

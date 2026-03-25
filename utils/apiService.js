@@ -3,6 +3,7 @@ const backend = import.meta.env.VITE_BACKEND_LINK || 'http://localhost:8000';
 // Remove trailing slash to prevent double slashes
 const cleanBackend = backend.endsWith('/') ? backend.slice(0, -1) : backend;
 const API_BASE_URL = `${cleanBackend}/api`;
+const getAuthToken = () => localStorage.getItem('auth-token');
 
 // Create axios instance with default config
 const api = axios.create({
@@ -15,7 +16,7 @@ const api = axios.create({
 // Add token to requests
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('auth-token');
+    const token = getAuthToken();
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -31,7 +32,7 @@ api.interceptors.response.use(
   (response) => response,
   async (error) => {
     if (error.response?.status === 401) {
-      // Token expired or invalid
+      // Centralized auth failure handling.
       localStorage.removeItem('auth-token');
       localStorage.removeItem('refresh-token');
       window.location.href = '/login';
@@ -53,10 +54,11 @@ export const apiService = {
 
   // Upload profile photo
   uploadProfilePhoto: (userId, formData) => {
+    // Use direct axios call to ensure multipart headers are preserved.
     return axios.put(`${API_BASE_URL}/upload-photo/${userId}`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
-        'Authorization': `Bearer ${localStorage.getItem('auth-token')}`,
+        'Authorization': `Bearer ${getAuthToken()}`,
       },
     });
   },
@@ -69,10 +71,11 @@ export const apiService = {
 
   // Event APIs
   createEvent: (eventData) => {
+    // Multipart payload includes images/files.
     return axios.post(`${API_BASE_URL}/events`, eventData, {
       headers: {
         'Content-Type': 'multipart/form-data',
-        'Authorization': `Bearer ${localStorage.getItem('auth-token')}`,
+        'Authorization': `Bearer ${getAuthToken()}`,
       },
     });
   },
@@ -84,7 +87,7 @@ export const apiService = {
     return axios.put(`${API_BASE_URL}/events/${eventId}`, eventData, {
       headers: {
         'Content-Type': 'multipart/form-data',
-        'Authorization': `Bearer ${localStorage.getItem('auth-token')}`,
+        'Authorization': `Bearer ${getAuthToken()}`,
       },
     });
   },

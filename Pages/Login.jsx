@@ -22,7 +22,6 @@ import white_outline from "../assets/img/white_outline.png";
 
 function Login() {
   const backend_link = import.meta.env.VITE_BACKEND_LINK;
-  console.log(backend_link);
   const [showLogin, setShowLogin] = useState(true);
   const [loginForm, setLoginForm] = useState({ email: "", password: "" });
   const [registerForm, setRegisterForm] = useState({
@@ -51,6 +50,7 @@ function Login() {
 
   const changeHandler = (e) => {
     const { name, value, type, checked } = e.target;
+    // Reuse one handler for both forms based on current tab.
     if (showLogin) {
       setLoginForm({ ...loginForm, [name]: value });
     } else {
@@ -62,7 +62,6 @@ function Login() {
   };
 
   const signin = async () => {
-    console.log("sign in executed");
     setLoading(true); // Show loader
     try {
       const response = await axios.post(
@@ -80,11 +79,12 @@ function Login() {
 
       if (data.success) {
         const user = data.user;
+        // Keep unapproved admins from entering the app.
         if (user && user.isAdmin && !user.isApprovedAdmin) {
           setLoading(false); // allow toast to show unobstructed
           toast.warning("You are not approved as an admin yet.");
         } else {
-          // Use the auth context login function
+          // Centralize token + user setup via AuthContext.
           await login(data.token, data.refreshtoken, user);
           localStorage.setItem("refresh-token", data.refreshtoken); // Store refresh token
           // Hide loader before showing toast so it's visible
@@ -123,6 +123,7 @@ function Login() {
 
   const refreshAccessToken = async () => {
     try {
+      // Keep this helper available for future flows that require silent renewal.
       const refreshToken = localStorage.getItem("refresh-token");
       if (!refreshToken) throw new Error("No refresh token available");
 
@@ -212,6 +213,7 @@ function Login() {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
+    // Branch submit flow by active mode.
     if (showLogin) {
       signin();
     } else {
@@ -219,12 +221,10 @@ function Login() {
     }
   };
   const handlePasswordChange = (password) => {
-    console.log("Password:", password); // Debugging password change
     setRegisterForm({ ...registerForm, password });
   };
 
   const handlePasswordValidityChange = (isValid) => {
-    console.log("Is password valid:", isValid); // Debugging password validity
     setIsPasswordValid(isValid);
   };
   const handleForgotPassword = () => {
@@ -339,7 +339,13 @@ function Login() {
                   </div>
 
                   <div className="forgot-pass">
-                    <a onClick={handleForgotPassword}>Forgot Password?</a>
+                      <button
+                        type="button"
+                        className="forgot-password-link"
+                        onClick={handleForgotPassword}
+                      >
+                        Forgot Password?
+                      </button>
                   </div>
                 </div>
               </>

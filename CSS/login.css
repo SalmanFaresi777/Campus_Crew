@@ -453,7 +453,21 @@
     font-size: 14px;
 }
 
+.forgot-password-link {
+    color: #fff;
+    text-decoration: none;
+    font-size: 14px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
 .forgot-pass a:hover {
+    text-decoration: underline;
+}
+
+.forgot-password-link:hover {
     text-decoration: underline;
 }
 

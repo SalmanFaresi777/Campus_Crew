@@ -37,10 +37,12 @@ function AdminSignup() {
     e.preventDefault();
     setError("");
 
+    // Basic client-side password confirmation check.
     if (formData.confirm_password !== formData.password) {
       setError("Passwords do not match");
       return;
     }
+    // Block admin signup unless secret matches env-configured value.
     if (formData.admin_secret !== secret) {
       setError("Admin secret doesn't match.");
       return;
@@ -50,6 +52,7 @@ function AdminSignup() {
     setMessage("");
 
     try {
+      // Backend applies full validation and account creation.
       const { data } = await axios.post(`${backend}/api/signup`, formData);
       if (data.success) {
         setMessage(
