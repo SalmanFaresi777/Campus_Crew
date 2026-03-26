@@ -12,17 +12,17 @@ export const useTheme = () => {
 
 export const ThemeProvider = ({ children }) => {
   const [isDarkMode, setIsDarkMode] = useState(() => {
-    // Check localStorage first
+    // Prefer stored user preference
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme) {
       return savedTheme === 'dark';
     }
-    // Check system preference
+    // Fall back to system preference
     return window.matchMedia('(prefers-color-scheme: dark)').matches;
   });
 
   useEffect(() => {
-    // Apply theme to document root
+    // Sync theme classes/attribute to DOM
     if (isDarkMode) {
       document.documentElement.setAttribute('data-theme', 'dark');
       document.body.classList.add('dark-mode');
@@ -33,15 +33,15 @@ export const ThemeProvider = ({ children }) => {
       document.body.classList.remove('dark-mode');
     }
     
-    // Save to localStorage
+    // Persist active theme
     localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
   }, [isDarkMode]);
 
-  // Listen for system theme changes
+  // Watch system theme changes
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     const handleChange = (e) => {
-      // Only auto-switch if user hasn't manually set a preference
+      // Auto-switch only when no explicit saved preference exists
       if (!localStorage.getItem('theme')) {
         setIsDarkMode(e.matches);
       }
@@ -52,6 +52,7 @@ export const ThemeProvider = ({ children }) => {
   }, []);
 
   const toggleTheme = () => {
+    // Manual toggle overrides current value
     setIsDarkMode(prevMode => !prevMode);
   };
 

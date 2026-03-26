@@ -17,35 +17,35 @@ function Header() {
   const { isAuthenticated, logout, user } = useAuth();
   const { isDarkMode, toggleTheme } = useTheme();
   
-  // Dropdown menu state
+  // Menu visibility state
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMobileDropdownOpen, setIsMobileDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
-  // Refs for click-outside handling
+  // Refs for outside-click close behavior
   const dropdownRef = useRef(null);
   const mobileDropdownRef = useRef(null);
   const mobileMenuRef = useRef(null);
   
-  const isAdmin = user && user.isAdmin; // Check if user has admin role
+  const isAdmin = user && user.isAdmin; // role flag
   const navigate = useNavigate();
   
-  // Toggle desktop dropdown menu
+  // Toggle desktop profile menu
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
-  // Toggle mobile dropdown menu
+  // Toggle mobile profile menu
   const toggleMobileDropdown = () => {
     setIsMobileDropdownOpen(!isMobileDropdownOpen);
   };
 
-  // Toggle mobile navigation menu (hamburger)
+  // Toggle mobile nav panel
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
-  // Handle user logout and close all menus
+  // Logout and reset open menus
   const handleLogout = () => {
     logout();
     setIsDropdownOpen(false);
@@ -53,12 +53,12 @@ function Header() {
     setIsMobileMenuOpen(false);
   };
 
-  // Close mobile menu
+  // Close mobile nav panel
   const closeMobileMenu = () => {
     setIsMobileMenuOpen(false);
   };
 
-  // Close dropdown/menu when clicking outside
+  // Close menus on outside clicks
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -110,7 +110,7 @@ function Header() {
           </Link>
         </div>
 
-        {/* Desktop Navigation */}
+        {/* Desktop nav */}
         <nav className="main-nav desktop-nav">
           {isAuthenticated ? (
             <>
@@ -139,7 +139,7 @@ function Header() {
                 </NavLink>
               )}
 
-              {/* Theme Toggle Button */}
+              {/* Theme switch */}
               <button
                 className="theme-toggle"
                 onClick={toggleTheme}
@@ -149,7 +149,7 @@ function Header() {
                 {isDarkMode ? "☀️" : "🌙"}
               </button>
 
-              {/* Profile Dropdown */}
+              {/* Profile button */}
               <div className="profile-dropdown" ref={dropdownRef}>
                 <button
                   className="profile-button"
@@ -172,7 +172,7 @@ function Header() {
             </>
           ) : (
             <>
-              {/* Theme Toggle Button for non-authenticated users */}
+              {/* Theme switch for guests */}
               <button
                 className="theme-toggle"
                 onClick={toggleTheme}
@@ -192,9 +192,9 @@ function Header() {
           )}
         </nav>
 
-        {/* Mobile Navigation */}
+        {/* Mobile nav */}
         <div className="mobile-nav">
-          {/* Mobile Profile (only show if authenticated) */}
+          {/* Mobile profile (authenticated only) */}
           {isAuthenticated && (
             <div className="mobile-profile">
               <div className="profile-dropdown" ref={mobileDropdownRef}>
@@ -232,7 +232,7 @@ function Header() {
             </div>
           )}
 
-          {/* Hamburger Menu Button */}
+          {/* Hamburger button */}
           <button
             className="mobile-menu-toggle"
             onClick={toggleMobileMenu}
@@ -244,7 +244,7 @@ function Header() {
           </button>
         </div>
 
-        {/* Mobile Menu Overlay */}
+        {/* Mobile menu overlay */}
         {isMobileMenuOpen && (
           <div className="mobile-menu-overlay" ref={mobileMenuRef}>
             <div className="mobile-menu-content">
@@ -299,7 +299,7 @@ function Header() {
                     </Link>
                   )}
 
-                  {/* Theme Toggle in Mobile Menu */}
+                  {/* Theme switch in mobile menu */}
                   <button
                     className="mobile-theme-toggle"
                     onClick={() => {
@@ -330,7 +330,7 @@ function Header() {
                     Get Started
                   </Link>
 
-                  {/* Theme Toggle in Mobile Menu */}
+                  {/* Theme switch in mobile menu */}
                   <button
                     className="mobile-theme-toggle"
                     onClick={() => {

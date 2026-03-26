@@ -15,13 +15,13 @@ const AboutUs = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
 
-  // Initialize loader animation on mount
+  // Show loader briefly on mount
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), LOADER_TIMEOUTS.PAGE_LOAD);
     return () => clearTimeout(timer);
   }, []);
 
-  // Determine loader color based on current theme
+  // Match loader color to active theme
   const themeColor = document.documentElement.getAttribute("data-theme") === THEME.DARK 
     ? THEME.DARK_COLOR 
     : THEME.LIGHT_COLOR;
@@ -33,7 +33,7 @@ const AboutUs = () => {
 
       <div className="about-page-container">
         <div className="about-page">
-          {/* About Section Text */}
+          {/* About copy */}
           <div className="about-text">
             <h1>About Us</h1>
             <p className="about-description">
@@ -41,7 +41,7 @@ const AboutUs = () => {
               best products and services. Our mission is to drive innovation and
               quality in every aspect of our work.
             </p>
-            {/* Navigation button to contact page */}
+            {/* Contact page button */}
             <button 
               className="about-btn" 
               onClick={() => navigate("/contact")}
@@ -51,7 +51,7 @@ const AboutUs = () => {
             </button>
           </div>
 
-          {/* Hero Image with Shadow Effects */}
+          {/* Hero image block */}
           <div className="about-pic">
             <div className="shadow-container">
               <div className="shadow"></div>

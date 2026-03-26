@@ -1,10 +1,10 @@
 import axios from 'axios';
 const backend = import.meta.env.VITE_BACKEND_LINK || 'http://localhost:8000';
-// Remove trailing slash to prevent double slashes
+// Trim trailing slash to avoid double slashes
 const cleanBackend = backend.endsWith('/') ? backend.slice(0, -1) : backend;
 const API_BASE_URL = `${cleanBackend}/api`;
 
-// Create axios instance with default config
+// Base axios client
 const api = axios.create({
   baseURL: API_BASE_URL,
   headers: {
@@ -12,7 +12,7 @@ const api = axios.create({
   },
 });
 
-// Add token to requests
+// Attach auth token to requests
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('auth-token');
@@ -26,12 +26,12 @@ api.interceptors.request.use(
   }
 );
 
-// Handle token expiration
+// Handle unauthorized responses
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
     if (error.response?.status === 401) {
-      // Token expired or invalid
+      // Clear auth on 401
       localStorage.removeItem('auth-token');
       localStorage.removeItem('refresh-token');
       window.location.href = '/login';
@@ -40,7 +40,7 @@ api.interceptors.response.use(
   }
 );
 
-// API functions
+// API methods
 export const apiService = {
   // Get user profile
   getProfile: () => api.get('/profile'),

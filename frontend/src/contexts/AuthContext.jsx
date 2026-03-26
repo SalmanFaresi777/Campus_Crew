@@ -14,7 +14,7 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  // Hydrate from localStorage (non-sensitive snapshot for faster first paint)
+  // Restore quick user snapshot from localStorage
   const initialUser = (() => {
     try {
       const raw = localStorage.getItem('auth-user');
@@ -33,7 +33,7 @@ export const AuthProvider = ({ children }) => {
           if (response.data.success) {
             setIsAuthenticated(true);
             setUser(response.data.user);
-            // persist snapshot
+            // Save user snapshot
             localStorage.setItem('auth-user', JSON.stringify({
               _id: response.data.user._id,
               username: response.data.user.username,
@@ -63,7 +63,7 @@ export const AuthProvider = ({ children }) => {
   }
     setIsAuthenticated(true);
     
-    // Fetch complete user profile after login
+    // Load full profile after login
     try {
       const response = await apiService.getProfile();
       if (response.data.success) {
@@ -76,13 +76,13 @@ export const AuthProvider = ({ children }) => {
           isApprovedAdmin: response.data.user.isApprovedAdmin
         }));
       } else {
-        // Fallback to provided userData if profile fetch fails
+        // Fall back to provided userData
         setUser(userData);
         if (userData) localStorage.setItem('auth-user', JSON.stringify(userData));
       }
     } catch (error) {
       console.error('Failed to fetch profile after login:', error);
-      // Fallback to provided userData if profile fetch fails
+      // Fall back to provided userData
       setUser(userData);
       if (userData) localStorage.setItem('auth-user', JSON.stringify(userData));
     }

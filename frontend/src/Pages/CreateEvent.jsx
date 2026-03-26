@@ -15,7 +15,7 @@ import { clearEventCaches } from "../utils/cacheUtils";
 import { useAuth } from "../contexts/AuthContext";
 import "react-toastify/dist/ReactToastify.css";
 
-import "../CSS/createEvent.css"; // Only your custom CSS
+import "../CSS/createEvent.css"; // page styles
 import { useNavigate } from "react-router-dom";
 
 function CreateEvent() {
@@ -44,9 +44,9 @@ function CreateEvent() {
     return () => clearTimeout(timer);
   }, []);
 
-  // Client side guard
+  // Client-side access guard
   useEffect(() => {
-    if (!user) return; // wait until user loaded
+    if (!user) return; // wait for user state
     if (!user.isAdmin) {
       showErrorToast('You are not authorized to access Create Event page.');
       navigate('/forbidden', { replace: true });
@@ -59,12 +59,12 @@ function CreateEvent() {
     if (type === "file") {
       const file = files[0];
       if (file) {
-        // Check file size (max 3MB)
+        // Enforce max file size (3MB)
         if (file.size > 3 * 1024 * 1024) {
           showErrorToast("Image size should be less than 3MB");
           return;
         }
-        // Check file type
+        // Enforce image mime types
         if (!file.type.startsWith("image/")) {
           showErrorToast("Please select a valid image file");
           return;
@@ -79,13 +79,13 @@ function CreateEvent() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Check if user is logged in
+    // Ensure user is authenticated
     if (!user || !user._id) {
       showErrorToast("You must be logged in to create an event");
       return;
     }
 
-    // Basic validation
+    // Basic required-field checks
     if (!event.title.trim()) {
       showErrorToast("Please enter an event title");
       return;
@@ -119,7 +119,7 @@ function CreateEvent() {
       .split(",")
       .map((tag) => tag.trim())
       .filter((tag) => tag.length > 0);
-    // Check if date is in the future
+    // Event must be scheduled in the future
     const selectedDate = new Date(event.date);
     const now = new Date();
 
@@ -128,10 +128,10 @@ function CreateEvent() {
       return;
     }
 
-    // Check if registration deadline is before event date
+    // Deadline must be before event date
     const regDeadline = new Date(event.registration_deadline);
 
-    // Additional check: registration deadline should also be in the future
+    // Deadline must also be in the future
     if (regDeadline <= now) {
       showErrorToast("Registration deadline must be in the future");
       return;
@@ -149,10 +149,10 @@ function CreateEvent() {
     setIsSubmitting(true);
 
     try {
-      // Show loading toast
+      // Show progress feedback
       showInfoToast("Creating event...");
 
-      // Create FormData for multipart/form-data
+      // Build multipart payload
       const formData = new FormData();
 
       formData.append("title", event.title);
@@ -164,7 +164,7 @@ function CreateEvent() {
       formData.append("event_type", event.event_type);
       formData.append("registration_deadline", event.registration_deadline);
       formData.append("registration_fee", event.registration_fee);
-      formData.append("createdBy", user._id); // Add the logged-in user's ID
+      formData.append("createdBy", user._id); // backend validates creator from token
       formData.append("category", event.category);
       formData.append("tags", tagsArray);
 
@@ -173,19 +173,19 @@ function CreateEvent() {
         formData.append("image", event.event_image);
       }
 
-      // Call API to create event
+      // Submit event creation request
       const response = await apiService.createEvent(formData);
 
       if (response.data.success) {
-        // Show success toast
+        // Notify success
         showSuccessToast(
           `Event "${event.title}" has been created successfully!`
         );
 
-        // Clear events cache to ensure new event shows up in upcoming events
+        // Refresh cached event lists
         clearEventCaches();
 
-        // Reset form
+        // Reset form state
         setEvent({
           title: "",
           description: "",
@@ -199,7 +199,7 @@ function CreateEvent() {
           event_image: null,
         });
 
-        // Clear file input
+        // Reset native file input control
         const fileInput = document.querySelector('input[type="file"]');
         if (fileInput) fileInput.value = "";
       } else {
@@ -218,6 +218,7 @@ function CreateEvent() {
 
   return (
     <div className="ce-wrapper" style={{ fontFamily: "Silevena" }}>
+      {/* Theme-aware loader color */}
       {loading && <Loader color={document.documentElement.getAttribute("data-theme") === "dark" ? "#ffffff" : "#000000"} />}
       <Header />
       {!user ? (
@@ -234,7 +235,7 @@ function CreateEvent() {
           <form className="ce-form" onSubmit={handleSubmit}>
             <h2 className="ce-form-title">Create Event</h2>
 
-            {/* Event Title */}
+            {/* Title */}
             <div className="ce-form-group">
               <label className="ce-label">Event Title</label>
               <input
@@ -261,7 +262,7 @@ function CreateEvent() {
               />
             </div>
 
-            {/* Event Image */}
+            {/* Image */}
             <div className="ce-form-group">
               <label className="ce-label">Event Image</label>
               <input
@@ -276,7 +277,7 @@ function CreateEvent() {
               </small>
             </div>
 
-            {/* Date and Event Type */}
+            {/* Date + category */}
             <div className="ce-form-row">
               <div className="ce-form-group">
                 <label className="ce-label">Event Date</label>
@@ -348,7 +349,7 @@ function CreateEvent() {
               </small>
             </div>
 
-            {/* Registration Details */}
+            {/* Registration settings */}
             <div className="ce-form-row">
               <div className="ce-form-group">
                 <label className="ce-label">Registration Deadline</label>
@@ -380,7 +381,7 @@ function CreateEvent() {
               </div>
             </div>
 
-            {/* Prize Money */}
+            {/* Prize money */}
             <div className="ce-form-group">
               <label className="ce-label">Prize Money (৳)</label>
               <input
@@ -416,7 +417,7 @@ function CreateEvent() {
       )}
       <Footer />
 
-      {/* Toast Container */}
+      {/* Toast host */}
       <ToastContainer
         position="top-right"
         autoClose={5000}
