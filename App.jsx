@@ -23,6 +23,7 @@ import EventAttendee from "./Pages/EventAttendee.jsx";
 import AdminSignup from "./Pages/AdminSignup.jsx";
 import ChatbotButton from "./Components/Chatbot/ChatbotButton.jsx";
 
+// Main App component handling routing and authentication guards
 function App() {
   const { isAuthenticated, loading, user } = useAuth();
 
@@ -33,12 +34,14 @@ function App() {
 
   return (
     <>
+      {/* Define all application routes with authentication guards */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/verify-email/:token" element={<VerifyEmail />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />
+        {/* Protected routes - require user authentication */}
         <Route
           path="/profile"
           element={
@@ -55,6 +58,7 @@ function App() {
             )
           }
         />
+        {/* Admin-only routes - require admin privileges */}
         <Route
           path="/create-event"
           element={

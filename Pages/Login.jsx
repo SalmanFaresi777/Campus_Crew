@@ -20,10 +20,14 @@ import spring from "../assets/img/spring.png";
 import stars from "../assets/img/stars.png";
 import white_outline from "../assets/img/white_outline.png";
 
+// Main Login component handling user authentication and registration
 function Login() {
   const backend_link = import.meta.env.VITE_BACKEND_LINK;
+  // State to toggle between login and register forms
   const [showLogin, setShowLogin] = useState(true);
+  // Form data for login
   const [loginForm, setLoginForm] = useState({ email: "", password: "" });
+  // Form data for registration
   const [registerForm, setRegisterForm] = useState({
     username: "",
     email: "",
@@ -44,6 +48,7 @@ function Login() {
     }
   }, [isAuthenticated, navigate]);
 
+  // Function to toggle password visibility in forms
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };

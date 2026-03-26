@@ -2,10 +2,11 @@ import axios from 'axios';
 const backend = import.meta.env.VITE_BACKEND_LINK || 'http://localhost:8000';
 // Remove trailing slash to prevent double slashes
 const cleanBackend = backend.endsWith('/') ? backend.slice(0, -1) : backend;
+// Configure API base URL with environment variable
 const API_BASE_URL = `${cleanBackend}/api`;
 const getAuthToken = () => localStorage.getItem('auth-token');
 
-// Create axios instance with default config
+// Create axios instance with default configuration
 const api = axios.create({
   baseURL: API_BASE_URL,
   headers: {
@@ -13,7 +14,7 @@ const api = axios.create({
   },
 });
 
-// Add token to requests
+// Request interceptor to automatically add auth token to headers
 api.interceptors.request.use(
   (config) => {
     const token = getAuthToken();
@@ -27,7 +28,7 @@ api.interceptors.request.use(
   }
 );
 
-// Handle token expiration
+// Response interceptor to handle authentication failures
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
@@ -41,7 +42,7 @@ api.interceptors.response.use(
   }
 );
 
-// API functions
+// Exported API service object with all endpoint methods
 export const apiService = {
   // Get user profile
   getProfile: () => api.get('/profile'),

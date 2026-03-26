@@ -5,9 +5,11 @@ import { v4 as uuidv4 } from 'uuid'; // Import uuid for unique IDs
 import '../CSS/VerifyEmail.css';
 import Loader from "../Components/loader";
 
+// VerifyEmail component for handling email verification with token
 const VerifyEmail = () => {
   const backend_link = import.meta.env.VITE_BACKEND_LINK;
   const { token } = useParams();
+  // State to track verification result
   const [verificationStatus, setVerificationStatus] = useState({
     success: null,
     message: '',
@@ -15,6 +17,7 @@ const VerifyEmail = () => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
+  // Effect to verify email on component mount
   useEffect(() => {
     const verificationId = uuidv4(); // Generate a unique ID for this attempt
 
@@ -37,11 +40,12 @@ const VerifyEmail = () => {
   }, []); // Empty dependency array
   
 
-  // Print verification status to console whenever it changes
+  // Debug effect to log verification status changes
   useEffect(() => {
     console.log("Verification Status:", verificationStatus);
   }, [verificationStatus]);
 
+  // Function to handle redirect to login after verification
   const handleLoginRedirect = () => {
     // Ensure stale auth state does not survive after verification flow.
     // Clear localStorage or cookies related to authentication if any

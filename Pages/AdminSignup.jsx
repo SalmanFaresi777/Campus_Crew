@@ -4,11 +4,14 @@ import "../CSS/AdminSignup.css"; // 🔹 Import custom CSS
 import { useNavigate } from "react-router-dom";
 import Loader from "../Components/loader";
 
+// AdminSignup component for registering admin users with secret key validation
 function AdminSignup() {
   const backend = import.meta.env.VITE_BACKEND_LINK;
   const secret = import.meta.env.VITE_ADMIN_SECRET;
   const navigate = useNavigate();
+  // Loading state for initial page animation
   const [pageLoading, setPageLoading] = useState(true);
+  // Form data state for admin registration
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -20,6 +23,7 @@ function AdminSignup() {
     admin_secret: "",
   });
 
+  // Simulate loading animation on page mount
   useEffect(() => {
     const timer = setTimeout(() => setPageLoading(false), 800);
     return () => clearTimeout(timer);
@@ -29,6 +33,7 @@ function AdminSignup() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
+  // Handle form input changes
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };

@@ -3,12 +3,15 @@ import { apiService } from '../utils/apiService';
 import { showSuccessToast, showErrorToast, showInfoToast } from '../utils/toastUtils';
 
 const AuthContext = createContext();
+
+// Constants for localStorage keys to avoid typos
 const STORAGE_KEYS = {
   token: 'auth-token',
   refreshToken: 'refresh-token',
   user: 'auth-user'
 };
 
+// Function to store a minimal user snapshot in localStorage for faster app initialization
 const persistUserSnapshot = (userData) => {
   if (!userData) return;
   localStorage.setItem(STORAGE_KEYS.user, JSON.stringify({
@@ -20,6 +23,7 @@ const persistUserSnapshot = (userData) => {
   }));
 };
 
+// Custom hook to access authentication context
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {
