@@ -10,7 +10,7 @@ import { useAuth } from "../contexts/AuthContext";
 import PasswordChecklist from "react-password-checklist";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import axios from "axios";
+import { apiService } from "../utils/apiService";
 
 import cloud from "../assets/img/cloud.png";
 import coin from "../assets/img/coin.png";
@@ -67,20 +67,10 @@ function Login() {
   };
 
   const signin = async () => {
-    setLoading(true); // Show loader
+    setLoading(true); // show progress indicator
     try {
-      const response = await axios.post(
-        `${backend_link}/api/login`,
-        loginForm, // Axios automatically stringifies JSON
-        {
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      const data = response.data; // Axios response data is here
+      const { data } = await apiService.login(loginForm);
+      // data now contains success / user / token semantics
 
       if (data.success) {
         const user = data.user;
@@ -117,7 +107,7 @@ function Login() {
         toast.error("No response from server. Please try again.");
       } else {
         // Other errors
-        console.error("Axios error:", error.message);
+        console.error("Request error:", error.message);
         toast.error("An error occurred during login. Please try again.");
       }
     } finally {
@@ -170,7 +160,7 @@ function Login() {
     toast.info("Creating your account...", { autoClose: 1500 });
 
     try {
-      const response = await axios.post(`${backend_link}/api/signup`, {
+      const { data } = await apiService.register({
         username: registerForm.username,
         email: registerForm.email,
         password: registerForm.password,
@@ -178,8 +168,6 @@ function Login() {
         location: registerForm.location, // Include Location
         isAdmin: false,
       });
-
-      const data = response.data; // axios automatically parses JSON
 
       if (data.success) {
         toast.success(

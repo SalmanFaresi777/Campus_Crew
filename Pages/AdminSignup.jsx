@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import "../CSS/AdminSignup.css"; // 🔹 Import custom CSS
+import { apiService } from "../utils/apiService";
+import "../CSS/AdminSignup.css"; // style file for admin signup page
 import { useNavigate } from "react-router-dom";
 import Loader from "../Components/loader";
 
 // AdminSignup component for registering admin users with secret key validation
 function AdminSignup() {
-  const backend = import.meta.env.VITE_BACKEND_LINK;
   const secret = import.meta.env.VITE_ADMIN_SECRET;
   const navigate = useNavigate();
   // Loading state for initial page animation
@@ -58,7 +57,7 @@ function AdminSignup() {
 
     try {
       // Backend applies full validation and account creation.
-      const { data } = await axios.post(`${backend}/api/signup`, formData);
+      const { data } = await apiService.register(formData);
       if (data.success) {
         setMessage(
           "Admin registered successfully! Please check your email for verification."

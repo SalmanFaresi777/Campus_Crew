@@ -14,7 +14,7 @@ const api = axios.create({
   },
 });
 
-// Request interceptor to automatically add auth token to headers
+// Request interceptor attaches saved auth token before requests
 api.interceptors.request.use(
   (config) => {
     const token = getAuthToken();
@@ -99,6 +99,8 @@ export const apiService = {
   registerForEvent: (payload) => api.post('/register-event', payload),
   getUserRegistrations: (userId) => api.get(`/registrations/user/${userId}`),
   getEventRegistrations: (eventId) => api.get(`/registrations/event/${eventId}`),
+  // Email verification endpoint
+  verifyEmail: (token, params = {}) => api.get(`/verify-email/${token}`, { params }),
   // Certificate APIs
   getUserCertificates: (userId) => api.get(`/certificates/user/${userId}`),
   downloadCertificate: (registrationId) => api.get(`/certificates/${registrationId}/download`, { responseType: 'blob' }),

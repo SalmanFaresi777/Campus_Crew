@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { v4 as uuidv4 } from 'uuid'; // Import uuid for unique IDs
+import { apiService } from '../utils/apiService';
+import { v4 as uuidv4 } from 'uuid'; // unique ID for request tracing
 import '../CSS/VerifyEmail.css';
 import Loader from "../Components/loader";
 
 // VerifyEmail component for handling email verification with token
 const VerifyEmail = () => {
-  const backend_link = import.meta.env.VITE_BACKEND_LINK;
   const { token } = useParams();
   // State to track verification result
   const [verificationStatus, setVerificationStatus] = useState({
@@ -19,15 +18,15 @@ const VerifyEmail = () => {
 
   // Effect to verify email on component mount
   useEffect(() => {
-    const verificationId = uuidv4(); // Generate a unique ID for this attempt
+    const verificationId = uuidv4(); // unique request id for traceability
 
-    // Run verification once when token route is loaded.
+    // Run verification once when token route is loaded
     (async () => {
       try {
-        const response = await axios.get(`${backend_link}/api/verify-email/${token}`, {
-          params: { verificationId } // Send the ID to the backend
+        const { data } = await apiService.verifyEmail(token, {
+          verificationId,
         });
-        setVerificationStatus({ success: true, message: response.data.message });
+        setVerificationStatus({ success: true, message: data.message });
       } catch (error) {
         setVerificationStatus({
           success: false,

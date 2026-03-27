@@ -34,7 +34,7 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  // Hydrate from localStorage (non-sensitive snapshot for faster first paint)
+  // Load user snapshot from localStorage for fast initial render
   const initialUser = (() => {
     try {
       const raw = localStorage.getItem(STORAGE_KEYS.user);
