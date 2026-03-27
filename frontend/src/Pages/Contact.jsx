@@ -10,77 +10,108 @@ import Header from "../Components/Header";
 import Footer from "../Components/Footer";
 import Loader from "../Components/loader";
 
+/**
+ * Contact Us Page Component
+ * 
+ * Allows users to submit contact inquiries with form validation.
+ * Includes page loader on mount and toast notifications for feedback.
+ */
 function Contact() {
+  // Form input state management
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     message: "",
   });
-  const [isLoading, setIsLoading] = useState(false);
-  const [loading, setLoading] = useState(true);
+  
+  // UI state flags
+  const [isFormSubmitting, setIsFormSubmitting] = useState(false);
+  const [isPageLoading, setIsPageLoading] = useState(true);
 
+  // Show page loader briefly on component mount
   useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 800);
-    return () => clearTimeout(timer);
+    const pageLoadDelay = setTimeout(() => setIsPageLoading(false), 800);
+    return () => clearTimeout(pageLoadDelay);
   }, []);
 
+  // Update form field value on user input
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
+    setFormData((previousData) => ({
+      ...previousData,
       [name]: value,
     }));
   };
 
+  // Validate form inputs before submission
   const validateForm = () => {
+    // Check if name is provided
     if (!formData.name.trim()) {
       showWarningToast("Please enter your name");
       return false;
     }
+    
+    // Check if email is provided
     if (!formData.email.trim()) {
       showWarningToast("Please enter your email");
       return false;
     }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+    
+    // Validate email format using regex pattern
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
       showWarningToast("Please enter a valid email address");
       return false;
     }
+    
+    // Check if message is provided
     if (!formData.message.trim()) {
       showWarningToast("Please enter your message");
       return false;
     }
-    if (formData.message.trim().length < 10) {
+    
+    // Enforce minimum message length
+    const MIN_MESSAGE_LENGTH = 10;
+    if (formData.message.trim().length < MIN_MESSAGE_LENGTH) {
       showWarningToast("Message should be at least 10 characters long");
       return false;
     }
+    
     return true;
   };
 
+  // Simulate asynchronous message delivery with realistic delay
   const simulateMessageSend = () => {
+    const MESSAGE_SEND_DELAY = 2000; // ms - simulate network latency
+    const SUCCESS_RATE = 0.9; // 90% success probability
+    
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        // Simulate success most of the time, occasional failure for demo
-        const success = Math.random() > 0.1; // 90% success rate
-        if (success) {
+        // Randomly determine success/failure for demonstration
+        const isSuccessful = Math.random() > (1 - SUCCESS_RATE);
+        
+        if (isSuccessful) {
           resolve("Message sent successfully!");
         } else {
           reject(new Error("Failed to send message. Please try again."));
         }
-      }, 2000); // 2 second delay to simulate network request
+      }, MESSAGE_SEND_DELAY);
     });
   };
 
+  // Handle form submission with validation and toast feedback
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Validate form before proceeding
     if (!validateForm()) {
       return;
     }
 
-    setIsLoading(true);
+    setIsFormSubmitting(true);
 
     try {
-      // Using promise toast for better UX
+      // Send message and show progress with promise-based toast notifications
       await showPromiseToast(simulateMessageSend(), {
         pending: "Sending your message...",
         success:
@@ -89,22 +120,28 @@ function Contact() {
           "Failed to send message. Please try again or contact us directly.",
       });
 
-      // Reset form on success
+      // Clear form fields after successful submission
       setFormData({
         name: "",
         email: "",
         message: "",
       });
     } catch (error) {
+      // Error details logged for debugging purposes
       console.error("Error sending message:", error);
-      // Error is already handled by the promise toast
+      // Toast notification handles error display to user
     } finally {
-      setIsLoading(false);
+      setIsFormSubmitting(false);
     }
   };
+  // Determine loader color based on current theme
+  const loaderColor = document.documentElement.getAttribute("data-theme") === "dark" 
+    ? "#ffffff" 
+    : "#000000";
+
   return (
     <>
-      {loading && <Loader color={document.documentElement.getAttribute("data-theme") === "dark" ? "#ffffff" : "#000000"} />}
+      {isPageLoading && <Loader color={loaderColor} />}
       <Header />
       <div
         style={{ maxHeight: "calc(100vh - 350px)" }}
@@ -147,7 +184,7 @@ function Contact() {
                   name="name"
                   value={formData.name}
                   onChange={handleInputChange}
-                  disabled={isLoading}
+                  disabled={isFormSubmitting}
                   required
                 />
               </div>

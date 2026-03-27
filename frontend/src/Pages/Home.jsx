@@ -19,101 +19,144 @@ import Loader from "../Components/loader";
 import { LOADER_TIMEOUTS } from "../constants/config";
 
 /**
- * Home Page
- * Landing page featuring recommended events carousel, feature highlights, and call-to-action
+ * Home Page Component
+ * 
+ * Landing page featuring:
+ * - Hero banner with call-to-action
+ * - Feature highlights grid
+ * - Event carousel showcase with keyboard/mouse controls
+ * - Scroll-reveal animations for visual appeal
  */
 const Home = () => {
   const { isAuthenticated, logout, user } = useAuth();
   const backend_link = import.meta.env.VITE_BACKEND_LINK;
 
-  // Event showcase state
+  // Event carousel state management
   const [events, setEvents] = useState([]);
-  const [evLoading, setEvLoading] = useState(true);
-  const [evError, setEvError] = useState("");
-  const [currentIdx, setCurrentIdx] = useState(0);
-  const [isPaused, setIsPaused] = useState(false); // Pause carousel on hover
-  const [loading, setLoading] = useState(true);
+  const [eventsLoading, setEventsLoading] = useState(true);
+  const [eventsError, setEventsError] = useState("");
+  const [currentEventIndex, setCurrentEventIndex] = useState(0);
+  const [isCarouselPaused, setIsCarouselPaused] = useState(false); // Pause carousel on hover/focus
+  const [isPageLoading, setIsPageLoading] = useState(true);
 
-  // Intersection Observer for scroll-reveal animations
+  // Implement scroll-reveal animation for DOM elements
+  // Adds 'in-view' class when elements enter viewport for CSS transitions
   useEffect(() => {
+    const observerOptions = { threshold: 0.15 };
     const observer = new IntersectionObserver(
       (entries) => {
-        // Add 'in-view' class to elements when they enter viewport
-        entries.forEach((e) => {
-          if (e.isIntersecting) e.target.classList.add("in-view");
+        entries.forEach((entry) => {
+          // Trigger animation when element becomes visible
+          if (entry.isIntersecting) {
+            entry.target.classList.add("in-view");
+          }
         });
       },
-      { threshold: 0.15 }
+      observerOptions
     );
-    const revealEls = document.querySelectorAll(".reveal");
-    revealEls.forEach((el) => observer.observe(el));
+    
+    // Observe all reveal animation elements
+    const revealElements = document.querySelectorAll(".reveal");
+    revealElements.forEach((element) => observer.observe(element));
+    
+    // Cleanup observer on unmount
     return () => observer.disconnect();
   }, []);
 
-  // Fetch recommended events for carousel
+  // Fetch recommended events for carousel display
+  // Uses user ID if available, otherwise uses default guest ID
   useEffect(() => {
-    let ignore = false;
+    let isMounted = true; // Prevent state updates on unmounted component
+    
     (async () => {
       try {
-        // Use user ID if available, else fallback default for guest recommendations
-        const UserID = user && user._id ? user._id : "68ab36aab6a497f164b55d07";
+        // Use authenticated user ID or fallback to default guest ID
+        const userId = user && user._id ? user._id : "68ab36aab6a497f164b55d07";
         const { data } = await axios.get(
-          `${backend_link}/api/suggested_events/${UserID}`
+          `${backend_link}/api/suggested_events/${userId}`
         );
-        if (data.success) {
+        
+        if (isMounted && data.success) {
           setEvents(data.recommended);
         }
-      } catch (e) {
-        if (!ignore) setEvError("Failed to load events");
+      } catch (error) {
+        // Silently fail or log error - carousel shows empty state
+        if (isMounted) setEventsError("Failed to load recommended events");
       } finally {
-        if (!ignore) {
-          setEvLoading(false);
-          setLoading(false);
+        if (isMounted) {
+          setEventsLoading(false);
+          setIsPageLoading(false);
         }
       }
     })();
+    
+    // Cleanup: Prevent state updates after unmount
     return () => {
-      ignore = true;
+      isMounted = false;
     };
-  }, [backend_link]);
+  }, [backend_link, user]);
 
-  // Carousel navigation handlers
-  const nextEvent = useCallback(() => {
-    setCurrentIdx((i) => (events.length ? (i + 1) % events.length : 0));
+  // Move to next event in carousel with wrap-around
+  const handleNextEvent = useCallback(() => {
+    setCurrentEventIndex((currentIndex) => 
+      events.length ? (currentIndex + 1) % events.length : 0
+    );
   }, [events.length]);
   
-  const prevEvent = useCallback(() => {
-    setCurrentIdx((i) =>
-      events.length ? (i - 1 + events.length) % events.length : 0
+  // Move to previous event in carousel with wrap-around
+  const handlePreviousEvent = useCallback(() => {
+    setCurrentEventIndex((currentIndex) =>
+      events.length ? (currentIndex - 1 + events.length) % events.length : 0
     );
   }, [events.length]);
 
-  // Autoplay (skip if user prefers reduced motion)
+  // Auto-rotate carousel with accessibility support
+  // Respects user's motion preferences and pause state
   useEffect(() => {
-    if (isPaused) return; // paused due to hover/focus
-    if (events.length < 2) return; // nothing to rotate
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    if (mq.matches) return; // respect user preference
-    const id = setInterval(() => {
-      setCurrentIdx((i) => (i + 1) % events.length);
-    }, 6500); // 6.5s interval
-    return () => clearInterval(id);
-  }, [events.length, isPaused]);
+    // Skip autoplay if carousel is paused/hovered
+    if (isCarouselPaused) return;
+    
+    // Skip autoplay if insufficient events to rotate
+    if (events.length < 2) return;
+    
+    // Respect user's reduced motion preference for accessibility
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (prefersReducedMotion.matches) return;
+    
+    // Auto-advance carousel every 6.5 seconds
+    const CAROUSEL_INTERVAL = 6500; // ms
+    const autoplayInterval = setInterval(() => {
+      setCurrentEventIndex((currentIndex) => (currentIndex + 1) % events.length);
+    }, CAROUSEL_INTERVAL);
+    
+    // Cleanup interval on unmount or when dependencies change
+    return () => clearInterval(autoplayInterval);
+  }, [events.length, isCarouselPaused]);
 
-  // Keyboard navigation (left/right arrows) when section in view
+  // Enable keyboard navigation for carousel (left/right arrows)
   useEffect(() => {
-    const handler = (e) => {
+    const handleKeyPress = (event) => {
       if (!events.length) return;
-      if (e.key === "ArrowRight") nextEvent();
-      if (e.key === "ArrowLeft") prevEvent();
+      
+      // Navigate with arrow keys
+      if (event.key === "ArrowRight") handleNextEvent();
+      if (event.key === "ArrowLeft") handlePreviousEvent();
     };
-    window.addEventListener("keydown", handler);
-    return () => window.removeEventListener("keydown", handler);
-  }, [events.length, nextEvent, prevEvent]);
+    
+    window.addEventListener("keydown", handleKeyPress);
+    
+    // Cleanup event listener on unmount
+    return () => window.removeEventListener("keydown", handleKeyPress);
+  }, [events.length, handleNextEvent, handlePreviousEvent]);
+
+  // Determine loader color based on current theme
+  const loaderColor = document.documentElement.getAttribute("data-theme") === "dark" 
+    ? "#ffffff" 
+    : "#000000";
 
   return (
     <div className="home-container">
-      {loading && <Loader color={document.documentElement.getAttribute("data-theme") === "dark" ? "#ffffff" : "#000000"} />}
+      {isPageLoading && <Loader color={loaderColor} />}
       <Header />
 
       <main>
@@ -194,7 +237,7 @@ const Home = () => {
           </div>
         </section>
 
-        {/* Event Showcase Section (Single Image Hover-Reveal) */}
+        {/* Event Showcase Section: Interactive carousel with keyboard/mouse controls */}}
         <section
           className="eventShowcase-section reveal"
           aria-labelledby="eventShowcase-heading"

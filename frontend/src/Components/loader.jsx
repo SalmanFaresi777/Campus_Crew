@@ -1,18 +1,28 @@
 /**
- * Unified Loader Component
- * Reusable spinner displayed during page load, API calls, or data processing
- * Supports both light and dark modes via theme-aware color prop
+ * Loader Component
+ * 
+ * Animated loading spinner displayed during:
+ * - Page load transitions
+ * - API data fetching
+ * - Asynchronous operations
+ * 
+ * Features:
+ * - Theme-aware color support (dark/light mode)
+ * - Multiple layout variants (default, login modal)
+ * - Accessibility with ARIA labels
  */
 
 import React from 'react';
 import '../CSS/loader.css';
 
 function Loader({ color = 'black', variant = 'default', ariaLabel = 'Loading' }) {
+  // Apply custom color to SVG animation using CSS variable
   const svgStyle = {
     '--uib-color': color
   };
 
-  // Determine CSS class based on variant (for different modal styles)
+  // Determine container and SVG classes based on layout variant
+  // 'login' variant uses full-screen modal, 'default' uses inline spinner
   const containerClass = variant === 'login' ? 'loader-modal' : 'modal';
   const svgClass = variant === 'login' ? 'loader-svg' : 'container';
 
@@ -28,7 +38,7 @@ function Loader({ color = 'black', variant = 'default', ariaLabel = 'Loading' })
         preserveAspectRatio="xMidYMid meet"
         style={svgStyle}
       >
-        {/* Track: background path */}
+        {/* Background track path: static base circle */}
         <path 
           className="track" 
           fill="none" 
@@ -36,7 +46,7 @@ function Loader({ color = 'black', variant = 'default', ariaLabel = 'Loading' })
           pathLength="100" 
           d="M29.760000000000005 18.72 c0 7.28 -3.9200000000000004 13.600000000000001 -9.840000000000002 16.96 c -2.8800000000000003 1.6800000000000002 -6.24 2.64 -9.840000000000002 2.64 c -3.6 0 -6.88 -0.96 -9.76 -2.64 c0 -7.28 3.9200000000000004 -13.52 9.840000000000002 -16.96 c2.8800000000000003 -1.6800000000000002 6.24 -2.64 9.76 -2.64 S26.880000000000003 17.040000000000003 29.760000000000005 18.72 c5.84 3.3600000000000003 9.76 9.68 9.840000000000002 16.96 c -2.8800000000000003 1.6800000000000002 -6.24 2.64 -9.76 2.64 c -3.6 0 -6.88 -0.96 -9.840000000000002 -2.64 c -5.84 -3.3600000000000003 -9.76 -9.68 -9.76 -16.96 c0 -7.28 3.9200000000000004 -13.600000000000001 9.76 -16.96 C25.84 5.120000000000001 29.760000000000005 11.440000000000001 29.760000000000005 18.72z" />
         
-        {/* Animated car: foreground animation path */}
+        {/* Animated car path: foreground animated element with keyframe animation */}
         <path 
           className="car" 
           fill="none" 

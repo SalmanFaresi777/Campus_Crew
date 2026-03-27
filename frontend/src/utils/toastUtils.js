@@ -1,56 +1,88 @@
+/**
+ * Toast Notification Utilities
+ * 
+ * Centralized toast notification management using react-toastify
+ * Provides functions for different notification types:
+ * - Success, Error, Warning, Info, and Custom toasts
+ * - Promise-based toasts for async operations
+ * - Toast dismissal and management
+ */
+
 import { toast } from 'react-toastify';
 
-// Custom toast configurations
-const toastConfig = {
-  position: "top-right",
-  autoClose: 5000,
-  hideProgressBar: false,
-  closeOnClick: true,
-  pauseOnHover: true,
-  draggable: true,
+// Default toast configuration applied to all notifications
+const toastConfiguration = {
+  position: "top-right",      // Position on screen
+  autoClose: 5000,             // Auto-close after 5 seconds
+  hideProgressBar: false,      // Show progress bar
+  closeOnClick: true,          // Allow closing on click
+  pauseOnHover: true,          // Pause timer on hover
+  draggable: true,             // Allow dragging
 };
 
-// Success toast
+/**
+ * Display success notification toast
+ * @param {string} message - Success message to display
+ */
 export const showSuccessToast = (message) => {
   toast.success(message, {
-    ...toastConfig,
+    ...toastConfiguration,
     className: 'success-toast',
   });
 };
 
-// Error toast
+/**
+ * Display error notification toast
+ * @param {string} message - Error message to display
+ */
 export const showErrorToast = (message) => {
   toast.error(message, {
-    ...toastConfig,
+    ...toastConfiguration,
     className: 'error-toast',
   });
 };
 
-// Warning toast
+/**
+ * Display warning notification toast
+ * @param {string} message - Warning message to display
+ */
 export const showWarningToast = (message) => {
   toast.warning(message, {
-    ...toastConfig,
+    ...toastConfiguration,
     className: 'warning-toast',
   });
 };
 
-// Info toast
+/**
+ * Display info notification toast
+ * @param {string} message - Info message to display
+ */
 export const showInfoToast = (message) => {
   toast.info(message, {
-    ...toastConfig,
+    ...toastConfiguration,
     className: 'info-toast',
   });
 };
 
-// Custom toast with custom styling
+/**
+ * Display custom styled notification toast
+ * @param {string} message - Message to display
+ * @param {Object} options - Custom toast options
+ */
 export const showCustomToast = (message, options = {}) => {
   toast(message, {
-    ...toastConfig,
+    ...toastConfiguration,
     ...options,
   });
 };
 
-// Promise toast for async operations
+/**
+ * Display promise-based toast for async operations
+ * Shows different messages for pending, success, and error states
+ * @param {Promise} promise - Promise to track
+ * @param {Object} messages - Messages object with pending, success, error
+ * @returns {Promise} The original promise
+ */
 export const showPromiseToast = (promise, messages) => {
   return toast.promise(
     promise,
@@ -59,16 +91,21 @@ export const showPromiseToast = (promise, messages) => {
       success: messages.success || 'Success!',
       error: messages.error || 'Something went wrong!',
     },
-    toastConfig
+    toastConfiguration
   );
 };
 
-// Dismiss all toasts
+/**
+ * Dismiss all active toast notifications
+ */
 export const dismissAllToasts = () => {
   toast.dismiss();
 };
 
-// Dismiss specific toast
+/**
+ * Dismiss a specific toast notification
+ * @param {string|number} toastId - ID of the toast to dismiss
+ */
 export const dismissToast = (toastId) => {
   toast.dismiss(toastId);
 };

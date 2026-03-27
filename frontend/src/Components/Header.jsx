@@ -1,7 +1,13 @@
 /**
  * Header Component
- * Navigation bar with logo, menu links, user profile dropdown, and theme toggle
- * Responsive design with mobile hamburger menu
+ * 
+ * Top navigation bar featuring:
+ * - Logo link to home
+ * - Responsive navigation menu (desktop/mobile)
+ * - User profile dropdown with initials fallback
+ * - Theme toggle button (dark/light mode)
+ * - Admin-specific navigation links
+ * - Mobile hamburger menu
  */
 
 import React, { useState, useEffect, useRef } from "react";
@@ -17,59 +23,65 @@ function Header() {
   const { isAuthenticated, logout, user } = useAuth();
   const { isDarkMode, toggleTheme } = useTheme();
   
-  // Menu visibility state
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [isMobileDropdownOpen, setIsMobileDropdownOpen] = useState(false);
+  // Dropdown visibility state for desktop and mobile interfaces
+  const [isDesktopDropdownOpen, setIsDesktopDropdownOpen] = useState(false);
+  const [isMobileProfileDropdownOpen, setIsMobileProfileDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
-  // Refs for outside-click close behavior
-  const dropdownRef = useRef(null);
+  // Refs for detecting outside clicks to close dropdowns
+  const desktopDropdownRef = useRef(null);
   const mobileDropdownRef = useRef(null);
   const mobileMenuRef = useRef(null);
   
-  const isAdmin = user && user.isAdmin; // role flag
+  // Check if user has admin privileges
+  const userIsAdmin = user && user.isAdmin;
   const navigate = useNavigate();
-  
-  // Toggle desktop profile menu
-  const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
+  // Toggle desktop profile dropdown menu visibility
+  const toggleDesktopDropdown = () => {
+    setIsDesktopDropdownOpen(!isDesktopDropdownOpen);
   };
 
-  // Toggle mobile profile menu
-  const toggleMobileDropdown = () => {
-    setIsMobileDropdownOpen(!isMobileDropdownOpen);
+  // Toggle mobile profile dropdown menu visibility
+  const toggleMobileProfileDropdown = () => {
+    setIsMobileProfileDropdownOpen(!isMobileProfileDropdownOpen);
   };
 
-  // Toggle mobile nav panel
+  // Toggle mobile navigation menu visibility
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
-  // Logout and reset open menus
+  // Handle logout and close all open menus
   const handleLogout = () => {
     logout();
-    setIsDropdownOpen(false);
-    setIsMobileDropdownOpen(false);
+    setIsDesktopDropdownOpen(false);
+    setIsMobileProfileDropdownOpen(false);
     setIsMobileMenuOpen(false);
   };
 
-  // Close mobile nav panel
+  // Close mobile navigation menu
   const closeMobileMenu = () => {
     setIsMobileMenuOpen(false);
   };
 
-  // Close menus on outside clicks
+  // Close dropdowns when clicking outside of them
+  // Improves UX by allowing users to close menus by clicking elsewhere
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setIsDropdownOpen(false);
+    const handleOutsideClick = (event) => {
+      // Close desktop profile dropdown if click is outside
+      if (desktopDropdownRef.current && !desktopDropdownRef.current.contains(event.target)) {
+        setIsDesktopDropdownOpen(false);
       }
+      
+      // Close mobile profile dropdown if click is outside
       if (
         mobileDropdownRef.current &&
         !mobileDropdownRef.current.contains(event.target)
       ) {
-        setIsMobileDropdownOpen(false);
+        setIsMobileProfileDropdownOpen(false);
       }
+      
+      // Close mobile menu if click is outside
       if (
         mobileMenuRef.current &&
         !mobileMenuRef.current.contains(event.target)
@@ -78,27 +90,28 @@ function Header() {
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("mousedown", handleOutsideClick);
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("mousedown", handleOutsideClick);
     };
   }, []);
 
   /**
-   * Extract user initials for avatar fallback when no profile picture exists
-   * @param {Object} user - User object
-   * @returns {string} Two-character initials
+   * Extract user initials from username or email for avatar fallback
+   * Used when user hasn't uploaded a profile picture
+   * @param {Object} userData - User object with username/email
+   * @returns {string} Two-character initials in uppercase
    */
-  const getUserInitials = (user) => {
-    if (user?.username) {
-      return user.username
+  const getUserInitials = (userData) => {
+    if (userData?.username) {
+      return userData.username
         .split(" ")
-        .map((n) => n[0])
+        .map((namePart) => namePart[0])
         .join("")
         .toUpperCase()
         .slice(0, 2);
     }
-    return user?.email?.charAt(0).toUpperCase() || "U";
+    return userData?.email?.charAt(0).toUpperCase() || "U";
   };
 
   return (
@@ -110,19 +123,19 @@ function Header() {
           </Link>
         </div>
 
-        {/* Desktop nav */}
+        {/* Desktop navigation menu */}
         <nav className="main-nav desktop-nav">
           {isAuthenticated ? (
             <>
               <NavLink to="/upcoming-events" className="nav-link">
                 Upcoming Events
               </NavLink>
-              {isAdmin && (
+              {userIsAdmin && (
                 <NavLink to="/create-event" className="nav-link">
                   Create Event
                 </NavLink>
               )}
-              {!isAdmin && (
+              {!userIsAdmin && (
                 <NavLink to="/joined-events" className="nav-link">
                   Joined Events
                 </NavLink>
@@ -133,13 +146,13 @@ function Header() {
               <NavLink to="/contact" className="nav-link">
                 Contact Us
               </NavLink>
-              {isAdmin && (
+              {userIsAdmin && (
                 <NavLink to="/dashboard" className="nav-link">
                   Dashboard
                 </NavLink>
               )}
 
-              {/* Theme switch */}
+              {/* Dark/Light mode toggle button */}
               <button
                 className="theme-toggle"
                 onClick={toggleTheme}
@@ -149,8 +162,8 @@ function Header() {
                 {isDarkMode ? "☀️" : "🌙"}
               </button>
 
-              {/* Profile button */}
-              <div className="profile-dropdown" ref={dropdownRef}>
+              {/* User profile dropdown menu */}
+              <div className="profile-dropdown" ref={desktopDropdownRef}>
                 <button
                   className="profile-button"
                   onClick={() => navigate("/profile")}
@@ -172,7 +185,7 @@ function Header() {
             </>
           ) : (
             <>
-              {/* Theme switch for guests */}
+              {/* Dark/Light mode toggle for guests */}
               <button
                 className="theme-toggle"
                 onClick={toggleTheme}
