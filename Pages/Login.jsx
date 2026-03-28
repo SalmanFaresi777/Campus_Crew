@@ -20,42 +20,42 @@ import spring from "../assets/img/spring.png";
 import stars from "../assets/img/stars.png";
 import white_outline from "../assets/img/white_outline.png";
 
-// Main Login component handling user authentication and registration
+// Primary component for user authentication and account creation
 function Login() {
   const backend_link = import.meta.env.VITE_BACKEND_LINK;
-  // State to toggle between login and register forms
+  // Toggle between sign-in and registration modes
   const [showLogin, setShowLogin] = useState(true);
-  // Form data for login
+  // Data for sign-in form
   const [loginForm, setLoginForm] = useState({ email: "", password: "" });
-  // Form data for registration
+  // Data for registration form
   const [registerForm, setRegisterForm] = useState({
     username: "",
     email: "",
     password: "",
     dob: new Date(),
   });
-  const [loading, setLoading] = useState(false); // Loading state
+  const [loading, setLoading] = useState(false); // Display loading indicator
   const datePickerRef = useRef(null);
-  const [isPasswordValid, setIsPasswordValid] = useState(false); // Password validity state
+  const [isPasswordValid, setIsPasswordValid] = useState(false); // Track password strength
   const [showPassword, setShowPassword] = useState(false);
-  const navigate = useNavigate(); // Initialize useNavigate
-  const { login, isAuthenticated } = useAuth(); // Get login function and auth state from auth context
+  const navigate = useNavigate(); // Navigation helper
+  const { login, isAuthenticated } = useAuth(); // Access authentication methods
 
-  // Redirect to homepage if user is already logged in
+  // Automatically redirect authenticated users to home
   useEffect(() => {
     if (isAuthenticated) {
       navigate("/");
     }
   }, [isAuthenticated, navigate]);
 
-  // Function to toggle password visibility in forms
+  // Toggle visibility of password text in input fields
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
   const changeHandler = (e) => {
     const { name, value, type, checked } = e.target;
-    // Reuse one handler for both forms based on current tab.
+    // Handle form updates for both login and registration based on current mode
     if (showLogin) {
       setLoginForm({ ...loginForm, [name]: value });
     } else {
@@ -67,35 +67,35 @@ function Login() {
   };
 
   const signin = async () => {
-    setLoading(true); // show progress indicator
+    setLoading(true); // Display progress indicator
     try {
       const { data } = await apiService.login(loginForm);
-      // data now contains success / user / token semantics
+      // Response includes success status, user data, and tokens
 
       if (data.success) {
         const user = data.user;
-        // Keep unapproved admins from entering the app.
+        // Prevent unapproved administrators from accessing the system
         if (user && user.isAdmin && !user.isApprovedAdmin) {
-          setLoading(false); // allow toast to show unobstructed
+          setLoading(false); // Clear loading to show notification
           toast.warning("You are not approved as an admin yet.");
         } else {
-          // Centralize token + user setup via AuthContext.
+          // Store authentication data through context
           await login(data.token, data.refreshtoken, user);
-          localStorage.setItem("refresh-token", data.refreshtoken); // Store refresh token
-          // Hide loader before showing toast so it's visible
+          localStorage.setItem("refresh-token", data.refreshtoken); // Persist refresh token
+          // Clear loading before showing success message
           setLoading(false);
           toast.success("Login successful! Welcome back!", {
             autoClose: 1000,
-            onClose: () => navigate("/"), // Navigate after toast closes
+            onClose: () => navigate("/"), // Redirect after notification
           });
-          return; // Skip finally navigation logic
+          return; // Skip default navigation handling
         }
       } else {
         toast.error(data.errors || "Login failed. Please try again.");
       }
     } catch (error) {
       if (error.response) {
-        // Server responded with a status other than 2xx
+        // Server returned an error status
         console.error("Server error:", error.response);
         toast.error(
           error.response.data?.errors ||
@@ -118,7 +118,7 @@ function Login() {
 
   const refreshAccessToken = async () => {
     try {
-      // Keep this helper available for future flows that require silent renewal.
+      // Utility function for silent token renewal in future implementations
       const refreshToken = localStorage.getItem("refresh-token");
       if (!refreshToken) throw new Error("No refresh token available");
 
@@ -137,7 +137,7 @@ function Login() {
       const data = await response.json();
 
       if (data.accessToken) {
-        localStorage.setItem("auth-token", data.accessToken); // Update access token
+        localStorage.setItem("auth-token", data.accessToken); // Update stored access token
         return data.accessToken;
       } else {
         throw new Error("Failed to refresh token");
@@ -154,9 +154,9 @@ function Login() {
   const signup = async () => {
     if (!isPasswordValid) {
       toast.warning("Password does not meet the criteria.");
-      return; // Exit the function if password criteria are not met
+      return; // Stop execution if password requirements aren't satisfied
     }
-    setLoading(true); // Show loader
+    setLoading(true); // Show loading indicator
     toast.info("Creating your account...", { autoClose: 1500 });
 
     try {
@@ -164,8 +164,8 @@ function Login() {
         username: registerForm.username,
         email: registerForm.email,
         password: registerForm.password,
-        dob: registerForm.dob, // Include DOB
-        location: registerForm.location, // Include Location
+        dob: registerForm.dob, // Include date of birth
+        location: registerForm.location, // Include user location
         isAdmin: false,
       });
 
@@ -174,7 +174,7 @@ function Login() {
           data.message ||
             "Signup successful! Please check your email for a verification link."
         );
-        setShowLogin(true); // Redirect to sign-in state
+        setShowLogin(true); // Switch to sign-in view
       } else {
         toast.error(data.errors || "Signup failed");
       }
@@ -182,7 +182,7 @@ function Login() {
       console.error("Failed to fetch during signup:", error);
       toast.error(error.response?.data?.errors || "Signup request failed");
     } finally {
-      setLoading(false); // Hide loader
+      setLoading(false); // Hide loading indicator
     }
   };
 
@@ -206,7 +206,7 @@ function Login() {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    // Branch submit flow by active mode.
+    // Execute appropriate action based on current form mode
     if (showLogin) {
       signin();
     } else {
@@ -221,7 +221,7 @@ function Login() {
     setIsPasswordValid(isValid);
   };
   const handleForgotPassword = () => {
-    navigate("/forgot-password"); // Navigate to the forgot password page
+    navigate("/forgot-password"); // Go to password recovery page
   };
 
   return (
@@ -234,10 +234,10 @@ function Login() {
         pauseOnHover
         theme="colored"
       />
-      {loading && <Loader />} {/* Render the loader when loading is true */}
+      {loading && <Loader />} {/* Show loading component during requests */}
       <div className={`form-container ${loading ? "blurred" : ""}`}>
         {" "}
-        {/* Optionally blur the form when loading */}
+        {/* Apply blur effect to form during loading */}
         <div
           className="col col-1"
           style={{ borderRadius: showLogin ? "0 30% 20% 0" : "0 20% 30% 0" }}

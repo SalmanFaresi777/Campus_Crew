@@ -4,14 +4,14 @@ import { showSuccessToast, showErrorToast, showInfoToast } from '../utils/toastU
 
 const AuthContext = createContext();
 
-// Constants for localStorage keys to avoid typos
+// Storage key constants to prevent naming errors
 const STORAGE_KEYS = {
   token: 'auth-token',
   refreshToken: 'refresh-token',
   user: 'auth-user'
 };
 
-// Function to store a minimal user snapshot in localStorage for faster app initialization
+// Store essential user information in localStorage for quick app startup
 const persistUserSnapshot = (userData) => {
   if (!userData) return;
   localStorage.setItem(STORAGE_KEYS.user, JSON.stringify({
@@ -23,7 +23,7 @@ const persistUserSnapshot = (userData) => {
   }));
 };
 
-// Custom hook to access authentication context
+// Hook for accessing authentication state and methods
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {
@@ -34,7 +34,7 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  // Load user snapshot from localStorage for fast initial render
+  // Retrieve stored user data for immediate UI rendering
   const initialUser = (() => {
     try {
       const raw = localStorage.getItem(STORAGE_KEYS.user);
@@ -77,20 +77,20 @@ export const AuthProvider = ({ children }) => {
     }
     setIsAuthenticated(true);
     
-    // Fetch complete user profile after login
+    // Retrieve complete user profile after authentication
     try {
       const response = await apiService.getProfile();
       if (response.data.success) {
         setUser(response.data.user);
         persistUserSnapshot(response.data.user);
       } else {
-        // Fallback to provided userData if profile fetch fails
+        // Use provided data as backup if profile request fails
         setUser(userData);
         persistUserSnapshot(userData);
       }
     } catch (error) {
       console.error('Failed to fetch profile after login:', error);
-      // Fallback to provided userData if profile fetch fails
+      // Use provided data as backup if profile request fails
       setUser(userData);
       persistUserSnapshot(userData);
     }

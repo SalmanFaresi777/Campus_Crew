@@ -1,12 +1,12 @@
 import axios from 'axios';
 const backend = import.meta.env.VITE_BACKEND_LINK || 'http://localhost:8000';
-// Remove trailing slash to prevent double slashes
+// Ensure no trailing slash to avoid double slashes in URLs
 const cleanBackend = backend.endsWith('/') ? backend.slice(0, -1) : backend;
-// Configure API base URL with environment variable
+// Set up API endpoint base using environment configuration
 const API_BASE_URL = `${cleanBackend}/api`;
 const getAuthToken = () => localStorage.getItem('auth-token');
 
-// Create axios instance with default configuration
+// Initialize axios client with standard settings
 const api = axios.create({
   baseURL: API_BASE_URL,
   headers: {
@@ -14,7 +14,7 @@ const api = axios.create({
   },
 });
 
-// Request interceptor attaches saved auth token before requests
+// Add authentication token to outgoing requests
 api.interceptors.request.use(
   (config) => {
     const token = getAuthToken();
@@ -28,12 +28,12 @@ api.interceptors.request.use(
   }
 );
 
-// Response interceptor to handle authentication failures
+// Manage authentication errors in responses
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
     if (error.response?.status === 401) {
-      // Centralized auth failure handling.
+      // Handle unauthorized access by clearing tokens and redirecting
       localStorage.removeItem('auth-token');
       localStorage.removeItem('refresh-token');
       window.location.href = '/login';
@@ -42,12 +42,12 @@ api.interceptors.response.use(
   }
 );
 
-// Exported API service object with all endpoint methods
+// Collection of all API endpoint functions
 export const apiService = {
-  // Get user profile
+  // Retrieve current user information
   getProfile: () => api.get('/profile'),
 
-  // Update user profile
+  // Modify user profile details
   updateProfile: (profileData) => api.put('/profile', profileData),
 
   // Change password
@@ -55,7 +55,7 @@ export const apiService = {
 
   // Upload profile photo
   uploadProfilePhoto: (userId, formData) => {
-    // Use direct axios call to ensure multipart headers are preserved.
+    // Direct axios call preserves multipart form data headers
     return axios.put(`${API_BASE_URL}/upload-photo/${userId}`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
@@ -64,15 +64,15 @@ export const apiService = {
     });
   },
 
-  // Login
+  // User authentication
   login: (credentials) => api.post('/login', credentials),
 
-  // Register
+  // User account creation
   register: (userData) => api.post('/signup', userData),
 
-  // Event APIs
+  // Event management endpoints
   createEvent: (eventData) => {
-    // Multipart payload includes images/files.
+    // Form data includes images and files
     return axios.post(`${API_BASE_URL}/events`, eventData, {
       headers: {
         'Content-Type': 'multipart/form-data',
@@ -95,13 +95,13 @@ export const apiService = {
 
   deleteEvent: (eventId) => api.delete(`/events/${eventId}`),
 
-  // Registration APIs
+  // Event participation endpoints
   registerForEvent: (payload) => api.post('/register-event', payload),
   getUserRegistrations: (userId) => api.get(`/registrations/user/${userId}`),
   getEventRegistrations: (eventId) => api.get(`/registrations/event/${eventId}`),
-  // Email verification endpoint
+  // Confirm email address with verification token
   verifyEmail: (token, params = {}) => api.get(`/verify-email/${token}`, { params }),
-  // Certificate APIs
+  // Certificate management endpoints
   getUserCertificates: (userId) => api.get(`/certificates/user/${userId}`),
   downloadCertificate: (registrationId) => api.get(`/certificates/${registrationId}/download`, { responseType: 'blob' }),
 };

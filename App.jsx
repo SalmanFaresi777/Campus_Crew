@@ -23,25 +23,25 @@ import EventAttendee from "./Pages/EventAttendee.jsx";
 import AdminSignup from "./Pages/AdminSignup.jsx";
 import ChatbotButton from "./Components/Chatbot/ChatbotButton.jsx";
 
-// Main App component handling routing and authentication guards
+// Core application component managing navigation and access control
 function App() {
   const { isAuthenticated, loading, user } = useAuth();
 
   if (loading) {
     return <div>Loading...</div>;
-    // Or a proper spinner component
+    // Could use a dedicated loading spinner here
   }
 
   return (
     <>
-      {/* Define all application routes with authentication guards */}
+      {/* Application routing configuration with security checks */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/verify-email/:token" element={<VerifyEmail />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />
-        {/* Protected routes - require user authentication */}
+        {/* User authentication required for these routes */}
         <Route
           path="/profile"
           element={
@@ -58,7 +58,7 @@ function App() {
             )
           }
         />
-        {/* Admin-only routes - require admin privileges */}
+        {/* Administrator privileges needed for these routes */}
         <Route
           path="/create-event"
           element={
@@ -71,7 +71,7 @@ function App() {
             )
           }
         />
-        {/* Common typo / alias redirect */}
+        {/* Alternative path redirect for common misspelling */}
         <Route
           path="/create-events"
           element={<Navigate to="/create-event" replace />}
@@ -123,7 +123,7 @@ function App() {
         <Route path="/admin/signup" element={<AdminSignup />} />
       </Routes>
       
-      {/* Chatbot available on all pages */}
+      {/* Interactive assistant accessible across all pages */}
       <ChatbotButton />
     </>
   );
