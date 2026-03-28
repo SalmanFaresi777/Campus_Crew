@@ -18,7 +18,7 @@ const AboutUs = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
 
-  // Initialize page loader on component mount
+  // Start a short page-loading delay after mount
   useEffect(() => {
     const pageLoadTimer = setTimeout(
       () => setLoading(false), 
@@ -27,7 +27,7 @@ const AboutUs = () => {
     return () => clearTimeout(pageLoadTimer);
   }, []);
 
-  // Determine loader color based on current theme (dark or light mode)
+  // Pick loader color from the active theme mode
   const getThemeColor = () => {
     const currentTheme = document.documentElement.getAttribute("data-theme");
     return currentTheme === THEME.DARK ? THEME.DARK_COLOR : THEME.LIGHT_COLOR;
@@ -42,7 +42,7 @@ const AboutUs = () => {
 
       <div className="about-page-container">
         <div className="about-page">
-          {/* Left section: Company description and CTA */}
+          {/* Left panel: mission text and CTA */}
           <div className="about-text">
             <h1>About Us</h1>
             <p className="about-description">
@@ -50,7 +50,7 @@ const AboutUs = () => {
               best products and services. Our mission is to drive innovation and
               quality in every aspect of our work.
             </p>
-            {/* Call-to-action button to navigate to contact form */}
+            {/* CTA button that routes to the contact page */}
             <button 
               className="about-btn" 
               onClick={() => navigate("/contact")}
@@ -60,7 +60,7 @@ const AboutUs = () => {
             </button>
           </div>
 
-          {/* Right section: Hero image with decorative shadow effect */}
+          {/* Right panel: hero image with a decorative shadow stack */}
           <div className="about-pic">
             <div className="shadow-container">
               <div className="shadow"></div>

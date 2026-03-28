@@ -13,17 +13,17 @@
 
 import axios from 'axios';
 
-// Retrieve backend URL from environment or use localhost default
+// Read backend URL from env, with localhost as fallback
 const backendUrl = import.meta.env.VITE_BACKEND_LINK || 'http://localhost:8000';
 
-// Remove trailing slash to prevent double slashes in URLs
+// Trim trailing slash so endpoint paths do not duplicate '/'
 const cleanedBackendUrl = backendUrl.endsWith('/') 
   ? backendUrl.slice(0, -1) 
   : backendUrl;
 
 const API_BASE_URL = `${cleanedBackendUrl}/api`;
 
-// Configure axios instance with base URL and default headers
+// Build shared axios client with default headers
 const api = axios.create({
   baseURL: API_BASE_URL,
   headers: {
@@ -37,10 +37,10 @@ const api = axios.create({
  */
 api.interceptors.request.use(
   (config) => {
-    // Retrieve stored authentication token
+    // Read auth token from local storage
     const authToken = localStorage.getItem('auth-token');
     if (authToken) {
-      // Attach token to Authorization header
+      // Inject bearer token into Authorization header
       config.headers.Authorization = `Bearer ${authToken}`;
     }
     return config;
@@ -57,19 +57,19 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
-    // Check for unauthorized response (401)
+    // Handle unauthorized responses (401)
     if (error.response?.status === 401) {
-      // Clear stored authentication tokens
+      // Clear local auth state
       localStorage.removeItem('auth-token');
       localStorage.removeItem('refresh-token');
-      // Redirect to login page
+      // Send user back to login
       window.location.href = '/login';
     }
     return Promise.reject(error);
   }
 );
 
-// API method collection organized by resource type
+// API helpers grouped by domain
 export const apiService = {
   // ===== User/Profile APIs =====
   

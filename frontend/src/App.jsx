@@ -1,4 +1,4 @@
-import { Routes, Route, Link, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import "./App.css";
 import Home from "./Pages/Home.jsx";
 import Login from "./Pages/Login.jsx";
@@ -28,7 +28,7 @@ function App() {
 
   if (loading) {
     return <div>Loading...</div>;
-    // Replace with spinner if needed
+    // Swap this with a spinner component if preferred
   }
 
   return (
@@ -67,7 +67,7 @@ function App() {
             )
           }
         />
-        {/* Alias redirect */}
+        {/* Backward-compatible alias route */}
         <Route
           path="/create-events"
           element={<Navigate to="/create-event" replace />}
@@ -119,7 +119,7 @@ function App() {
         <Route path="/admin/signup" element={<AdminSignup />} />
       </Routes>
       
-      {/* Global chatbot */}
+      {/* Persistent chatbot launcher */}
       <ChatbotButton />
     </>
   );
