@@ -1,25 +1,9 @@
-/**
- * API Service Configuration & Methods
- * 
- * Centralized API client using axios with:
- * - Automatic authentication token injection
- * - Unauthorized request handling (401 redirects to login)
- * - Base URL configuration (avoids double slashes)
- * - Request/response interceptors
- * 
- * All API calls should use these methods to ensure consistent
- * error handling and authentication across the application
- */
-
+// Centralized API client with token injection and error handling
 import axios from 'axios';
 
-// Read backend URL from env, with localhost as fallback
+// Configure backend URL with localhost fallback
 const backendUrl = import.meta.env.VITE_BACKEND_LINK || 'http://localhost:8000';
-
-// Trim trailing slash so endpoint paths do not duplicate '/'
-const cleanedBackendUrl = backendUrl.endsWith('/') 
-  ? backendUrl.slice(0, -1) 
-  : backendUrl;
+const cleanedBackendUrl = backendUrl.endsWith('/') ? backendUrl.slice(0, -1) : backendUrl;
 
 const API_BASE_URL = `${cleanedBackendUrl}/api`;
 
@@ -31,16 +15,11 @@ const api = axios.create({
   },
 });
 
-/**
- * Request Interceptor: Attach authentication token to all requests
- * Automatically includes JWT bearer token if available in localStorage
- */
+// Attach auth token to all outgoing requests
 api.interceptors.request.use(
   (config) => {
-    // Read auth token from local storage
     const authToken = localStorage.getItem('auth-token');
     if (authToken) {
-      // Inject bearer token into Authorization header
       config.headers.Authorization = `Bearer ${authToken}`;
     }
     return config;
@@ -50,32 +29,21 @@ api.interceptors.request.use(
   }
 );
 
-/**
- * Response Interceptor: Handle authentication errors
- * Redirects to login on 401 Unauthorized responses
- */
+// Handle auth errors by redirecting to login
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
-    // Handle unauthorized responses (401)
     if (error.response?.status === 401) {
-      // Clear local auth state
       localStorage.removeItem('auth-token');
       localStorage.removeItem('refresh-token');
-      // Send user back to login
       window.location.href = '/login';
     }
     return Promise.reject(error);
   }
 );
 
-// API helpers grouped by domain
 export const apiService = {
-  // ===== User/Profile APIs =====
-  
-  /**
-   * Fetch current user's profile information
-   */
+  // User profile endpoints
   getProfile: () => api.get('/profile'),
 
   /**

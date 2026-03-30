@@ -23,35 +23,25 @@ function Header() {
   const { isAuthenticated, logout, user } = useAuth();
   const { isDarkMode, toggleTheme } = useTheme();
   
-  // Dropdown visibility state for desktop and mobile interfaces
+  // UI state management for navigation and profile menus
   const [isDesktopDropdownOpen, setIsDesktopDropdownOpen] = useState(false);
   const [isMobileProfileDropdownOpen, setIsMobileProfileDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
-  // Refs for detecting outside clicks to close dropdowns
+  // Menu references for click-outside detection
   const desktopDropdownRef = useRef(null);
   const mobileDropdownRef = useRef(null);
   const mobileMenuRef = useRef(null);
   
-  // Check if user has admin privileges
+  // Determine admin status for conditional menu rendering
   const userIsAdmin = user && user.isAdmin;
   const navigate = useNavigate();
-  // Toggle desktop profile dropdown menu visibility
-  const toggleDesktopDropdown = () => {
-    setIsDesktopDropdownOpen(!isDesktopDropdownOpen);
-  };
+  // Toggle dropdown visibility states
+  const toggleDesktopDropdown = () => setIsDesktopDropdownOpen(!isDesktopDropdownOpen);
+  const toggleMobileProfileDropdown = () => setIsMobileProfileDropdownOpen(!isMobileProfileDropdownOpen);
+  const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
 
-  // Toggle mobile profile dropdown menu visibility
-  const toggleMobileProfileDropdown = () => {
-    setIsMobileProfileDropdownOpen(!isMobileProfileDropdownOpen);
-  };
-
-  // Toggle mobile navigation menu visibility
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
-
-  // Handle logout and close all open menus
+  // Logout handler that clears all menu states
   const handleLogout = () => {
     logout();
     setIsDesktopDropdownOpen(false);
@@ -60,32 +50,18 @@ function Header() {
   };
 
   // Close mobile navigation menu
-  const closeMobileMenu = () => {
-    setIsMobileMenuOpen(false);
-  };
+  const closeMobileMenu = () => setIsMobileMenuOpen(false);
 
-  // Close dropdowns when clicking outside of them
-  // Improves UX by allowing users to close menus by clicking elsewhere
+  // Auto-close menus on external clicks for improved UX
   useEffect(() => {
     const handleOutsideClick = (event) => {
-      // Close desktop profile dropdown if click is outside
       if (desktopDropdownRef.current && !desktopDropdownRef.current.contains(event.target)) {
         setIsDesktopDropdownOpen(false);
       }
-      
-      // Close mobile profile dropdown if click is outside
-      if (
-        mobileDropdownRef.current &&
-        !mobileDropdownRef.current.contains(event.target)
-      ) {
+      if (mobileDropdownRef.current && !mobileDropdownRef.current.contains(event.target)) {
         setIsMobileProfileDropdownOpen(false);
       }
-      
-      // Close mobile menu if click is outside
-      if (
-        mobileMenuRef.current &&
-        !mobileMenuRef.current.contains(event.target)
-      ) {
+      if (mobileMenuRef.current && !mobileMenuRef.current.contains(event.target)) {
         setIsMobileMenuOpen(false);
       }
     };
@@ -96,12 +72,7 @@ function Header() {
     };
   }, []);
 
-  /**
-   * Extract user initials from username or email for avatar fallback
-   * Used when user hasn't uploaded a profile picture
-   * @param {Object} userData - User object with username/email
-   * @returns {string} Two-character initials in uppercase
-   */
+  // Generate user avatar initials from name or email fallback
   const getUserInitials = (userData) => {
     if (userData?.username) {
       return userData.username

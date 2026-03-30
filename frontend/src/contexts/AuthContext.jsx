@@ -14,11 +14,11 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  // Restore quick user snapshot from localStorage
+  // Retrieve cached user profile from local storage on startup
   const initialUser = (() => {
     try {
-      const raw = localStorage.getItem('auth-user');
-      return raw ? JSON.parse(raw) : null;
+      const cached = localStorage.getItem('auth-user');
+      return cached ? JSON.parse(cached) : null;
     } catch { return null; }
   })();
   const [user, setUser] = useState(initialUser);
@@ -33,7 +33,7 @@ export const AuthProvider = ({ children }) => {
           if (response.data.success) {
             setIsAuthenticated(true);
             setUser(response.data.user);
-            // Save user snapshot
+            // Cache user essentials for fast app startup
             localStorage.setItem('auth-user', JSON.stringify({
               _id: response.data.user._id,
               username: response.data.user.username,
@@ -58,12 +58,12 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (token, refreshToken, userData = null) => {
     localStorage.setItem('auth-token', token);
-  if (refreshToken) {
-    localStorage.setItem('refresh-token', refreshToken);
-  }
+    if (refreshToken) {
+      localStorage.setItem('refresh-token', refreshToken);
+    }
     setIsAuthenticated(true);
     
-    // Load full profile after login
+    // Fetch and cache complete user profile after authentication
     try {
       const response = await apiService.getProfile();
       if (response.data.success) {
@@ -76,13 +76,13 @@ export const AuthProvider = ({ children }) => {
           isApprovedAdmin: response.data.user.isApprovedAdmin
         }));
       } else {
-        // Fall back to provided userData
+        // Use provided user data if profile fetch fails
         setUser(userData);
         if (userData) localStorage.setItem('auth-user', JSON.stringify(userData));
       }
     } catch (error) {
       console.error('Failed to fetch profile after login:', error);
-      // Fall back to provided userData
+      // Fallback to initial user data on fetch failure
       setUser(userData);
       if (userData) localStorage.setItem('auth-user', JSON.stringify(userData));
     }
@@ -90,11 +90,11 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => {
     localStorage.removeItem('auth-token');
-  localStorage.removeItem('refresh-token');
-  localStorage.removeItem('auth-user');
+    localStorage.removeItem('refresh-token');
+    localStorage.removeItem('auth-user');
     setIsAuthenticated(false);
     setUser(null);
-    showInfoToast('You have been logged out successfully.');
+    showInfoToast('Logged out successfully.');
   };
 
   const refreshUserData = async () => {
@@ -103,15 +103,16 @@ export const AuthProvider = ({ children }) => {
       try {
         const response = await apiService.getProfile();
         if (response.data.success) {
-          setUser(response.data.user);
+          const userData = response.data.user;
+          setUser(userData);
           localStorage.setItem('auth-user', JSON.stringify({
-            _id: response.data.user._id,
-            username: response.data.user.username,
-            email: response.data.user.email,
-            isAdmin: response.data.user.isAdmin,
-            isApprovedAdmin: response.data.user.isApprovedAdmin
+            _id: userData._id,
+            username: userData.username,
+            email: userData.email,
+            isAdmin: userData.isAdmin,
+            isApprovedAdmin: userData.isApprovedAdmin
           }));
-          return response.data.user;
+          return userData;
         }
       } catch (error) {
         console.error('Failed to refresh user data:', error);
