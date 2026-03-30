@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
+import emailjs from "@emailjs/browser";
 import {
-  showSuccessToast,
-  showErrorToast,
   showWarningToast,
   showPromiseToast,
 } from "../utils/toastUtils";
@@ -11,12 +10,15 @@ import Footer from "../Components/Footer";
 import Loader from "../Components/loader";
 
 function Contact() {
+  const ADMIN_RECIPIENT_EMAIL = "sf.yt.recreation@gmail.com";
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     message: "",
   });
   const [isLoading, setIsLoading] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -25,6 +27,10 @@ function Contact() {
   }, []);
 
   const handleInputChange = (e) => {
+    if (isSubmitted) {
+      setIsSubmitted(false);
+    }
+
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -56,20 +62,6 @@ function Contact() {
     return true;
   };
 
-  const simulateMessageSend = () => {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        // Simulate success most of the time, occasional failure for demo
-        const success = Math.random() > 0.1; // 90% success rate
-        if (success) {
-          resolve("Message sent successfully!");
-        } else {
-          reject(new Error("Failed to send message. Please try again."));
-        }
-      }, 2000); // 2 second delay to simulate network request
-    });
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -78,10 +70,67 @@ function Contact() {
     }
 
     setIsLoading(true);
+    setIsSubmitted(false);
+
+    const serviceId = (import.meta.env.VITE_EMAILJS_SERVICE_ID || "").trim();
+    const templateId = (import.meta.env.VITE_EMAILJS_TEMPLATE_ID || "").trim();
+    const publicKey = (import.meta.env.VITE_EMAILJS_PUBLIC_KEY || "").trim();
+
+    if (!serviceId || !templateId || !publicKey) {
+      showWarningToast(
+        "Email service is not configured. Please set EmailJS environment variables."
+      );
+      setIsLoading(false);
+      return;
+    }
+
+    if (templateId.startsWith("service_")) {
+      showWarningToast(
+        "EmailJS template ID looks invalid. Please set VITE_EMAILJS_TEMPLATE_ID from Email Templates."
+      );
+      setIsLoading(false);
+      return;
+    }
+
+    if (!serviceId.startsWith("service_") || !templateId.startsWith("template_")) {
+      showWarningToast(
+        "EmailJS IDs look invalid. Service should start with service_ and template should start with template_."
+      );
+      setIsLoading(false);
+      return;
+    }
 
     try {
-      // Using promise toast for better UX
-      await showPromiseToast(simulateMessageSend(), {
+      const senderEmail = formData.email.trim();
+
+      const emailPromise = emailjs.send(
+        serviceId,
+        templateId,
+        {
+          to_email: ADMIN_RECIPIENT_EMAIL,
+          recipient_email: ADMIN_RECIPIENT_EMAIL,
+          to: ADMIN_RECIPIENT_EMAIL,
+          recipient: ADMIN_RECIPIENT_EMAIL,
+          email: ADMIN_RECIPIENT_EMAIL,
+          from_name: formData.name,
+          from_email: senderEmail,
+          message: formData.message,
+          reply_to: senderEmail,
+        },
+        {
+          publicKey,
+        }
+      );
+
+      const timeoutPromise = new Promise((_, reject) => {
+        setTimeout(() => {
+          reject(new Error("Email request timed out. Please try again."));
+        }, 20000);
+      });
+
+      const requestPromise = Promise.race([emailPromise, timeoutPromise]);
+
+      await showPromiseToast(requestPromise, {
         pending: "Sending your message...",
         success:
           "Thank you! Your message has been sent successfully. We'll get back to you soon!",
@@ -95,8 +144,23 @@ function Contact() {
         email: "",
         message: "",
       });
+      setIsSubmitted(true);
     } catch (error) {
       console.error("Error sending message:", error);
+      if (error?.status === 404 && error?.text === "Account not found") {
+        showWarningToast(
+          "EmailJS account not found. Please set the correct VITE_EMAILJS_PUBLIC_KEY from your EmailJS account."
+        );
+      } else if (error?.status === 422 && error?.text === "The recipients address is empty") {
+        showWarningToast(
+          "Recipient email is empty in template. Set EmailJS template To Email to {{to_email}} (or {{email}}) and Reply To to {{reply_to}}."
+        );
+      } else if (error?.status === 404) {
+        showWarningToast(
+          "EmailJS returned 404. Service ID or Template ID was not found. Please verify both in your EmailJS dashboard."
+        );
+      }
+      setIsSubmitted(false);
       // Error is already handled by the promise toast
     } finally {
       setIsLoading(false);
@@ -132,7 +196,7 @@ function Contact() {
             </div>
             <div className="info-item">
               <span className="info-icon">✉️</span>
-              <span className="info-text">campuscrew@gmail.com</span>
+              <span className="info-text">sf.yt.recreation@gmail.com</span>
             </div>
           </div>
 
@@ -171,6 +235,7 @@ function Contact() {
                   value={formData.message}
                   onChange={handleInputChange}
                   disabled={isLoading}
+                  minLength={10}
                   placeholder="Please enter your message (minimum 10 characters)"
                   required
                 ></textarea>
@@ -184,6 +249,7 @@ function Contact() {
                   {isLoading ? "Sending..." : "Send Message"}
                 </span>
               </button>
+              {isSubmitted && <p className="submit-success">SUCCESS</p>}
             </form>
           </div>
         </div>
