@@ -5,16 +5,16 @@ import { showSuccessToast, showErrorToast, showInfoToast } from '../utils/toastU
 const AuthContext = createContext();
 
 // Storage key constants to prevent naming errors
-const STORAGE_KEYS = {
+const AUTH_STORAGE_KEYS = {
   token: 'auth-token',
   refreshToken: 'refresh-token',
   user: 'auth-user'
 };
 
-// Store essential user information in localStorage for quick app startup
-const persistUserSnapshot = (userData) => {
+// Save key user details in localStorage for fast app initialization
+const storeUserInfo = (userData) => {
   if (!userData) return;
-  localStorage.setItem(STORAGE_KEYS.user, JSON.stringify({
+  localStorage.setItem(AUTH_STORAGE_KEYS.user, JSON.stringify({
     _id: userData._id,
     username: userData.username,
     email: userData.email,
@@ -23,7 +23,7 @@ const persistUserSnapshot = (userData) => {
   }));
 };
 
-// Hook for accessing authentication state and methods
+// Custom hook to get authentication status and functions
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {
@@ -34,10 +34,10 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  // Retrieve stored user data for immediate UI rendering
+  // Fetch preserved user details for quick UI setup
   const initialUser = (() => {
     try {
-      const raw = localStorage.getItem(STORAGE_KEYS.user);
+      const raw = localStorage.getItem(AUTH_STORAGE_KEYS.user);
       return raw ? JSON.parse(raw) : null;
     } catch { return null; }
   })();
@@ -46,7 +46,7 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const verifyUser = async () => {
-      const token = localStorage.getItem(STORAGE_KEYS.token);
+      const token = localStorage.getItem(AUTH_STORAGE_KEYS.token);
       if (token) {
         try {
           const response = await apiService.getProfile();
@@ -54,7 +54,7 @@ export const AuthProvider = ({ children }) => {
             setIsAuthenticated(true);
             setUser(response.data.user);
             // Keep only a minimal user snapshot in storage.
-            persistUserSnapshot(response.data.user);
+            storeUserInfo(response.data.user);
           } else {
             logout();
           }
@@ -71,9 +71,9 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = async (token, refreshToken, userData = null) => {
-    localStorage.setItem(STORAGE_KEYS.token, token);
+    localStorage.setItem(AUTH_STORAGE_KEYS.token, token);
     if (refreshToken) {
-      localStorage.setItem(STORAGE_KEYS.refreshToken, refreshToken);
+      localStorage.setItem(AUTH_STORAGE_KEYS.refreshToken, refreshToken);
     }
     setIsAuthenticated(true);
     
@@ -82,37 +82,37 @@ export const AuthProvider = ({ children }) => {
       const response = await apiService.getProfile();
       if (response.data.success) {
         setUser(response.data.user);
-        persistUserSnapshot(response.data.user);
+        storeUserInfo(response.data.user);
       } else {
         // Use provided data as backup if profile request fails
         setUser(userData);
-        persistUserSnapshot(userData);
+        storeUserInfo(userData);
       }
     } catch (error) {
       console.error('Failed to fetch profile after login:', error);
       // Use provided data as backup if profile request fails
       setUser(userData);
-      persistUserSnapshot(userData);
+      storeUserInfo(userData);
     }
   };
 
   const logout = () => {
-    localStorage.removeItem(STORAGE_KEYS.token);
-    localStorage.removeItem(STORAGE_KEYS.refreshToken);
-    localStorage.removeItem(STORAGE_KEYS.user);
+    localStorage.removeItem(AUTH_STORAGE_KEYS.token);
+    localStorage.removeItem(AUTH_STORAGE_KEYS.refreshToken);
+    localStorage.removeItem(AUTH_STORAGE_KEYS.user);
     setIsAuthenticated(false);
     setUser(null);
     showInfoToast('You have been logged out successfully.');
   };
 
   const refreshUserData = async () => {
-    const token = localStorage.getItem(STORAGE_KEYS.token);
+    const token = localStorage.getItem(AUTH_STORAGE_KEYS.token);
     if (token && isAuthenticated) {
       try {
         const response = await apiService.getProfile();
         if (response.data.success) {
           setUser(response.data.user);
-          persistUserSnapshot(response.data.user);
+          storeUserInfo(response.data.user);
           return response.data.user;
         }
       } catch (error) {

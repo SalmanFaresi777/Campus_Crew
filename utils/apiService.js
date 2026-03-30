@@ -1,12 +1,12 @@
 import axios from 'axios';
 const backend = import.meta.env.VITE_BACKEND_LINK || 'http://localhost:8000';
-// Ensure no trailing slash to avoid double slashes in URLs
+// Remove trailing slash to prevent duplicate slashes in paths
 const cleanBackend = backend.endsWith('/') ? backend.slice(0, -1) : backend;
-// Set up API endpoint base using environment configuration
+// Configure base URL for API calls from env settings
 const API_BASE_URL = `${cleanBackend}/api`;
-const getAuthToken = () => localStorage.getItem('auth-token');
+const fetchAuthToken = () => localStorage.getItem('auth-token');
 
-// Initialize axios client with standard settings
+// Create axios instance with default config
 const api = axios.create({
   baseURL: API_BASE_URL,
   headers: {
@@ -17,7 +17,7 @@ const api = axios.create({
 // Add authentication token to outgoing requests
 api.interceptors.request.use(
   (config) => {
-    const token = getAuthToken();
+    const token = fetchAuthToken();
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -28,7 +28,7 @@ api.interceptors.request.use(
   }
 );
 
-// Manage authentication errors in responses
+// Handle auth failures in API responses
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
@@ -59,7 +59,7 @@ export const apiService = {
     return axios.put(`${API_BASE_URL}/upload-photo/${userId}`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
-        'Authorization': `Bearer ${getAuthToken()}`,
+        'Authorization': `Bearer ${fetchAuthToken()}`,
       },
     });
   },
@@ -76,7 +76,7 @@ export const apiService = {
     return axios.post(`${API_BASE_URL}/events`, eventData, {
       headers: {
         'Content-Type': 'multipart/form-data',
-        'Authorization': `Bearer ${getAuthToken()}`,
+        'Authorization': `Bearer ${fetchAuthToken()}`,
       },
     });
   },
@@ -88,7 +88,7 @@ export const apiService = {
     return axios.put(`${API_BASE_URL}/events/${eventId}`, eventData, {
       headers: {
         'Content-Type': 'multipart/form-data',
-        'Authorization': `Bearer ${getAuthToken()}`,
+        'Authorization': `Bearer ${fetchAuthToken()}`,
       },
     });
   },

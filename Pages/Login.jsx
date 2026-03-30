@@ -23,44 +23,44 @@ import white_outline from "../assets/img/white_outline.png";
 // Primary component for user authentication and account creation
 function Login() {
   const backend_link = import.meta.env.VITE_BACKEND_LINK;
-  // Toggle between sign-in and registration modes
-  const [showLogin, setShowLogin] = useState(true);
-  // Data for sign-in form
-  const [loginForm, setLoginForm] = useState({ email: "", password: "" });
-  // Data for registration form
-  const [registerForm, setRegisterForm] = useState({
+  // Switch between login and signup views
+  const [isSignInMode, setIsSignInMode] = useState(true);
+  // Details for login form
+  const [signInData, setSignInData] = useState({ email: "", password: "" });
+  // Details for registration form
+  const [signUpData, setSignUpData] = useState({
     username: "",
     email: "",
     password: "",
     dob: new Date(),
   });
-  const [loading, setLoading] = useState(false); // Display loading indicator
+  const [loading, setLoading] = useState(false); // Show progress spinner
   const datePickerRef = useRef(null);
-  const [isPasswordValid, setIsPasswordValid] = useState(false); // Track password strength
+  const [isPasswordValid, setIsPasswordValid] = useState(false); // Check if password meets requirements
   const [showPassword, setShowPassword] = useState(false);
-  const navigate = useNavigate(); // Navigation helper
+  const navigate = useNavigate(); // Router navigation function
   const { login, isAuthenticated } = useAuth(); // Access authentication methods
 
-  // Automatically redirect authenticated users to home
+  // Redirect logged-in users to main page
   useEffect(() => {
     if (isAuthenticated) {
       navigate("/");
     }
   }, [isAuthenticated, navigate]);
 
-  // Toggle visibility of password text in input fields
+  // Switch password field visibility
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
   const changeHandler = (e) => {
     const { name, value, type, checked } = e.target;
-    // Handle form updates for both login and registration based on current mode
-    if (showLogin) {
-      setLoginForm({ ...loginForm, [name]: value });
+    // Update form data based on current mode
+    if (isSignInMode) {
+      setSignInData({ ...signInData, [name]: value });
     } else {
-      setRegisterForm({
-        ...registerForm,
+      setSignUpData({
+        ...signUpData,
         [name]: type === "checkbox" ? checked : value,
       });
     }
@@ -69,7 +69,7 @@ function Login() {
   const signin = async () => {
     setLoading(true); // Display progress indicator
     try {
-      const { data } = await apiService.login(loginForm);
+      const { data } = await apiService.login(signInData);
       // Response includes success status, user data, and tokens
 
       if (data.success) {
@@ -161,11 +161,11 @@ function Login() {
 
     try {
       const { data } = await apiService.register({
-        username: registerForm.username,
-        email: registerForm.email,
-        password: registerForm.password,
-        dob: registerForm.dob, // Include date of birth
-        location: registerForm.location, // Include user location
+        username: signUpData.username,
+        email: signUpData.email,
+        password: signUpData.password,
+        dob: signUpData.dob, // Include date of birth
+        location: signUpData.location, // Include user location
         isAdmin: false,
       });
 
@@ -174,7 +174,7 @@ function Login() {
           data.message ||
             "Signup successful! Please check your email for a verification link."
         );
-        setShowLogin(true); // Switch to sign-in view
+        setIsSignInMode(true); // Switch to sign-in view
       } else {
         toast.error(data.errors || "Signup failed");
       }
@@ -187,17 +187,17 @@ function Login() {
   };
 
   const handleLoginClick = () => {
-    setShowLogin(true);
+    setIsSignInMode(true);
     toast.info("Switched to Sign In", { autoClose: 1000 });
   };
 
   const handleRegisterClick = () => {
-    setShowLogin(false);
+    setIsSignInMode(false);
     toast.info("Switched to Sign Up", { autoClose: 1000 });
   };
 
   const handleDateChange = (date) => {
-    setRegisterForm({ ...registerForm, dob: date });
+    setSignUpData({ ...signUpData, dob: date });
   };
 
   const handleCalendarIconClick = () => {
@@ -207,14 +207,14 @@ function Login() {
   const handleFormSubmit = (e) => {
     e.preventDefault();
     // Execute appropriate action based on current form mode
-    if (showLogin) {
+    if (isSignInMode) {
       signin();
     } else {
       signup();
     }
   };
   const handlePasswordChange = (password) => {
-    setRegisterForm({ ...registerForm, password });
+    setSignUpData({ ...signUpData, password });
   };
 
   const handlePasswordValidityChange = (isValid) => {
@@ -240,7 +240,7 @@ function Login() {
         {/* Apply blur effect to form during loading */}
         <div
           className="col col-1"
-          style={{ borderRadius: showLogin ? "0 30% 20% 0" : "0 20% 30% 0" }}
+          style={{ borderRadius: isSignInMode ? "0 30% 20% 0" : "0 20% 30% 0" }}
         >
           <div className="image-layer">
             <img src={white_outline} className="form-image-main" alt="main" />
@@ -269,7 +269,7 @@ function Login() {
               className="btn btn-1"
               onClick={handleLoginClick}
               style={{
-                backgroundColor: showLogin
+                backgroundColor: isSignInMode
                   ? "#21264D"
                   : "rgba(255, 255, 255, 0.2)",
               }}
@@ -280,7 +280,7 @@ function Login() {
               className="btn btn-2"
               onClick={handleRegisterClick}
               style={{
-                backgroundColor: showLogin
+                backgroundColor: isSignInMode
                   ? "rgba(255, 255, 255, 0.2)"
                   : "#21264D",
               }}
@@ -290,20 +290,20 @@ function Login() {
           </div>
 
           <form
-            className={showLogin ? "login-form" : "register-form"}
+            className={isSignInMode ? "login-form" : "register-form"}
             onSubmit={handleFormSubmit}
           >
             <div className="form-title">
-              <span>{showLogin ? "Sign In" : "Create Account"}</span>
+              <span>{isSignInMode ? "Sign In" : "Create Account"}</span>
             </div>
-            {showLogin ? (
+            {isSignInMode ? (
               <>
                 <div className="form-inputs">
                   <div className="input-group">
                     <input
                       type="text"
                       name="email"
-                      value={loginForm.email}
+                      value={signInData.email}
                       onChange={changeHandler}
                       required
                     />
@@ -313,7 +313,7 @@ function Login() {
                     <input
                       type={showPassword ? "text" : "password"}
                       name="password"
-                      value={loginForm.password}
+                      value={signInData.password}
                       onChange={changeHandler}
                       required
                     />
@@ -349,7 +349,7 @@ function Login() {
                     <input
                       type="text"
                       name="username"
-                      value={registerForm.username}
+                      value={signUpData.username}
                       onChange={changeHandler}
                       required
                     />
@@ -359,7 +359,7 @@ function Login() {
                     <input
                       type="email"
                       name="email"
-                      value={registerForm.email}
+                      value={signUpData.email}
                       onChange={changeHandler}
                       required
                     />
@@ -369,7 +369,7 @@ function Login() {
                     <input
                       type={showPassword ? "text" : "password"}
                       name="password"
-                      value={registerForm.password}
+                      value={signUpData.password}
                       onChange={changeHandler}
                       required
                     />
@@ -396,7 +396,7 @@ function Login() {
                         ref={datePickerRef}
                         id="dob"
                         className="input-select"
-                        selected={registerForm.dob}
+                        selected={signUpData.dob}
                         onChange={handleDateChange}
                         dateFormat="MM/dd/yyyy"
                         placeholderText="Select Date"
@@ -415,7 +415,7 @@ function Login() {
                     <input
                       type="text"
                       name="location"
-                      value={registerForm.location}
+                      value={signUpData.location}
                       onChange={changeHandler}
                       required
                     />
@@ -431,7 +431,7 @@ function Login() {
                     "lowercase",
                   ]}
                   minLength={8}
-                  value={registerForm.password}
+                  value={signUpData.password}
                   onChange={handlePasswordValidityChange} // Update password validity and show error toast
                 />
               </>
@@ -440,10 +440,10 @@ function Login() {
               <button
                 type="submit"
                 className={`input-submit ${
-                  showLogin ? "login-btn" : "signup-btn"
+                  isSignInMode ? "login-btn" : "signup-btn"
                 }`}
               >
-                {showLogin ? "Login" : "Sign Up"}
+                {isSignInMode ? "Login" : "Sign Up"}
                 <i className="bx bx-right-arrow-alt"></i>
               </button>
             </div>
