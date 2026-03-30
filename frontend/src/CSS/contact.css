@@ -242,6 +242,14 @@
   transform: translateY(-1px);
 }
 
+.submit-success {
+  margin-top: 12px;
+  text-align: center;
+  color: #2ecc71;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
 .additional-info {
   grid-column: span 2;
   background: #f8f9fa;
