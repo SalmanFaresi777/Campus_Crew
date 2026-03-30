@@ -9,6 +9,7 @@ import JoinedEvent from "./Pages/JoinedEvent.jsx";
 import About from "./Pages/About.jsx";
 import Contact from "./Pages/Contact.jsx";
 import { useAuth } from "./contexts/AuthContext.jsx";
+import { ThemeProvider } from "./contexts/ThemeContext.jsx";
 import EventDetails from "./Pages/EventDetails.jsx";
 import EditEvent from "./Pages/EditEvent.jsx";
 import Success from "./Pages/Success.jsx";
@@ -28,11 +29,11 @@ function App() {
 
   if (loading) {
     return <div>Loading...</div>;
-    // Or a proper spinner component
+    // Replace this with a styled spinner if needed
   }
 
   return (
-    <>
+    <ThemeProvider>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
@@ -67,7 +68,7 @@ function App() {
             )
           }
         />
-        {/* Common typo / alias redirect */}
+        {/* Redirect alias to canonical route */}
         <Route
           path="/create-events"
           element={<Navigate to="/create-event" replace />}
@@ -82,7 +83,7 @@ function App() {
         <Route path="/contact" element={<Contact />} />
 
         <Route path="/success" element={<Success />} />
-        <Route path="/failure?" element={<Failure />} />
+        <Route path="/failure" element={<Failure />} />
 
         <Route
           path="/events/:id"
@@ -121,7 +122,7 @@ function App() {
       
       {/* Chatbot available on all pages */}
       <ChatbotButton />
-    </>
+    </ThemeProvider>
   );
 }
 

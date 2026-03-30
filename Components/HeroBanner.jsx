@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 
-// Hero banner with enlarged glowing planet (ring removed)
+// Hero banner featuring a glowing planet element and animated content
 
 const HeroBanner = () => {
   const { isAuthenticated } = useAuth();
@@ -12,7 +12,7 @@ const HeroBanner = () => {
 
   useEffect(() => {
     setMounted(true);
-    // Observe animated elements inside hero for scroll-in effects
+    // Track hero elements and add reveal classes when they scroll into view
     const els = document.querySelectorAll(".hero-3d-content .anim-on-scroll");
     const io = new IntersectionObserver(
       (entries) => {
@@ -26,7 +26,7 @@ const HeroBanner = () => {
     );
     els.forEach((el) => io.observe(el));
 
-    // Count-up stats when visible
+    // Animate the stats numbers once they become visible
     const statsObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -58,7 +58,7 @@ const HeroBanner = () => {
     );
     if (statsRef.current) statsObserver.observe(statsRef.current);
 
-    // Parallax for planet & background
+    // Apply parallax movement to the planet and hero content
     const handleScroll = () => {
       const hero = document.querySelector(".hero-3d-wrapper");
       if (!hero) return;

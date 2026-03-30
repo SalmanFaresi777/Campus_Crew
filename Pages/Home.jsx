@@ -19,7 +19,8 @@ import Loader from "../Components/loader";
 
 const Home = () => {
   const { isAuthenticated, logout, user } = useAuth();
-  const backend_link = import.meta.env.VITE_BACKEND_LINK;
+  const backendLink = import.meta.env.VITE_BACKEND_LINK;
+  const defaultUserId = "68ab36aab6a497f164b55d07";
 
   const [events, setEvents] = useState([]);
   const [evLoading, setEvLoading] = useState(true);
@@ -28,9 +29,9 @@ const Home = () => {
   const [isPaused, setIsPaused] = useState(false); // pause on hover/focus
   const [loading, setLoading] = useState(true);
 
-  // Basic scroll reveal (CSS class toggling)
+  // Reveal elements as they enter the viewport
   useEffect(() => {
-    // Scroll reveal for elements with .reveal
+    // Observe elements with .reveal and add animation classes
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((e) => {
@@ -46,15 +47,14 @@ const Home = () => {
 
   // Fetch a small set of upcoming events (limit 6)
   useEffect(() => {
-    let ignore = false;
-    (async () => {
+    let isMounted = true;
+    const fetchEvents = async () => {
       try {
-        let UserID = user && user._id ? user._id : "68ab36aab6a497f164b55d07";
+        const userId = user?._id ?? defaultUserId;
         const { data } = await axios.get(
-          `${backend_link}/api/suggested_events/${UserID}`
+          `${backendLink}/api/suggested_events/${userId}`
         );
-        if (data.success) {
-          console.log(data.recommended);
+        if (data.success && isMounted) {
           setEvents(data.recommended);
         }
       } catch (e) {
@@ -65,11 +65,12 @@ const Home = () => {
           setLoading(false);
         }
       }
-    })();
-    return () => {
-      ignore = true;
     };
-  }, [backend_link]);
+    fetchEvents();
+    return () => {
+      isMounted = false;
+    };
+  }, [backendLink, user]);
 
   // Navigation handlers for single event showcase
   const nextEvent = useCallback(() => {

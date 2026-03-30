@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { apiService } from '../utils/apiService';
-import { showSuccessToast, showErrorToast, showInfoToast } from '../utils/toastUtils';
+import { showErrorToast, showInfoToast } from '../utils/toastUtils';
 
 const AuthContext = createContext();
 
@@ -14,13 +14,27 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  // Hydrate from localStorage (non-sensitive snapshot for faster first paint)
+  // Hydrate from localStorage (non-sensitive snapshot for faster initial render)
   const initialUser = (() => {
     try {
       const raw = localStorage.getItem('auth-user');
       return raw ? JSON.parse(raw) : null;
-    } catch { return null; }
+    } catch {
+      return null;
+    }
   })();
+
+  const saveUserSnapshot = (userProfile) => {
+    const snapshot = {
+      _id: userProfile._id,
+      username: userProfile.username,
+      email: userProfile.email,
+      isAdmin: userProfile.isAdmin,
+      isApprovedAdmin: userProfile.isApprovedAdmin,
+    };
+    localStorage.setItem('auth-user', JSON.stringify(snapshot));
+    return snapshot;
+  };
   const [user, setUser] = useState(initialUser);
   const [loading, setLoading] = useState(true);
 
@@ -34,13 +48,7 @@ export const AuthProvider = ({ children }) => {
             setIsAuthenticated(true);
             setUser(response.data.user);
             // persist snapshot
-            localStorage.setItem('auth-user', JSON.stringify({
-              _id: response.data.user._id,
-              username: response.data.user.username,
-              email: response.data.user.email,
-              isAdmin: response.data.user.isAdmin,
-              isApprovedAdmin: response.data.user.isApprovedAdmin
-            }));
+            saveUserSnapshot(response.data.user);
           } else {
             logout();
           }
@@ -58,9 +66,9 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (token, refreshToken, userData = null) => {
     localStorage.setItem('auth-token', token);
-  if (refreshToken) {
-    localStorage.setItem('refresh-token', refreshToken);
-  }
+    if (refreshToken) {
+      localStorage.setItem('refresh-token', refreshToken);
+    }
     setIsAuthenticated(true);
     
     // Fetch complete user profile after login
@@ -68,13 +76,7 @@ export const AuthProvider = ({ children }) => {
       const response = await apiService.getProfile();
       if (response.data.success) {
         setUser(response.data.user);
-        localStorage.setItem('auth-user', JSON.stringify({
-          _id: response.data.user._id,
-          username: response.data.user.username,
-          email: response.data.user.email,
-          isAdmin: response.data.user.isAdmin,
-          isApprovedAdmin: response.data.user.isApprovedAdmin
-        }));
+        saveUserSnapshot(response.data.user);
       } else {
         // Fallback to provided userData if profile fetch fails
         setUser(userData);
@@ -104,13 +106,7 @@ export const AuthProvider = ({ children }) => {
         const response = await apiService.getProfile();
         if (response.data.success) {
           setUser(response.data.user);
-          localStorage.setItem('auth-user', JSON.stringify({
-            _id: response.data.user._id,
-            username: response.data.user.username,
-            email: response.data.user.email,
-            isAdmin: response.data.user.isAdmin,
-            isApprovedAdmin: response.data.user.isApprovedAdmin
-          }));
+          saveUserSnapshot(response.data.user);
           return response.data.user;
         }
       } catch (error) {

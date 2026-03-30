@@ -1,6 +1,6 @@
 /**
- * Chatbot Button Component
- * Floating button to open/close the chatbot
+ * Chatbot button module
+ * Renders a floating trigger and toggles the chatbot overlay
  */
 
 import React, { useEffect, useRef, useState } from 'react';
@@ -15,7 +15,7 @@ const ChatbotButton = () => {
   const lottieInstanceRef = useRef(null);
   const [lottieReady, setLottieReady] = useState(false);
 
-  // Load lottie-web from CDN once (no npm install needed)
+  // Load lottie-web from CDN one time for animation support
   useEffect(() => {
     if (typeof window === 'undefined') return;
     if (window.lottie) {
@@ -33,7 +33,7 @@ const ChatbotButton = () => {
     };
   }, []);
 
-  // Initialize or destroy the animation when lottie is ready and button is visible
+  // Initialize the animation whenever the button is visible and lottie is available
   useEffect(() => {
     // If chat is open, the button (and container) is not rendered
     if (isChatOpen) {
