@@ -4,14 +4,14 @@ import { showSuccessToast, showErrorToast, showInfoToast } from '../utils/toastU
 
 const AuthContext = createContext();
 
-// Storage key constants to prevent naming errors
+// LocalStorage key names to avoid hardcoding mistakes
 const AUTH_STORAGE_KEYS = {
   token: 'auth-token',
   refreshToken: 'refresh-token',
   user: 'auth-user'
 };
 
-// Save key user details in localStorage for fast app initialization
+// Cache lightweight user info in localStorage for faster app startup
 const storeUserInfo = (userData) => {
   if (!userData) return;
   localStorage.setItem(AUTH_STORAGE_KEYS.user, JSON.stringify({

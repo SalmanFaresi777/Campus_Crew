@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid'; // Generate unique identifier for tracking 
 import '../CSS/VerifyEmail.css';
 import Loader from "../Components/loader";
 
-// Component for processing email verification using provided token
+// Email verification page that validates the token and shows status
 const VerifyEmail = () => {
   const { token } = useParams();
   // Track the outcome of the verification process

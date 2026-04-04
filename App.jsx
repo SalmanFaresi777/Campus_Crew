@@ -23,18 +23,18 @@ import EventAttendee from "./Pages/EventAttendee.jsx";
 import AdminSignup from "./Pages/AdminSignup.jsx";
 import ChatbotButton from "./Components/Chatbot/ChatbotButton.jsx";
 
-// Core application component managing navigation and access control
+// Main app component handling navigation and route protection
 function App() {
   const { isAuthenticated, loading, user } = useAuth();
 
   if (loading) {
     return <div>Loading...</div>;
-    // Could use a dedicated loading spinner here
+    // A dedicated spinner component could be used here
   }
 
   return (
     <>
-      {/* Application routing configuration with security checks */}
+      {/* Routing setup with auth-based guards */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />

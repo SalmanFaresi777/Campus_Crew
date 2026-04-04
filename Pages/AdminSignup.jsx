@@ -4,7 +4,7 @@ import "../CSS/AdminSignup.css"; // style file for admin signup page
 import { useNavigate } from "react-router-dom";
 import Loader from "../Components/loader";
 
-// AdminSignup component for registering admin users with secret key validation
+// Admin signup page for validated administrator registration
 function AdminSignup() {
   const secret = import.meta.env.VITE_ADMIN_SECRET;
   const navigate = useNavigate();

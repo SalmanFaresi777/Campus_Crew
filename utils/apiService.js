@@ -1,6 +1,6 @@
 import axios from 'axios';
 const backend = import.meta.env.VITE_BACKEND_LINK || 'http://localhost:8000';
-// Remove trailing slash to prevent duplicate slashes in paths
+// Strip trailing slash so base URLs remain consistent
 const cleanBackend = backend.endsWith('/') ? backend.slice(0, -1) : backend;
 // Configure base URL for API calls from env settings
 const API_BASE_URL = `${cleanBackend}/api`;
@@ -28,7 +28,7 @@ api.interceptors.request.use(
   }
 );
 
-// Handle auth failures in API responses
+// Handle 401 responses by clearing auth data and redirecting
 api.interceptors.response.use(
   (response) => response,
   async (error) => {

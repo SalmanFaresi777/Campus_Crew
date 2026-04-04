@@ -20,7 +20,7 @@ import spring from "../assets/img/spring.png";
 import stars from "../assets/img/stars.png";
 import white_outline from "../assets/img/white_outline.png";
 
-// Primary component for user authentication and account creation
+// Login page component for sign-in and signup flows
 function Login() {
   const backend_link = import.meta.env.VITE_BACKEND_LINK;
   // Switch between login and signup views
