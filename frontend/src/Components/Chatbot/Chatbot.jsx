@@ -107,6 +107,17 @@ const Chatbot = ({ onClose }) => {
         })
       });
 
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Chat API request failed (${response.status}). Body: ${errorText.slice(0, 120)}`);
+      }
+
+      const contentType = response.headers.get('content-type') || '';
+      if (!contentType.includes('application/json')) {
+        const errorText = await response.text();
+        throw new Error(`Chat API returned non-JSON response. Body: ${errorText.slice(0, 120)}`);
+      }
+
       const data = await response.json();
 
       if (data.success) {
