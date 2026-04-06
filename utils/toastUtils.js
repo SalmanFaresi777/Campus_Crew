@@ -1,6 +1,6 @@
 import { toast } from 'react-toastify';
 
-// Custom toast configurations
+// Global toast notification settings
 const toastConfig = {
   position: "top-right",
   autoClose: 5000,
@@ -10,7 +10,7 @@ const toastConfig = {
   draggable: true,
 };
 
-// Success toast
+// Displays success notification message
 export const showSuccessToast = (message) => {
   toast.success(message, {
     ...toastConfig,
@@ -18,7 +18,7 @@ export const showSuccessToast = (message) => {
   });
 };
 
-// Error toast
+// Displays error notification message
 export const showErrorToast = (message) => {
   toast.error(message, {
     ...toastConfig,
@@ -26,7 +26,7 @@ export const showErrorToast = (message) => {
   });
 };
 
-// Warning toast
+// Displays warning notification message
 export const showWarningToast = (message) => {
   toast.warning(message, {
     ...toastConfig,
@@ -34,7 +34,7 @@ export const showWarningToast = (message) => {
   });
 };
 
-// Info toast
+// Displays informational notification message
 export const showInfoToast = (message) => {
   toast.info(message, {
     ...toastConfig,
@@ -42,7 +42,7 @@ export const showInfoToast = (message) => {
   });
 };
 
-// Custom toast with custom styling
+// Creates toast with custom options and styling
 export const showCustomToast = (message, options = {}) => {
   toast(message, {
     ...toastConfig,
@@ -50,7 +50,7 @@ export const showCustomToast = (message, options = {}) => {
   });
 };
 
-// Promise toast for async operations
+// Shows toast states for asynchronous operations
 export const showPromiseToast = (promise, messages) => {
   return toast.promise(
     promise,
@@ -63,12 +63,12 @@ export const showPromiseToast = (promise, messages) => {
   );
 };
 
-// Dismiss all toasts
+// Removes all active notifications
 export const dismissAllToasts = () => {
   toast.dismiss();
 };
 
-// Dismiss specific toast
+// Removes a specific notification by ID
 export const dismissToast = (toastId) => {
   toast.dismiss(toastId);
 };

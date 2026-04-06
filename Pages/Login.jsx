@@ -4,7 +4,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "../CSS/login.css";
 import { Link, useNavigate } from "react-router-dom";
-import Loader from "../Components/loader_login"; // Import the Loader component
+import Loader from "../Components/loader_login"; // Imported Loader component for showing loading state
 import { useAuth } from "../contexts/AuthContext";
 // import { fetchWithToken } from "../Utils/authUtils";
 import PasswordChecklist from "react-password-checklist";
@@ -23,39 +23,39 @@ import white_outline from "../assets/img/white_outline.png";
 // Login page component for sign-in and signup flows
 function Login() {
   const backend_link = import.meta.env.VITE_BACKEND_LINK;
-  // Switch between login and signup views
+  // Controls toggling between authentication modes
   const [isSignInMode, setIsSignInMode] = useState(true);
-  // Details for login form
+  // Stores login form field values
   const [signInData, setSignInData] = useState({ email: "", password: "" });
-  // Details for registration form
+  // Stores registration form field values
   const [signUpData, setSignUpData] = useState({
     username: "",
     email: "",
     password: "",
     dob: new Date(),
   });
-  const [loading, setLoading] = useState(false); // Show progress spinner
+  const [loading, setLoading] = useState(false); // Indicates when a request is in progress
   const datePickerRef = useRef(null);
-  const [isPasswordValid, setIsPasswordValid] = useState(false); // Check if password meets requirements
+  const [isPasswordValid, setIsPasswordValid] = useState(false); // Validates password against security criteria
   const [showPassword, setShowPassword] = useState(false);
-  const navigate = useNavigate(); // Router navigation function
-  const { login, isAuthenticated } = useAuth(); // Access authentication methods
+  const navigate = useNavigate(); // Navigation utility for route transitions
+  const { login, isAuthenticated } = useAuth(); // Retrieves auth context functions and state
 
-  // Redirect logged-in users to main page
+  // Automatically redirects authenticated users to home
   useEffect(() => {
     if (isAuthenticated) {
       navigate("/");
     }
   }, [isAuthenticated, navigate]);
 
-  // Switch password field visibility
+  // Toggles password field visibility for user convenience
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
   const changeHandler = (e) => {
     const { name, value, type, checked } = e.target;
-    // Update form data based on current mode
+    // Updates form state based on sign-in or sign-up mode
     if (isSignInMode) {
       setSignInData({ ...signInData, [name]: value });
     } else {
@@ -67,35 +67,35 @@ function Login() {
   };
 
   const signin = async () => {
-    setLoading(true); // Display progress indicator
+    setLoading(true); // Shows loading state while processing login
     try {
       const { data } = await apiService.login(signInData);
-      // Response includes success status, user data, and tokens
+      // API returns authentication tokens and user information
 
       if (data.success) {
         const user = data.user;
-        // Prevent unapproved administrators from accessing the system
+        // Blocks unapproved admins from proceeding further
         if (user && user.isAdmin && !user.isApprovedAdmin) {
-          setLoading(false); // Clear loading to show notification
+          setLoading(false); // Stops loading state before displaying warning
           toast.warning("You are not approved as an admin yet.");
         } else {
-          // Store authentication data through context
+          // Stores credentials via context API
           await login(data.token, data.refreshtoken, user);
-          localStorage.setItem("refresh-token", data.refreshtoken); // Persist refresh token
-          // Clear loading before showing success message
+          localStorage.setItem("refresh-token", data.refreshtoken); // Saves refresh token to local storage
+          // Ends loading state before triggering success toast
           setLoading(false);
           toast.success("Login successful! Welcome back!", {
             autoClose: 1000,
-            onClose: () => navigate("/"), // Redirect after notification
+            onClose: () => navigate("/"), // Routes to home page after toast dismisses
           });
-          return; // Skip default navigation handling
+          return; // Prevents additional navigation logic
         }
       } else {
         toast.error(data.errors || "Login failed. Please try again.");
       }
     } catch (error) {
       if (error.response) {
-        // Server returned an error status
+        // API response indicates an error condition
         console.error("Server error:", error.response);
         toast.error(
           error.response.data?.errors ||

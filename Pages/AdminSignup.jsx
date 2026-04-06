@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { apiService } from "../utils/apiService";
-import "../CSS/AdminSignup.css"; // style file for admin signup page
+import "../CSS/AdminSignup.css"; // Styles for admin signup page layout
 import { useNavigate } from "react-router-dom";
 import Loader from "../Components/loader";
 
@@ -8,9 +8,9 @@ import Loader from "../Components/loader";
 function AdminSignup() {
   const secret = import.meta.env.VITE_ADMIN_SECRET;
   const navigate = useNavigate();
-  // Loading state for initial page animation
+  // Controls splash screen animation duration
   const [pageLoading, setPageLoading] = useState(true);
-  // Form data state for admin registration
+  // Stores admin registration form inputs
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -22,7 +22,7 @@ function AdminSignup() {
     admin_secret: "",
   });
 
-  // Simulate loading animation on page mount
+  // Displays splash screen on initial load
   useEffect(() => {
     const timer = setTimeout(() => setPageLoading(false), 800);
     return () => clearTimeout(timer);
@@ -32,7 +32,7 @@ function AdminSignup() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // Handle form input changes
+  // Updates form state on user input
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -41,12 +41,12 @@ function AdminSignup() {
     e.preventDefault();
     setError("");
 
-    // Basic client-side password confirmation check.
+    // Validates password confirmation on client side
     if (formData.confirm_password !== formData.password) {
       setError("Passwords do not match");
       return;
     }
-    // Block admin signup unless secret matches env-configured value.
+    // Ensures admin secret matches environment configuration
     if (formData.admin_secret !== secret) {
       setError("Admin secret doesn't match.");
       return;
@@ -56,7 +56,7 @@ function AdminSignup() {
     setMessage("");
 
     try {
-      // Backend applies full validation and account creation.
+      // Backend handles full validation and user account setup
       const { data } = await apiService.register(formData);
       if (data.success) {
         setMessage(

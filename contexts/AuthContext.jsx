@@ -4,14 +4,14 @@ import { showSuccessToast, showErrorToast, showInfoToast } from '../utils/toastU
 
 const AuthContext = createContext();
 
-// LocalStorage key names to avoid hardcoding mistakes
+// Centralized storage key definitions to prevent typos
 const AUTH_STORAGE_KEYS = {
   token: 'auth-token',
   refreshToken: 'refresh-token',
   user: 'auth-user'
 };
 
-// Cache lightweight user info in localStorage for faster app startup
+// Stores essential user data for faster app initialization
 const storeUserInfo = (userData) => {
   if (!userData) return;
   localStorage.setItem(AUTH_STORAGE_KEYS.user, JSON.stringify({
@@ -23,7 +23,7 @@ const storeUserInfo = (userData) => {
   }));
 };
 
-// Custom hook to get authentication status and functions
+// Provides auth context to components via custom hook
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {
@@ -34,7 +34,7 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  // Fetch preserved user details for quick UI setup
+  // Retrieves stored user data from local storage
   const initialUser = (() => {
     try {
       const raw = localStorage.getItem(AUTH_STORAGE_KEYS.user);
@@ -53,7 +53,7 @@ export const AuthProvider = ({ children }) => {
           if (response.data.success) {
             setIsAuthenticated(true);
             setUser(response.data.user);
-            // Keep only a minimal user snapshot in storage.
+            // Stores only essential user fields in local storage
             storeUserInfo(response.data.user);
           } else {
             logout();
@@ -77,20 +77,20 @@ export const AuthProvider = ({ children }) => {
     }
     setIsAuthenticated(true);
     
-    // Retrieve complete user profile after authentication
+    // Fetches full user profile following successful login
     try {
       const response = await apiService.getProfile();
       if (response.data.success) {
         setUser(response.data.user);
         storeUserInfo(response.data.user);
       } else {
-        // Use provided data as backup if profile request fails
+        // Falls back to provided data if profile fetch fails
         setUser(userData);
         storeUserInfo(userData);
       }
     } catch (error) {
       console.error('Failed to fetch profile after login:', error);
-      // Use provided data as backup if profile request fails
+      // Falls back to provided data if profile fetch fails
       setUser(userData);
       storeUserInfo(userData);
     }

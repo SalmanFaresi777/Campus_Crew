@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { apiService } from '../utils/apiService';
-import { v4 as uuidv4 } from 'uuid'; // Generate unique identifier for tracking requests
+import { v4 as uuidv4 } from 'uuid'; // Creates unique ID for request tracking
 import '../CSS/VerifyEmail.css';
 import Loader from "../Components/loader";
 
-// Email verification page that validates the token and shows status
+// Validates email verification token and displays result
 const VerifyEmail = () => {
   const { token } = useParams();
-  // Track the outcome of the verification process
+  // Stores verification success/failure status
   const [verificationStatus, setVerificationStatus] = useState({
     success: null,
     message: '',
@@ -16,11 +16,11 @@ const VerifyEmail = () => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  // Execute verification when component first loads
+  // Initiates email verification on component mount
   useEffect(() => {
-    const verificationId = uuidv4(); // Create unique tracking ID
+    const verificationId = uuidv4(); // Generates unique request identifier
 
-    // Perform verification immediately upon mounting
+    // Triggers verification API call on load
     (async () => {
       try {
         const { data } = await apiService.verifyEmail(token, {
@@ -36,20 +36,18 @@ const VerifyEmail = () => {
         setLoading(false);
       }
     })();
-  }, []); // No dependencies needed
+  }, []); // Effect runs once on component mount only
   
 
-  // Monitor verification status for debugging purposes
+  // Logs verification status for troubleshooting
   useEffect(() => {
     console.log("Verification Status:", verificationStatus);
   }, [verificationStatus]);
 
-  // Manage navigation to login page after verification completes
+  // Handles navigation after verification process
   const handleLoginRedirect = () => {
-    // Remove any outdated authentication data before redirecting
-    // Clear localStorage or cookies containing auth information if present
-    localStorage.removeItem('auth-token'); // Example for localStorage
-    // Add other cleanup logic if needed
+    // Clears stale auth data before redirect
+    localStorage.removeItem('auth-token'); // Example: clearing auth token from local storage
 
     navigate('/login');
   };

@@ -29,7 +29,7 @@ function App() {
 
   if (loading) {
     return <div>Loading...</div>;
-    // A dedicated spinner component could be used here
+    // Consider implementing a dedicated spinner component for improved UX
   }
 
   return (
