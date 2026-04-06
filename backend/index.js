@@ -25,6 +25,9 @@ MongDB().catch((error) => {
     console.error('MongoDB connection failed:', error.message);
 });
 
+let chatRouterMounted = false;
+let chatRouterMountError = null;
+
 // Always allow these origins for CORS
 // Always allow these origins for CORS
 const allowedOrigins = [
@@ -98,7 +101,9 @@ app.get('/api/health', (req, res) => {
         status: 'ok', 
         message: 'CORS is working!',
         timestamp: new Date().toISOString(),
-        allowedOrigins: allowedOrigins 
+        allowedOrigins: allowedOrigins,
+        chatRouterMounted,
+        chatRouterMountError
     })
 })
 
@@ -117,10 +122,31 @@ app.use('/api', RecommendetionRouter)
 try {
     const ChatRouter = require('./Router/ChatRoute')
     app.use('/api', ChatRouter)
+    chatRouterMounted = true;
     console.log('✅ Chat router mounted successfully');
 } catch (error) {
+    chatRouterMounted = false;
+    chatRouterMountError = error.message;
     console.error('⚠️  Chat router failed to mount:', error.message);
     console.error('   Non-chat routes are still available.');
+
+    // Return structured JSON for chat endpoints when chat module is unavailable.
+    app.post('/api/chat', (req, res) => {
+        return res.status(503).json({
+            success: false,
+            error: 'Chat service is temporarily unavailable',
+            details: chatRouterMountError
+        });
+    });
+
+    app.get('/api/chat/health', (req, res) => {
+        return res.status(503).json({
+            success: false,
+            status: 'unavailable',
+            error: 'Chat router failed to mount',
+            details: chatRouterMountError
+        });
+    });
 }
 
 console.log('✅ All routers mounted successfully');
