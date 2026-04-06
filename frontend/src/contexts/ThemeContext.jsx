@@ -12,17 +12,17 @@ export const useTheme = () => {
 
 export const ThemeProvider = ({ children }) => {
   const [isDarkMode, setIsDarkMode] = useState(() => {
-    // Check localStorage first
+    // Prefer any saved user choice first
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme) {
       return savedTheme === 'dark';
     }
-    // Check system preference
+    // Otherwise follow the OS color preference
     return window.matchMedia('(prefers-color-scheme: dark)').matches;
   });
 
   useEffect(() => {
-    // Apply theme to document root
+    // Reflect active theme on root and body
     if (isDarkMode) {
       document.documentElement.setAttribute('data-theme', 'dark');
       document.body.classList.add('dark-mode');
@@ -33,15 +33,15 @@ export const ThemeProvider = ({ children }) => {
       document.body.classList.remove('dark-mode');
     }
     
-    // Save to localStorage
+    // Persist the current choice
     localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
   }, [isDarkMode]);
 
-  // Listen for system theme changes
+  // React to OS theme updates
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     const handleChange = (e) => {
-      // Only auto-switch if user hasn't manually set a preference
+      // Auto-update only when no explicit user choice exists
       if (!localStorage.getItem('theme')) {
         setIsDarkMode(e.matches);
       }

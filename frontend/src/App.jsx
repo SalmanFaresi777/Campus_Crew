@@ -67,6 +67,7 @@ function App() {
             )
           }
         />
+<<<<<<< HEAD
         {/* Handle alternate spelling variation for route accessibility */}
         <Route
           path="/create-events"
@@ -119,6 +120,7 @@ function App() {
         <Route path="/admin/signup" element={<AdminSignup />} />
       </Routes>
       
+<<<<<<< HEAD
       {/* Global chatbot component accessible across all application pages */}
       <ChatbotButton />
     </>

@@ -16,7 +16,7 @@ function Header() {
   const dropdownRef = useRef(null);
   const mobileDropdownRef = useRef(null);
   const mobileMenuRef = useRef(null);
-  const isAdmin = user && user.isAdmin; // Use isAdmin property from backend data
+  const isAdmin = user && user.isAdmin; // derive admin state from backend user payload
   const navigate = useNavigate();
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -41,7 +41,7 @@ function Header() {
     setIsMobileMenuOpen(false);
   };
 
-  // Close dropdown and mobile menu when clicking outside
+  // Collapse open menus when user clicks outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -67,7 +67,7 @@ function Header() {
     };
   }, []);
 
-  // Get user's initials if no profile picture
+  // Build initials fallback when no avatar is available
   const getUserInitials = (user) => {
     if (user?.username) {
       return user.username
@@ -89,7 +89,7 @@ function Header() {
           </Link>
         </div>
 
-        {/* Desktop Navigation */}
+        {/* Desktop nav links */}
         <nav className="main-nav desktop-nav">
           {isAuthenticated ? (
             <>
@@ -118,7 +118,7 @@ function Header() {
                 </NavLink>
               )}
 
-              {/* Theme Toggle Button */}
+              {/* Theme switch button */}
               <button
                 className="theme-toggle"
                 onClick={toggleTheme}
@@ -128,7 +128,7 @@ function Header() {
                 {isDarkMode ? "☀️" : "🌙"}
               </button>
 
-              {/* Profile Dropdown */}
+              {/* Profile quick-access button */}
               <div className="profile-dropdown" ref={dropdownRef}>
                 <button
                   className="profile-button"
@@ -151,7 +151,7 @@ function Header() {
             </>
           ) : (
             <>
-              {/* Theme Toggle Button for non-authenticated users */}
+              {/* Theme switch button for guests */}
               <button
                 className="theme-toggle"
                 onClick={toggleTheme}
@@ -171,9 +171,9 @@ function Header() {
           )}
         </nav>
 
-        {/* Mobile Navigation */}
+        {/* Mobile nav container */}
         <div className="mobile-nav">
-          {/* Mobile Profile (only show if authenticated) */}
+          {/* Mobile profile controls for signed-in users */}
           {isAuthenticated && (
             <div className="mobile-profile">
               <div className="profile-dropdown" ref={mobileDropdownRef}>
@@ -211,7 +211,7 @@ function Header() {
             </div>
           )}
 
-          {/* Hamburger Menu Button */}
+          {/* Toggle button for mobile menu */}
           <button
             className="mobile-menu-toggle"
             onClick={toggleMobileMenu}
@@ -223,7 +223,7 @@ function Header() {
           </button>
         </div>
 
-        {/* Mobile Menu Overlay */}
+        {/* Mobile menu overlay panel */}
         {isMobileMenuOpen && (
           <div className="mobile-menu-overlay" ref={mobileMenuRef}>
             <div className="mobile-menu-content">
@@ -278,7 +278,7 @@ function Header() {
                     </Link>
                   )}
 
-                  {/* Theme Toggle in Mobile Menu */}
+                  {/* Theme switch inside mobile menu */}
                   <button
                     className="mobile-theme-toggle"
                     onClick={() => {
@@ -309,7 +309,7 @@ function Header() {
                     Get Started
                   </Link>
 
-                  {/* Theme Toggle in Mobile Menu */}
+                  {/* Theme switch inside mobile menu */}
                   <button
                     className="mobile-theme-toggle"
                     onClick={() => {
