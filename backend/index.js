@@ -14,7 +14,6 @@ const UserRouter = require('./Router/UserRoute')
 const EventRouter = require('./Router/EventRoute')
 const RegistrationRouter = require('./Router/RegistrationRoute')
 const RecommendetionRouter = require('./Router/Recommendetion')
-const ChatRouter = require('./Router/ChatRoute')
 const embeddingService = require('./services/embeddingService')
 
 // Import the automatic vector database update system
@@ -113,7 +112,16 @@ app.use('/api', UserRouter)
 app.use('/api', EventRouter)
 app.use('/api', RegistrationRouter)
 app.use('/api', RecommendetionRouter)
-app.use('/api', ChatRouter)
+
+// Load chat routes defensively so non-chat APIs keep running even if chat deps are misconfigured.
+try {
+    const ChatRouter = require('./Router/ChatRoute')
+    app.use('/api', ChatRouter)
+    console.log('✅ Chat router mounted successfully');
+} catch (error) {
+    console.error('⚠️  Chat router failed to mount:', error.message);
+    console.error('   Non-chat routes are still available.');
+}
 
 console.log('✅ All routers mounted successfully');
 
