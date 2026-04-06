@@ -22,7 +22,9 @@ const { autoUpdateVectorDB } = require('./utils/autoUpdateVectorDB')
 
 
 app.use(express.json())
-MongDB();
+MongDB().catch((error) => {
+    console.error('MongoDB connection failed:', error.message);
+});
 
 // Always allow these origins for CORS
 // Always allow these origins for CORS
@@ -100,37 +102,45 @@ app.use('/api', ChatRouter)
 
 console.log('✅ All routers mounted successfully');
 
-app.listen(port, async () => {
-    console.log(`Backend is running on port ${port}`)
-    console.log(`Environment: ${process.env.NODE_ENV || 'development'}`)
-    
-    // Start the automatic event cleanup service
-    try {
-        startAutomaticCleanup();
-    } catch (error) {
-        console.error('⚠️  Event cleanup failed:', error.message);
-    }
-    
-    // Initialize chatbot knowledge base (optional)
-    // Skip in serverless to avoid timeout
-    if (process.env.ENABLE_EMBEDDINGS !== 'false' && process.env.NODE_ENV !== 'production') {
-        console.log('\n🤖 Initializing Chatbot Knowledge Base...');
+async function bootLocalServer() {
+    app.listen(port, async () => {
+        console.log(`Backend is running on port ${port}`)
+        console.log(`Environment: ${process.env.NODE_ENV || 'development'}`)
+        
+        // Start the automatic event cleanup service
         try {
-            await embeddingService.loadKnowledgeBase();
-            console.log('✅ Chatbot ready!\n');
+            startAutomaticCleanup();
         } catch (error) {
-            console.error('⚠️  Chatbot initialization failed:', error.message);
-            console.log('Chatbot will work with limited functionality\n');
+            console.error('⚠️  Event cleanup failed:', error.message);
         }
-    } else {
-        console.log('\n⚠️  Skipping embedding initialization (production mode).');
-        console.log('   The chatbot will initialize on first request.\n');
-    }
-    
-    // Auto-update Qdrant - skip in serverless to avoid timeout
-    if (process.env.NODE_ENV !== 'production') {
-        autoUpdateVectorDB().catch(error => {
-            console.error('⚠️  Vector database auto-update failed:', error.message);
-        });
-    }
-})
+        
+        // Initialize chatbot knowledge base (optional)
+        // Skip in serverless to avoid timeout
+        if (process.env.ENABLE_EMBEDDINGS !== 'false' && process.env.NODE_ENV !== 'production') {
+            console.log('\n🤖 Initializing Chatbot Knowledge Base...');
+            try {
+                await embeddingService.loadKnowledgeBase();
+                console.log('✅ Chatbot ready!\n');
+            } catch (error) {
+                console.error('⚠️  Chatbot initialization failed:', error.message);
+                console.log('Chatbot will work with limited functionality\n');
+            }
+        } else {
+            console.log('\n⚠️  Skipping embedding initialization (production mode).');
+            console.log('   The chatbot will initialize on first request.\n');
+        }
+        
+        // Auto-update Qdrant - skip in serverless to avoid timeout
+        if (process.env.NODE_ENV !== 'production') {
+            autoUpdateVectorDB().catch(error => {
+                console.error('⚠️  Vector database auto-update failed:', error.message);
+            });
+        }
+    })
+}
+
+if (!process.env.VERCEL) {
+    bootLocalServer();
+}
+
+module.exports = app;
