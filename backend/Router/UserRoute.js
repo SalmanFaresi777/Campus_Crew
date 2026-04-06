@@ -30,6 +30,24 @@ const verifyToken = (req, res, next) => {
     }
 };
 
+const requireAdmin = async (req, res, next) => {
+    try {
+        const currentUser = await Users.findById(req.user.id).select('isAdmin isApproved');
+        if (!currentUser) {
+            return res.status(404).json({ success: false, message: 'User not found' });
+        }
+        if (!currentUser.isAdmin) {
+            return res.status(403).json({ success: false, message: 'Admin access required' });
+        }
+        if (currentUser.isApproved === false) {
+            return res.status(403).json({ success: false, message: 'Admin account is not approved' });
+        }
+        next();
+    } catch (error) {
+        return res.status(500).json({ success: false, message: 'Authorization check failed' });
+    }
+};
+
 
 
 
@@ -45,6 +63,10 @@ router.post('/login', async (req, res) => {
             return res.status(401).json({ success: false, errors: "Please verify your email before logging in." });
         }
 
+        if (user.isApproved === false) {
+            return res.status(401).json({ success: false, errors: "Your account is pending admin approval." });
+        }
+
         const passCompare = await bcrypt.compare(req.body.password, user.password);
         if (!passCompare) {
             return res.json({ success: false, errors: "Wrong Password" });
@@ -58,6 +80,7 @@ router.post('/login', async (req, res) => {
             user: {
                 id: user.id,
                 isAdmin: user.isAdmin,
+                isApproved: user.isApproved,
                 isApprovedAdmin: user.isApprovedAdmin,
             }
         };
@@ -93,6 +116,7 @@ router.post('/login', async (req, res) => {
             username: user.username,
             email: user.email,
             isAdmin: user.isAdmin,
+            isApproved: user.isApproved,
             isVerified: user.isVerified,
             isApprovedAdmin: user.isApprovedAdmin
         };
@@ -127,6 +151,8 @@ router.post('/signup', async (req, res) => {
             dob: req.body.dob,
             location: req.body.location,
             isAdmin: req.body.isAdmin || false,
+            isApproved: false,
+            isApprovedAdmin: req.body.isAdmin ? false : true,
             verificationToken: verificationToken,
             isVerified: false
         });
@@ -169,7 +195,7 @@ CampusCrew Team`;
         res.json({ 
             success: true, 
             token,
-            message: "Signup successful! Please check your email for a verification link."
+            message: "Signup successful! Please verify your email and wait for admin approval."
         });
     } catch (error) {
         console.error("Signup error:", error);
@@ -438,6 +464,76 @@ router.put('/upload-photo/:id', upload.single('photo'), async (req, res) => {
     } catch (error) {
         console.error('Upload error:', error);
         res.status(500).json({ success: false, message: 'Error uploading photo' });
+    }
+});
+
+// List all pending signup requests (admin only)
+router.get('/pending-requests', verifyToken, requireAdmin, async (req, res) => {
+    try {
+        const pendingUsers = await Users.find({ isApproved: false })
+            .select('_id username email isAdmin isVerified location createdAt')
+            .sort({ createdAt: -1 });
+
+        res.status(200).json({ success: true, requests: pendingUsers });
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Failed to fetch pending requests' });
+    }
+});
+
+// Approve a pending signup request (admin only)
+router.patch('/pending-requests/:id/approve', verifyToken, requireAdmin, async (req, res) => {
+    try {
+        const pendingUser = await Users.findById(req.params.id);
+        if (!pendingUser) {
+            return res.status(404).json({ success: false, message: 'Request not found' });
+        }
+
+        pendingUser.isApproved = true;
+        if (pendingUser.isAdmin) {
+            pendingUser.isApprovedAdmin = true;
+        }
+        await pendingUser.save();
+
+        return res.status(200).json({ success: true, message: 'Request approved successfully' });
+    } catch (error) {
+        return res.status(500).json({ success: false, message: 'Failed to approve request' });
+    }
+});
+
+// Approve email verification for a signup request (admin only)
+router.patch('/pending-requests/:id/approve-email', verifyToken, requireAdmin, async (req, res) => {
+    try {
+        const pendingUser = await Users.findById(req.params.id);
+        if (!pendingUser) {
+            return res.status(404).json({ success: false, message: 'Request not found' });
+        }
+
+        pendingUser.isVerified = true;
+        pendingUser.verificationToken = undefined;
+        await pendingUser.save();
+
+        return res.status(200).json({ success: true, message: 'Email approved successfully' });
+    } catch (error) {
+        return res.status(500).json({ success: false, message: 'Failed to approve email' });
+    }
+});
+
+// Reject a pending signup request (admin only)
+router.delete('/pending-requests/:id/reject', verifyToken, requireAdmin, async (req, res) => {
+    try {
+        const pendingUser = await Users.findById(req.params.id);
+        if (!pendingUser) {
+            return res.status(404).json({ success: false, message: 'Request not found' });
+        }
+
+        if (pendingUser.isApproved === true) {
+            return res.status(400).json({ success: false, message: 'Cannot reject an already approved account' });
+        }
+
+        await Users.findByIdAndDelete(req.params.id);
+        return res.status(200).json({ success: true, message: 'Request rejected successfully' });
+    } catch (error) {
+        return res.status(500).json({ success: false, message: 'Failed to reject request' });
     }
 });
 

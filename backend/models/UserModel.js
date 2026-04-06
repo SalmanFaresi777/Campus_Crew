@@ -31,6 +31,10 @@ const UserSchema = new Schema({
         type: Boolean,
         default: false
     },
+    isApproved: {
+        type: Boolean,
+        default: true
+    },
     isApprovedAdmin: {
         type: Boolean,
         default: true

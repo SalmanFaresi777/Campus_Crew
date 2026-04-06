@@ -40,7 +40,18 @@ function JoinedEvent() {
         }
       } catch (err) {
         console.error(err);
-        setError("An error occurred while fetching events");
+        const isNoDataCase =
+          err?.response?.status === 404 &&
+          /registered events not found/i.test(
+            err?.response?.data?.message || ""
+          );
+
+        if (isNoDataCase) {
+          setRegistrations([]);
+          setError("");
+        } else {
+          setError("An error occurred while fetching events");
+        }
       } finally {
         setLoading(false);
       }
@@ -94,10 +105,10 @@ function JoinedEvent() {
       {loading && <Loader color={document.documentElement.getAttribute("data-theme") === "dark" ? "#ffffff" : "#000000"} />}
       <Header />
       <main className="je-main">
-        <h1 className="sr-only">My Joined Events</h1>
+        <h1 className="sr-only">My Registered Events</h1>
 
         {registrations.length === 0 && (
-          <p className="je-status">You haven't joined any events yet.</p>
+          <p className="je-status">You haven't register to any events till now.</p>
         )}
 
         {registrations.length > 0 && (

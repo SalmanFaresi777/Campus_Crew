@@ -264,13 +264,6 @@ The application will be available at:
 | `VITE_API_BASE_URL` | Backend API base URL | Yes |
 
 
-## 👥 Team
-
-- **Asif Avaas** - asif13.aak@gmail.com
-- **Sanjida Amin** - sanjidasunny25@gmail.com
-- **Tajuddin Ahmed** - bijoy.ahmed12555@gmail.com
-
-
 
 ---
 

@@ -60,6 +60,57 @@
   color: #333;
 }
 
+.about-description {
+  margin-top: 10px;
+}
+
+.team-intro {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #0f4d9e;
+  margin-bottom: 14px;
+  letter-spacing: 0.3px;
+}
+
+.team-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+.team-member-card {
+  text-align: left;
+  background: linear-gradient(145deg, #f9fbff, #edf4ff);
+  border: 1px solid #d5e6ff;
+  border-radius: 12px;
+  padding: 12px 14px;
+  box-shadow: 0 8px 16px rgba(15, 77, 158, 0.08);
+}
+
+.team-member-card h3 {
+  margin: 0;
+  font-size: 1.04rem;
+  color: #0d3b79;
+}
+
+.team-member-card p {
+  margin: 5px 0 0;
+  font-size: 0.95rem;
+  color: #2a3f57;
+  line-height: 1.45;
+  word-break: break-word;
+}
+
+.team-member-card .member-id {
+  font-weight: 600;
+  color: #1f5ca8;
+}
+
+.team-member-card span {
+  font-weight: 600;
+  color: #0f4d9e;
+}
+
 /* ===========================
    Call to Action Button
 =========================== */
@@ -178,6 +229,29 @@
   color: white;
 }
 
+[data-theme="dark"] .team-intro {
+  color: #8ec5ff;
+}
+
+[data-theme="dark"] .team-member-card {
+  background: linear-gradient(145deg, #182433, #202f43);
+  border-color: #304866;
+  box-shadow: 0 10px 18px rgba(0, 0, 0, 0.35);
+}
+
+[data-theme="dark"] .team-member-card h3 {
+  color: #e8f2ff;
+}
+
+[data-theme="dark"] .team-member-card p {
+  color: #d2e4fb;
+}
+
+[data-theme="dark"] .team-member-card .member-id,
+[data-theme="dark"] .team-member-card span {
+  color: #9ecfff;
+}
+
 /* ===========================
    Responsive Styles
 =========================== */
@@ -211,6 +285,10 @@
   .member {
     flex: 1 1 180px;
   }
+
+  .team-member-card {
+    padding: 12px;
+  }
 }
 
 /* Small Mobile */
@@ -229,6 +307,18 @@
   }
   .about-btn {
     padding: 10px 18px;
+    font-size: 0.9rem;
+  }
+
+  .team-intro {
+    font-size: 1.2rem;
+  }
+
+  .team-member-card h3 {
+    font-size: 0.98rem;
+  }
+
+  .team-member-card p {
     font-size: 0.9rem;
   }
 }
