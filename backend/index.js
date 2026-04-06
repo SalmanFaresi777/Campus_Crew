@@ -33,6 +33,7 @@ const allowedOrigins = [
     'https://www.campuscrew.app',    
     'https://campuscrew.vercel.app',
     'https://campus-crew.vercel.app',
+    'https://campuscrew123.vercel.app',
     'https://talk-threads-seven.vercel.app',
     'http://localhost:5173',
     'http://localhost:3000',
@@ -46,6 +47,20 @@ if (frontend_url) {
 
 console.log('🌐 CORS Allowed Origins:', allowedOrigins);
 
+function isAllowedVercelPreview(origin) {
+    try {
+        const hostname = new URL(origin).hostname;
+        // Allow Vercel preview/prod frontend domains for this project family
+        return hostname.endsWith('.vercel.app') && (
+            hostname.startsWith('campuscrew') ||
+            hostname.startsWith('campus-crew') ||
+            hostname.startsWith('talk-threads')
+        );
+    } catch (_) {
+        return false;
+    }
+}
+
 // Configure CORS with more permissive settings for Vercel
 app.use(cors({
     origin: function (origin, callback) {
@@ -55,7 +70,7 @@ app.use(cors({
             return callback(null, true);
         }
         
-        if (allowedOrigins.includes(origin)) {
+        if (allowedOrigins.includes(origin) || isAllowedVercelPreview(origin)) {
             console.log('✅ Origin allowed:', origin);
             callback(null, true);
         } else {
