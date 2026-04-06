@@ -1,0 +1,316 @@
+Page: My Events - Joined Events
+URL: http://localhost:3000/joined-events
+Crawled: 2025-10-08
+
+My Events - View Your Registered Events
+
+Track All Your Event Registrations
+
+Welcome to My Events! Here you can view all the events you've registered for, track their status, download certificates, and manage your event participations.
+
+Page Overview:
+On this page, you can see:
+- All events you've registered for
+- Upcoming events you'll attend
+- Past events you've attended
+- Event registration status
+- Download certificates for completed events
+- Cancel registrations (if needed)
+
+Event Categories on This Page:
+
+**Upcoming Events:**
+Events you're registered for that haven't happened yet:
+- Event name and banner
+- Date and time
+- Venue/location
+- Days until event
+- Registration status (Confirmed, Pending Payment, etc.)
+- Quick actions (View Details, Cancel)
+
+**Past Events:**
+Events you've already attended:
+- Event name and date
+- Attendance status (Attended/Not Attended)
+- Event rating option
+- View event memories (photos)
+- **Note**: To download certificates, go to Profile > View Certificates
+
+**Pending Registrations:**
+Events where payment or confirmation is pending:
+- Complete payment button
+- Registration deadline
+- Time remaining
+- Pending status indicator
+
+Event Status Indicators:
+
+🟢 **Confirmed**
+- Registration complete
+- Payment received (if applicable)
+- You're all set to attend!
+
+🟡 **Pending Payment**
+- Registration submitted
+- Payment not completed
+- Complete payment to confirm
+
+🔵 **Waitlisted**
+- Event is full
+- You're on the waitlist
+- You'll be notified if spot opens
+
+🔴 **Cancelled**
+- Event has been cancelled by organizer
+- Refund processed (if paid)
+- Notification sent
+
+⚪ **Past Event**
+- Event has been completed
+- Certificate available (if attended)
+- Can view event recap
+
+Event Cards Display:
+
+Each event card shows:
+- Event Banner Image
+- Event Title
+- Date and Time
+- Venue
+- Organizer Name
+- Registration Status
+- Days Until Event (for upcoming)
+- Action Buttons
+
+Quick Actions:
+
+**For Upcoming Events:**
+- 📄 View Event Details
+- 🎫 View Registration Confirmation
+- 📧 Email Event Organizer
+- 📅 Add to Calendar
+- 🗑️ Cancel Registration (if deadline allows)
+
+**For Past Events:**
+- ⭐ Rate Event
+- 📸 View Event Photos
+- 💬 Write Review
+- 🔄 Register for Similar Events
+- 📜 Download Certificate (Go to Profile > View Certificates)
+
+Filter and Sort Options:
+
+**Filter By:**
+- All Events
+- Upcoming Only
+- Past Events Only
+- By Category (Technical, Cultural, Sports, etc.)
+- By Status (Confirmed, Pending, etc.)
+- By Date Range
+
+**Sort By:**
+- Date (Newest First)
+- Date (Oldest First)
+- Event Name (A-Z)
+- Event Name (Z-A)
+- Recently Registered
+
+Search Events:
+- Search by event name
+- Search by organizer
+- Search by category
+- Search by venue
+
+Download Certificates:
+
+**IMPORTANT**: Certificates are downloaded from your Profile section, NOT from My Events page.
+
+**How to Download Certificates:**
+1. Click on your Profile Icon (top right corner)
+2. Click "View Certificates" button
+3. See all your earned certificates
+4. Click "Download" next to the certificate you want
+5. Certificate downloads as PDF
+
+**Certificate Location:**
+- Certificates are in: Profile > View Certificates
+- NOT available on the My Events page
+- All certificates in one central location
+
+**Requirements for Certificates:**
+- Must have attended the event (marked by organizer)
+- Attendance status must be "Attended"
+- Payment completed (for paid events)
+- Usually available within 24-48 hours after event
+
+For detailed certificate information, visit your Profile page.
+
+Certificate Includes:
+- Your name
+- Event name
+- Event date
+- Organizer signature
+- Unique certificate ID
+- CampusCrew logo
+
+Certificate Tips:
+💡 Certificates are only issued for events you attended
+💡 Some events may require attendance verification
+💡 Keep certificates for your portfolio
+💡 Share on LinkedIn for recognition
+💡 Print for physical copies
+
+Cancel Registration:
+
+If you can't attend an event:
+1. Find the event in "Upcoming Events"
+2. Click "Cancel Registration"
+3. Confirm cancellation
+4. Provide reason (optional)
+5. Refund processed if applicable
+
+Cancellation Policy:
+- ✅ Free cancellation until 24 hours before event
+- ⚠️ Cancellation after deadline may forfeit payment
+- 💰 Refund processed within 5-7 business days (for paid events)
+- 📧 Cancellation confirmation sent via email
+
+When You Can't Cancel:
+- ❌ Event has already started
+- ❌ Event is completed
+- ❌ Within 24 hours of event (depends on organizer policy)
+- ❌ After registration deadline
+
+Event Reminders:
+You'll receive email reminders:
+- 1 week before event
+- 3 days before event
+- 1 day before event
+- 2 hours before event (optional)
+- Event day morning
+
+Manage Reminder Preferences:
+- Go to Profile > Notification Settings
+- Choose which reminders you want
+- Select timing preferences
+- Enable/disable push notifications
+
+Registration History:
+Track your event participation:
+- Total events registered: [Count]
+- Events attended: [Count]
+- Certificates earned: [Count]
+- Favorite categories
+- Most active month
+- Event streak (consecutive events)
+
+Event Statistics:
+View your activity:
+- 📊 Total Registrations
+- ✅ Attended Events
+- 📜 Certificates Earned
+- ⭐ Average Event Rating
+- 🎯 Favorite Event Type
+- 📅 Most Active Month
+
+Add to Calendar:
+Never miss an event:
+1. Click "Add to Calendar" button
+2. Choose calendar app:
+   - Google Calendar
+   - Apple Calendar
+   - Outlook Calendar
+   - Download .ics file
+3. Event automatically added with reminders
+
+Share Your Event:
+Share that you're attending:
+- Share on Facebook
+- Share on Twitter
+- Share on LinkedIn
+- Share on WhatsApp
+- Copy event link
+
+Rate and Review:
+After attending an event:
+- Rate event (1-5 stars)
+- Write review
+- Share your experience
+- Help other students decide
+- Give feedback to organizers
+
+Review Guidelines:
+✅ Be honest and constructive
+✅ Mention what you learned
+✅ Share your experience
+✅ Be respectful
+✅ Help others
+❌ No spam or offensive content
+
+Event Badges:
+Earn badges for participation:
+- 🎯 First Event Badge
+- 🔥 Active Participant (5+ events)
+- 💯 Event Enthusiast (10+ events)
+- 👑 Super Participant (25+ events)
+- 🌟 Campus Star (50+ events)
+
+Export Your Event History:
+Download your complete event record:
+1. Click "Export History"
+2. Choose format (PDF or CSV)
+3. Select date range
+4. Download file
+5. Keep for your records
+
+Great for:
+- Building your resume
+- Portfolio documentation
+- Skill tracking
+- Academic records
+- Personal achievement log
+
+No Events Yet?
+If you haven't joined any events:
+1. Browse "Upcoming Events"
+2. Find events you're interested in
+3. Click "Register"
+4. Start building your event history!
+
+Suggested Events:
+Based on your interests and past registrations, we recommend:
+- Similar events to ones you attended
+- Popular events in your categories
+- Events from organizers you liked
+- Trending campus activities
+
+Troubleshooting:
+
+**"Certificate Not Available"**
+- Event may be too recent (allow 24 hours)
+- Attendance not verified yet
+- Contact event organizer
+- Check your email
+
+**"Can't Cancel Registration"**
+- Check cancellation deadline
+- Event may have started
+- Contact organizer for special cases
+- Review cancellation policy
+
+**"Payment Pending"**
+- Complete payment to confirm registration
+- Check payment status
+- Contact support if payment failed
+- Retry payment if needed
+
+Need Help?
+- Use chatbot for instant support
+- Email: support@campuscrew.com
+- Contact event organizer
+- Check FAQ section
+
+Stay organized and never miss an event with My Events! 🎓
+
+---
+Description: View and manage all your event registrations. Track upcoming events, download certificates, cancel registrations, and review your event participation history.

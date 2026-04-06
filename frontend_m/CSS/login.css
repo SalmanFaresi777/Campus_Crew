@@ -1,0 +1,581 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+
+.login-background {
+    background: url("../assets/img/login_backgroung.jpg");
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 0 20px;
+    overflow: hidden;
+
+}
+
+
+/* BASE */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Body */
+
+/* Existing Styles */
+.App {
+    text-align: center;
+}
+
+.App-logo {
+    height: 40vmin;
+    pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .App-logo {
+        animation: App-logo-spin infinite 20s linear;
+    }
+}
+
+.App-header {
+    background-color: #282c34;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+}
+
+.App-link {
+    color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Add these new styles */
+.input-select {
+    width: 100%;
+    height: 55px;
+    padding: 0 15px;
+    margin: 10px 0;
+    color: #000000;
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    border-radius: 10px;
+    outline: none;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+.input-field::placeholder {
+    color: red;
+    font-size: 18px;
+    letter-spacing: 2px;
+    font-weight: 100;
+}
+
+
+.input-box label {
+    color: #ffffff;
+    font-size: 15px;
+    margin-right: 10px;
+    display: block;
+    margin-bottom: 5px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+
+
+.input-group {
+    position: relative;
+    margin: 20px 0;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: #21264D;
+}
+
+.input-group label {
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+    font-size: 16px;
+    color: #fff;
+    padding: 0 5px;
+    pointer-events: none;
+    transition: .5s;
+}
+
+.input-group input {
+    width: 320px;
+    height: 40px;
+    font-size: 16px;
+    color: #fff;
+    padding: 0 10px;
+    background: transparent;
+    border: 1.2px solid #fff;
+    outline: none;
+    border-radius: 5px;
+}
+
+.input-group input:focus~label,
+.input-group input:valid~label {
+    top: 0;
+    font-size: 12px;
+    background: #7d2ae8;
+}
+
+/* overflow fix*/
+.login-form {
+    opacity: 1;
+    transition: opacity 0.5s ease;
+}
+
+/* Register Form */
+.register-form {
+    opacity: 0;
+}
+
+.hidden {
+    display: none;
+}
+
+.visible {
+    display: flex;
+}
+
+/* Form container */
+.form-container {
+    display: flex;
+    width: 1000px;
+    max-height: 700px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 30px;
+    backdrop-filter: blur(20px);
+    overflow-wrap: hidden;
+}
+
+/* First Column */
+.col-1 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 480px;
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(30px);
+    border-radius: 0 30% 20% 0;
+    transition: border-radius .3s;
+}
+
+.image-layer {
+    position: relative;
+}
+
+.form-image-main {
+    width: 400px;
+    animation: scale-up 3s ease-in-out alternate infinite;
+}
+
+.form-image {
+    position: absolute;
+    left: 0;
+    width: 400px;
+}
+
+/* Image Animation */
+.coin {
+    animation: scale-down 3s ease-in-out alternate infinite;
+}
+
+.spring {
+    animation: scale-down 3s ease-in-out alternate infinite;
+}
+
+.dots {
+    animation: scale-up 3s ease-in-out alternate infinite;
+}
+
+.cloud {
+    animation: left-right 3s ease-in-out alternate infinite;
+}
+
+.stars {
+    animation: scale-down 3s ease-in-out alternate infinite;
+}
+
+@keyframes left-right {
+    to {
+        transform: translateX(10px);
+    }
+}
+
+@keyframes up-down {
+    to {
+        transform: translateY(10px);
+    }
+}
+
+@keyframes scale-down {
+    to {
+        transform: scale(0.95);
+    }
+}
+
+@keyframes scale-up {
+    to {
+        transform: scale(1.05);
+    }
+}
+
+@keyframes fade-up {
+    0% {
+        opacity: 0;
+        transform: translatex(-230px) scale(0.8);
+        /* Adjusted translateY based on register-form initial position */
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(230) scale(1);
+        /* Adjusted translateY based on register-form initial position */
+    }
+}
+
+/* Featured Words */
+.featured-words {
+    text-align: center;
+    color: white;
+    width: 500px;
+}
+
+.featured-words span {
+    font-weight: 600;
+    color: black;
+}
+
+/* Second Column */
+.col-2 {
+    position: relative;
+    width: 65%;
+    padding: 20px;
+    overflow: visible;
+}
+
+.btn-box {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.btn {
+    font-weight: 500;
+    padding: 5px 30px;
+    border: none;
+    border-radius: 30px;
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: .2s;
+}
+
+.btn-1 {
+    background: #21264D;
+}
+
+.btn:hover {
+    opacity: 0.85;
+}
+
+/* Login Form */
+.login-form {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 0 4vw;
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Register Form */
+.register-form {
+    position: relative;
+    top: -34px;
+    left: 147px;
+    scale: 0.94;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 0 4vw;
+    opacity: 1;
+    visibility: visible;
+    animation: fade-up .3s;
+}
+
+
+.register-form .form-title {
+    margin-block: 40px 20px;
+}
+
+.form-title {
+    margin: 40px 0;
+    color: #fff;
+    font-size: 28px;
+    font-weight: 600;
+    width: max-content;
+}
+
+.form-inputs {
+    position: relative;
+}
+
+.input-box {
+    position: relative;
+}
+
+.input-field {
+    width: 300px;
+    height: 55px;
+    padding: 0 15px;
+    margin: 10px 0;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    border-radius: 10px;
+    outline: none;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+::placeholder {
+    color: #fff;
+    font-size: 15px;
+}
+
+/* Generic icon style, if needed */
+.input-box .icon {
+    position: absolute;
+    top: 55%;
+    right: -20px;
+    transform: translateY(-50%);
+    color: #fff;
+}
+
+
+/* Specific calendar icon style */
+.dob-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.calendar-icon {
+    margin-left: 8px;
+    cursor: pointer;
+    color: #000000;
+    /* Adjust color as needed */
+    position: absolute;
+    right: 86px;
+    top: 49%;
+    transform: translateY(-50%);
+}
+
+.input-box {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Adjust alignment as needed */
+}
+
+
+
+.input-select {
+    width: 300px;
+    height: 55px;
+    padding: 0 109px;
+    /* Adjust padding to ensure the icon does not overlap the text */
+    margin: 10px 0;
+    color: #fff;
+}
+
+.forgot-pass {
+    display: flex;
+    justify-content: flex-end;
+    gap: 5px;
+}
+
+.forgot-pass a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.forgot-password-link {
+    color: #fff;
+    text-decoration: none;
+    font-size: 14px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.forgot-pass a:hover {
+    text-decoration: underline;
+}
+
+.forgot-password-link:hover {
+    text-decoration: underline;
+}
+
+.input-submit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    height: 55px;
+    padding: 0 15px;
+    margin: 10px 0;
+    color: #fff;
+    background: #21264D;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: .3s;
+    position: relative;
+    top: -75px;
+    left: 15rem;
+}
+
+.input-submit:hover {
+    gap: 15px;
+}
+
+.home-icon {
+    position: absolute;
+    top: 3%;
+    left: -150px;
+    transform: translateY(-50%);
+    color: #fff;
+    font-size: 40px;
+}
+
+.admin-box {
+    display: flex;
+    align-items: center;
+    width: max-content;
+    position: relative;
+    top: -2rem;
+    left: 12px;
+}
+
+.admin-checkbox {
+    display: flex;
+    align-items: center;
+    width: max-content;
+    position: relative;
+    top: 17rem;
+    left: -10rem;
+}
+
+.admin-checkbox input[type="checkbox"] {
+    margin-bottom: 4px;
+    /* Adjusts spacing between checkbox and text */
+}
+
+.password-visibility-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+.login-btn {
+    position: relative;
+    left: -7rem;
+    top: -31px;
+}
+
+/* Responsive */
+@media (max-width: 892px) {
+    .form-container {
+        width: 500px;
+    }
+
+    .col-1 {
+        display: none;
+    }
+
+    .col-2 {
+        width: 100%;
+    }
+
+    .home-icon {
+        position: absolute;
+        top: 3%;
+        left: -150px;
+        transform: translateY(-50%);
+        color: #fff;
+        font-size: 40px;
+    }
+    .admin-box {
+        display: flex;
+        align-items: center;
+        width: max-content;
+        position: relative;
+        top: -46px;
+        left: 79px;
+    } 
+    .admin-checkbox input[type="checkbox"] {
+        margin-bottom: 12px;
+    }
+   
+    
+    
+}

@@ -1,0 +1,742 @@
+Createevent Page
+
+0);
+    // Check if date is in the future
+    const selectedDate = new Date(event.date);
+    const now = new Date();
+
+    if (selectedDate <
+
+= selectedDate) {
+      const eventDateStr = selectedDate.toLocaleDateString();
+      const regDateStr = regDeadline.toLocaleDateString();
+      showErrorToast(
+        `Registration deadline (${regDateStr}) must be before event date (${eventDateStr})`
+      );
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      // Show loading toast
+      showInfoToast("Creating event...");
+
+      // Create FormData for multipart/form-data
+      const formData = new FormData();
+
+      formData.append("title", event.title);
+      formData.append("description", event.description);
+      formData.append("date", event.date);
+      formData.append("location", event.location);
+      formData.append("organizer", event.organizer);
+      formData.append("prize_money", event.prize_money);
+      formData.append("event_type", event.event_type);
+      formData.append("registration_deadline", event.registration_deadline);
+      formData.append("registration_fee", event.registration_fee);
+      formData.append("createdBy", user._id); // Add the logged-in user's ID
+      formData.append("category", event.category);
+      formData.append("tags", tagsArray);
+
+
+      if (event.event_image) {
+        formData.append("image", event.event_image);
+      }
+
+      // Call API to create event
+      const response = await apiService.createEvent(formData);
+
+      if (response.data.success) {
+        // Show success toast
+        showSuccessToast(
+          `Event "${event.title}" has been created successfully!`
+        );
+
+        // Clear events cache to ensure new event shows up in upcoming events
+        clearEventCaches();
+
+        // Reset form
+        setEvent({
+          title: "",
+          description: "",
+          date: "",
+          location: "",
+          organizer: "",
+          prize_money: 0,
+          event_type: "offline",
+          registration_deadline: "",
+          registration_fee: 0,
+          event_image: null,
+        });
+
+        // Clear file input
+        const fileInput = document.querySelector('input[type="file"]');
+        if (fileInput) fileInput.value = "";
+      } else {
+        showErrorToast(response.data.message || "Failed to create event");
+      }
+    } catch (error) {
+      console.error("Error creating event:", error);
+      const errorMessage =
+        error.response?.data?.message ||
+        "Failed to create event. Please try again.";
+      showErrorToast(errorMessage);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <
+
+}
+      <
+
+Authentication Required<
+
+Please log in to create an event.
+            <
+
+) : (
+        <
+
+Create Event<
+
+Event Title<
+
+Description<
+
+Event Image<
+
+Max size: 3MB. Supported formats: JPG, PNG, GIF
+              <
+
+Event Date<
+
+When will your event take place?
+                <
+
+Category<
+
+Tags<
+
+Location<
+
+Organizer<
+
+Name of the person or organization organizing this event
+              <
+
+Registration Deadline<
+
+Set the last date/time for registration (must be before event
+                  date)
+                <
+
+Registration Fee (৳)<
+
+Prize Money (৳)<
+
+Creating Event...
+                <
+
+) : (
+                "Create Event"
+              )}
+            <
+
+)}
+      <
+
+../utils/toastUtils
+
+,
+    description:
+
+,
+    date:
+
+,
+    location:
+
+,
+    organizer:
+
+,
+    prize_money: 0,
+    event_type:
+
+,
+    registration_deadline:
+
+,
+    registration_fee: 0,
+    event_image: null,
+    tags:
+
+,
+    category:
+
+,
+  });
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 800);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Client side guard
+  useEffect(() => {
+    if (!user) return; // wait until user loaded
+    if (!user.isAdmin) {
+      showErrorToast(
+
+);
+      navigate(
+
+, { replace: true });
+    }
+  }, [user, navigate]);
+
+  const handleChange = (e) => {
+    const { name, value, type, files } = e.target;
+
+    if (type ===
+
+) {
+      const file = files[0];
+      if (file) {
+        // Check file size (max 3MB)
+        if (file.size > 3 * 1024 * 1024) {
+          showErrorToast(
+
+);
+          return;
+        }
+        // Check file type
+        if (!file.type.startsWith(
+
+)) {
+          showErrorToast(
+
+);
+          return;
+        }
+        setEvent({ ...event, [name]: file });
+      }
+    } else {
+      setEvent({ ...event, [name]: value });
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // Check if user is logged in
+    if (!user || !user._id) {
+      showErrorToast(
+
+);
+      return;
+    }
+
+    // Basic validation
+    if (!event.title.trim()) {
+      showErrorToast(
+
+);
+      return;
+    }
+
+    if (!event.description.trim()) {
+      showErrorToast(
+
+);
+      return;
+    }
+
+    if (!event.date) {
+      showErrorToast(
+
+);
+      return;
+    }
+
+    if (!event.location.trim()) {
+      showErrorToast(
+
+);
+      return;
+    }
+
+    if (!event.organizer.trim()) {
+      showErrorToast(
+
+);
+      return;
+    }
+
+    if (!event.registration_deadline) {
+      showErrorToast(
+
+);
+      return;
+    }
+    const tagsArray = event.tags
+      .split(
+
+)
+      .map((tag) => tag.trim())
+      .filter((tag) => tag.length > 0);
+    // Check if date is in the future
+    const selectedDate = new Date(event.date);
+    const now = new Date();
+
+    if (selectedDate <= now) {
+      showErrorToast(
+
+);
+      return;
+    }
+
+    // Check if registration deadline is before event date
+    const regDeadline = new Date(event.registration_deadline);
+
+    // Additional check: registration deadline should also be in the future
+    if (regDeadline <= now) {
+      showErrorToast(
+
+);
+      return;
+    }
+
+    if (regDeadline >= selectedDate) {
+      const eventDateStr = selectedDate.toLocaleDateString();
+      const regDateStr = regDeadline.toLocaleDateString();
+      showErrorToast(
+        `Registration deadline (${regDateStr}) must be before event date (${eventDateStr})`
+      );
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      // Show loading toast
+      showInfoToast(
+
+);
+
+      // Create FormData for multipart/form-data
+      const formData = new FormData();
+
+      formData.append(
+
+, event.title);
+      formData.append(
+
+, event.description);
+      formData.append(
+
+, event.date);
+      formData.append(
+
+, event.location);
+      formData.append(
+
+, event.organizer);
+      formData.append(
+
+, event.prize_money);
+      formData.append(
+
+, event.event_type);
+      formData.append(
+
+, event.registration_deadline);
+      formData.append(
+
+, event.registration_fee);
+      formData.append(
+
+, user._id); // Add the logged-in user
+
+, event.category);
+      formData.append(
+
+, tagsArray);
+
+
+      if (event.event_image) {
+        formData.append(
+
+, event.event_image);
+      }
+
+      // Call API to create event
+      const response = await apiService.createEvent(formData);
+
+      if (response.data.success) {
+        // Show success toast
+        showSuccessToast(
+          `Event
+
+has been created successfully!`
+        );
+
+        // Clear events cache to ensure new event shows up in upcoming events
+        clearEventCaches();
+
+        // Reset form
+        setEvent({
+          title:
+
+,
+          description:
+
+,
+          date:
+
+,
+          location:
+
+,
+          organizer:
+
+,
+          prize_money: 0,
+          event_type:
+
+,
+          registration_deadline:
+
+,
+          registration_fee: 0,
+          event_image: null,
+        });
+
+        // Clear file input
+        const fileInput = document.querySelector(
+
+);
+        if (fileInput) fileInput.value =
+
+;
+      } else {
+        showErrorToast(response.data.message ||
+
+);
+      }
+    } catch (error) {
+      console.error(
+
+, error);
+      const errorMessage =
+        error.response?.data?.message ||
+
+;
+      showErrorToast(errorMessage);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <div className=
+
+style={{ fontFamily:
+
+}}>
+      {loading && <Loader color={document.documentElement.getAttribute(
+
+} />}
+      <Header />
+      {!user ? (
+        <div className=
+
+>
+          <div className=
+
+>
+            <h2 className=
+
+>Authentication Required</h2>
+            <p style={{ textAlign:
+
+var(--text-secondary)
+
+onSubmit={handleSubmit}>
+            <h2 className=
+
+>Create Event</h2>
+
+            {/* Event Title */}
+            <div className=
+
+>
+              <label className=
+
+>Event Title</label>
+              <input
+                type=
+
+placeholder=
+
+value={event.title}
+                onChange={handleChange}
+                className=
+
+required
+              />
+            </div>
+
+            {/* Description */}
+            <div className=
+
+>
+              <label className=
+
+>Description</label>
+              <textarea
+                name=
+
+placeholder=
+
+value={event.description}
+                onChange={handleChange}
+                className=
+
+required
+              />
+            </div>
+
+            {/* Event Image */}
+            <div className=
+
+>
+              <label className=
+
+>Event Image</label>
+              <input
+                type=
+
+onChange={handleChange}
+                className=
+
+/>
+              <small className=
+
+>
+                Max size: 3MB. Supported formats: JPG, PNG, GIF
+              </small>
+            </div>
+
+            {/* Date and Event Type */}
+            <div className=
+
+>
+              <div className=
+
+>
+                <label className=
+
+>Event Date</label>
+                <input
+                  type=
+
+value={event.date}
+                  onChange={handleChange}
+                  className=
+
+required
+                />
+                <small className=
+
+>
+                  When will your event take place?
+                </small>
+              </div>
+              <div className=
+
+>
+                <label className=
+
+>Category</label>
+                <input
+                  type=
+
+placeholder=
+
+value={event.category}
+                  onChange={handleChange}
+                  className=
+
+required
+                />
+              </div>
+            </div>
+            {/* Tags */}
+            <div className=
+
+>
+              <label className=
+
+>Tags</label>
+              <input
+                type=
+
+placeholder=
+
+value={event.tags}
+                onChange={handleChange}
+                className=
+
+/>
+            </div>
+            {/* Location */}
+            <div className=
+
+>
+              <label className=
+
+>Location</label>
+              <input
+                type=
+
+placeholder=
+
+value={event.location}
+                onChange={handleChange}
+                className=
+
+required
+              />
+            </div>
+
+            {/* Organizer */}
+            <div className=
+
+>
+              <label className=
+
+>Organizer</label>
+              <input
+                type=
+
+placeholder=
+
+value={event.organizer}
+                onChange={handleChange}
+                className=
+
+required
+              />
+              <small className=
+
+>
+                Name of the person or organization organizing this event
+              </small>
+            </div>
+
+            {/* Registration Details */}
+            <div className=
+
+>
+              <div className=
+
+>
+                <label className=
+
+>Registration Deadline</label>
+                <input
+                  type=
+
+value={event.registration_deadline}
+                  onChange={handleChange}
+                  className=
+
+required
+                />
+                <small className=
+
+>
+                  Set the last date/time for registration (must be before event
+                  date)
+                </small>
+              </div>
+              <div className=
+
+>
+                <label className=
+
+>Registration Fee (৳)</label>
+                <input
+                  type=
+
+value={event.registration_fee}
+                  onChange={handleChange}
+                  className=
+
+required
+                />
+              </div>
+            </div>
+
+            {/* Prize Money */}
+            <div className=
+
+>
+              <label className=
+
+>Prize Money (৳)</label>
+              <input
+                type=
+
+value={event.prize_money}
+                onChange={handleChange}
+                className=
+
+required
+              />
+            </div>
+
+            <button
+              type=
+
+className={`ce-btn ce-full-width ${
+                isSubmitting ?
+
+}`}
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? (
+                <>
+                  <span className=
+
+></span>
+                  Creating Event...
+                </>
+              ) : (
+
+)}
+            </button>
+          </form>
+        </div>
+      )}
+      <Footer />
+
+      {/* Toast Container */}
+      <ToastContainer
+        position=
+
+autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme=

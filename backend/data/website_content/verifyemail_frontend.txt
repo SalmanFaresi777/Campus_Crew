@@ -1,0 +1,114 @@
+Verifyemail Page
+
+}
+      <
+
+Email Verification<
+
+)}
+
+        {verificationStatus.success === true && (
+          <
+
+Go to Login
+            <
+
+)}
+
+        {verificationStatus.success === false && (
+          <
+
+Back to Login
+            <
+
+)}
+      <
+
+,
+  });
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const verificationId = uuidv4(); // Generate a unique ID for this attempt
+
+    (async () => {
+      try {
+        const response = await axios.get(`${backend_link}/api/verify-email/${token}`, {
+          params: { verificationId } // Send the ID to the backend
+        });
+        setVerificationStatus({ success: true, message: response.data.message });
+      } catch (error) {
+        setVerificationStatus({
+          success: false,
+          message: error.response?.data?.message ||
+
+,
+        });
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, []); // Empty dependency array
+  
+
+  // Print verification status to console whenever it changes
+  useEffect(() => {
+    console.log(
+
+, verificationStatus);
+  }, [verificationStatus]);
+
+  const handleLoginRedirect = () => {
+    // Clear localStorage or cookies related to authentication if any
+    localStorage.removeItem(
+
+); // Example for localStorage
+    // Add other cleanup logic if needed
+
+    navigate(
+
+);
+  };
+
+  return (
+    <div className=
+
+>
+      {loading && <Loader color={document.documentElement.getAttribute(
+
+} />}
+      <div className=
+
+>
+        <h2>Email Verification</h2>
+
+        {verificationStatus.success === null && (
+          <div className=
+
+></div>
+        )}
+
+        {verificationStatus.success === true && (
+          <>
+            <div className=
+
+>✓</div> 
+            <p>{verificationStatus.message}</p>
+            <button onClick={handleLoginRedirect} className=
+
+>
+              Go to Login
+            </button>
+          </>
+        )}
+
+        {verificationStatus.success === false && (
+          <>
+            <div className=
+
+>✗</div>
+            <p>{verificationStatus.message}</p>
+            <button onClick={() => navigate(
+
+)} className=

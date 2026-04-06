@@ -1,0 +1,329 @@
+Joinedevent Page
+
+Loading your events...<
+
+);
+  }
+
+  if (error) {
+    return (
+      <
+
+}
+      <
+
+My Joined Events<
+
+You haven't joined any events yet.<
+
+0 && (
+          <
+
+Location:<
+
+Prize:<
+
+Fee:<
+
+Payment:<
+
+Registered:<
+
+) : (
+                            <
+
+No Image<
+
+)}
+
+                          <
+
+Event: {event.title || "Untitled Event"}. Date: {month}{" "}
+                      {day}. Location: {event.location || "Location TBA"}.
+                      Prize: {event.prize_money || "—"} BDT. Fee:{" "}
+                      {event.registration_fee || "—"} BDT. Payment status:{" "}
+                      {reg.payment_status}. Registered:{" "}
+                      {reg.is_registered ? "Yes" : "No"}.
+                    <
+
+);
+              })}
+          <
+
+)}
+      <
+
+);
+  const { user } = useAuth();
+  const navigate = useNavigate();
+
+  // Check if user is admin and redirect to forbidden page
+  useEffect(() => {
+    if (user && user.isAdmin) {
+      navigate(
+
+);
+      return;
+    }
+  }, [user, navigate]);
+
+  useEffect(() => {
+    // Don
+
+Failed to load registered events
+
+An error occurred while fetching events
+
+};
+    const d = new Date(isoDate);
+    const month = d.toLocaleString(
+
+}).toUpperCase();
+    const day = String(d.getDate()).padStart(2,
+
+);
+    return { month, day };
+  };
+
+  if (loading) {
+    return (
+      <div className=
+
+>
+        <Header />
+        <main className=
+
+>
+          <p className=
+
+>Loading your events...</p>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className=
+
+>
+        <Header />
+        <main className=
+
+>
+          <p className=
+
+>{error}</p>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+  const eventDetails = async (eventId) => {
+    console.log(eventId);
+    navigate(`/events/${eventId}`);
+  };
+
+  // Don
+
+>
+      {loading && <Loader color={document.documentElement.getAttribute(
+
+} />}
+      <Header />
+      <main className=
+
+>
+        <h1 className=
+
+>My Joined Events</h1>
+
+        {registrations.length === 0 && (
+          <p className=
+
+>
+            {registrations
+              .slice() // make a copy so we don’t mutate state
+              .sort((a, b) => {
+                const dateA = new Date(a?.eventId?.date || 0);
+                const dateB = new Date(b?.eventId?.date || 0);
+                return dateA - dateB; // Ascending: earliest first
+              })
+              .map((reg) => {
+                const event = reg.eventId || {};
+                const { month, day } = formatDateParts(event.date);
+
+                return (
+                  <article
+                    key={reg._id}
+                    className=
+
+aria-labelledby={`je-title-${reg._id}`}
+                    onClick={() => eventDetails(event._id)}
+                  >
+                    <div className=
+
+>
+                      <div className=
+
+>
+                        {/* Inside content (visible after flip) */}
+                        <div className=
+
+>
+                          <h2
+                            id={`je-title-${reg._id}`}
+                            className=
+
+title={event.title}
+                          >
+                            {event.title ||
+
+}
+                          </h2>
+                          <p className=
+
+>
+                            <strong>Location:</strong>{
+
+}
+                            {event.location ||
+
+}
+                          </p>
+                          <p className=
+
+>
+                            <strong>Prize:</strong>{
+
+}
+                            {event.prize_money
+                              ? `${event.prize_money} BDT`
+                              :
+
+}
+                          </p>
+                          <p className=
+
+>
+                            <strong>Fee:</strong>{
+
+}
+                            {event.registration_fee
+                              ? `${event.registration_fee} BDT`
+                              :
+
+}
+                          </p>
+                          <p className=
+
+>
+                            <strong>Payment:</strong>{
+
+}
+                            {reg.payment_status ||
+
+}
+                          </p>
+                          <p className=
+
+>
+                            <strong>Registered:</strong>{
+
+}
+                            {reg.is_registered ?
+
+}
+                          </p>
+                        </div>
+
+                        {/* Cover */}
+                        <div
+                          className=
+
+tabIndex={0}
+                          aria-label={`Open card for ${event.title ||
+
+}`}
+                        >
+                          {event.event_image ? (
+                            <img
+                              src={event.event_image}
+                              alt={
+                                event.title
+                                  ? `${event.title} cover`
+                                  :
+
+}
+                              className=
+
+/>
+                          ) : (
+                            <div className=
+
+>
+                              <span>No Image</span>
+                            </div>
+                          )}
+
+                          <div className=
+
+aria-hidden=
+
+>
+                            <div className=
+
+>
+                              <span className=
+
+>{month}</span>
+                              <span className=
+
+>{day}</span>
+                            </div>
+                            <div
+                              className=
+
+title={event.title ||
+
+}
+                            >
+                              {event.title ||
+
+}
+                            </div>
+                            <div className=
+
+>{event.catagory}</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Screen reader fallback */}
+                    <div className=
+
+>
+                      Event: {event.title ||
+
+}. Date: {month}{
+
+}
+                      {day}. Location: {event.location ||
+
+}.
+                      Prize: {event.prize_money ||
+
+} BDT. Fee:{
+
+}
+                      {event.registration_fee ||
+
+} BDT. Payment status:{
+
+}
+                      {reg.payment_status}. Registered:{
+
+}
+                      {reg.is_registered ?

@@ -1,0 +1,55 @@
+Page: Home - CampusCrew
+
+Welcome to CampusCrew - Your Ultimate Campus Event Management Platform
+
+CampusCrew is a comprehensive MERN stack event management system designed specifically for campus activities. Our platform helps students, organizers, and administrators create, manage, and participate in campus events effortlessly.
+
+About CampusCrew:
+CampusCrew simplifies the entire event lifecycle from creation to completion. Whether you're a student looking to join exciting campus events or an organizer planning the next big workshop, we've got you covered.
+
+Key Features:
+- Easy Event Creation: Create detailed event pages with images, descriptions, dates, and venues
+- Secure Registration System: Simple one-click registration with form validation
+- Real-time Participant Tracking: Monitor registrations and attendance in real-time
+- Automated Certificate Generation: Generate and distribute certificates automatically
+- Payment Integration: Seamless bKash payment gateway for paid events
+- Email Notifications: Automated emails for registrations, confirmations, and reminders
+- User-friendly Dashboard: Comprehensive admin dashboard with analytics and insights
+- AI Chatbot Assistant: Get instant answers powered by Hugging Face AI models
+- Dark Mode Support: Comfortable viewing experience in any lighting
+- Mobile Responsive: Works perfectly on all devices
+
+Types of Events Supported:
+- Technical Workshops and Hackathons
+- Cultural Festivals and Performances  
+- Sports Tournaments and Competitions
+- Academic Seminars and Conferences
+- Career Fairs and Networking Events
+- Club Activities and Meetups
+- Social Gatherings and Celebrations
+
+Why Choose CampusCrew?
+- 100% Free Platform: No subscription fees for users or organizers
+- Easy to Use: Intuitive interface requiring no technical expertise
+- Secure & Reliable: Built with modern security standards
+- Fast Performance: Quick loading times and smooth interactions
+- Active Support: Helpful chatbot and email support available 24/7
+
+How It Works:
+1. Sign Up: Create your free account in seconds
+2. Browse Events: Explore upcoming campus events
+3. Register: One-click registration for events you like
+4. Attend: Show up and enjoy the event
+5. Get Certified: Download your participation certificate
+
+For Event Organizers:
+- Create unlimited events
+- Manage participant lists
+- Track registrations in real-time
+- Generate reports and analytics
+- Communicate with participants
+- Issue certificates automatically
+
+Join thousands of students and organizers who trust CampusCrew for campus event management. Make your campus more connected and organized today!
+
+Get Started: Click "Sign Up" to create your account or "Upcoming Events" to browse current events.

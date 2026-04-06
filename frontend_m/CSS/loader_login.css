@@ -1,0 +1,51 @@
+/* Loader.css */
+
+.loader-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10000; /* Above other modals */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.45);
+  pointer-events: all;
+  backdrop-filter: blur(2px);
+}
+
+.loader-svg {
+  --uib-size: 200px;
+  --uib-color: black;
+  --uib-speed: 1.4s;
+  --uib-bg-opacity: .1;
+  height: var(--uib-size);
+  width: var(--uib-size);
+  transform-origin: center;
+  overflow: visible;
+}
+
+.car {
+  fill: none;
+  stroke: var(--uib-color);
+  stroke-dasharray: 15, 85;
+  stroke-dashoffset: 0;
+  stroke-linecap: round;
+  animation: travel var(--uib-speed) linear infinite;
+  will-change: stroke-dasharray, stroke-dashoffset;
+  transition: stroke 0.5s ease;
+}
+
+.track {
+  stroke: var(--uib-color);
+  opacity: var(--uib-bg-opacity);
+  transition: stroke 0.5s ease;
+}
+
+@keyframes travel {
+  0% {
+      stroke-dashoffset: 0;
+  }
+
+  100% {
+      stroke-dashoffset: -100;
+  }
+}

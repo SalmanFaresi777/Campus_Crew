@@ -1,0 +1,119 @@
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Dependencies
+node_modules/
+package-lock.json
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Test files - ignore all test files except essential ones
+test_*.js
+test-*.js
+test-*.ps1
+*_test.js
+*-test.js
+*.test.js
+*.spec.js
+test_scripts.json
+
+# Keep essential utility and test scripts
+!test_keyword_fallback.js
+!test_contact_in_qdrant.js
+!test_address_query.js
+!test_auto_update_system.js
+!test_team_queries.js
+!check_data_freshness.js
+!extract_frontend_content.js
+
+# Demo and debug files - ignore all demo/debug files
+*_demo.js
+*-demo.js
+demo_*.js
+demo-*.js
+debug_*.js
+debug-*.js
+
+# Old/deprecated scripts and utilities
+clean_qdrant.js
+list_qdrant_docs.js
+update_vector_database.js
+smart_update_vector_db.js
+force_update_database.js
+*_backup.js
+*.backup.js
+
+# Old/deprecated utils
+utils/autoScrapingRAG.js
+utils/autoUpdateQdrant.js
+utils/smartAutoUpdateQdrant.js
+utils/chromaEmbeddings.js
+utils/enhancedRagIntegration.js
+utils/ragIntegration.js
+utils/vectorDatabaseMonitor.js
+utils/crawler.js
+utils/puppeteerCrawler.js
+utils/websiteScraper.js
+utils/firecrawlService.js
+
+# Temporary files and caches
+*.tmp
+*.temp
+*.cache
+.qdrant_content_cache.json
+*.swp
+*.swo
+*~
+signup_payload.json
+
+# Backup files
+*.backup
+*.bak
+*~
+
+# Build outputs
+dist/
+build/
+.next/
+out/
+
+# IDE and editor files
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# OS files
+Thumbs.db
+desktop.ini
+
+# Database
+*.sqlite
+*.db
+*.db-journal
+
+# Vercel
+.vercel
+
+# Documentation - keep all documentation files
+# These are valuable for the project
+# QUICK_*.md
+# AUTO_UPDATE_*.md
+# *_COMPLETE.md
+# *_GUIDE.md
+# *_FIX.md
+# *_SUCCESS.md
+# *_SUMMARY.md

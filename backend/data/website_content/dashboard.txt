@@ -1,0 +1,376 @@
+Page: Dashboard - Admin & Organizer Dashboard
+URL: http://localhost:3000/dashboard
+Crawled: 2025-10-08
+
+Dashboard - Event Management & Analytics
+
+Your Event Management Control Center
+
+Welcome to the CampusCrew Dashboard! This is your command center for managing events, tracking registrations, viewing analytics, and organizing campus activities.
+
+**Note**: Dashboard is available for organizers and admins. Regular users see a simplified personal dashboard.
+
+Dashboard Overview:
+
+The dashboard provides:
+- Real-time event statistics
+- Registration analytics
+- Participant management
+- Event performance metrics
+- Quick actions
+- Recent activity
+- Upcoming deadlines
+- Notifications and alerts
+
+Dashboard Sections:
+
+## 1. Overview Statistics
+
+Key Metrics at a Glance:
+- 📊 Total Events Created
+- 👥 Total Participants
+- 📈 Active Registrations
+- 🎯 Events This Month
+- ⭐ Average Event Rating
+- 💰 Revenue (if applicable)
+- 📜 Certificates Issued
+- 🔥 Most Popular Event
+
+## 2. My Events Panel
+
+View all your created events:
+- Active events
+- Upcoming events
+- Past events
+- Draft events
+- Cancelled events
+
+For each event see:
+- Event name and banner
+- Registration count
+- Days until event
+- Registration status
+- Quick actions (Edit, View, Manage)
+
+## 3. Recent Registrations
+
+Live registration feed:
+- Latest registrations across all your events
+- Participant name
+- Event name
+- Registration time
+- Payment status
+- Quick participant details view
+
+## 4. Analytics Dashboard
+
+### Event Performance:
+- Registration trends over time
+- Most popular events
+- Registration conversion rate
+- Peak registration times
+- Category performance
+
+### Participant Analytics:
+- Total unique participants
+- Repeat attendees
+- New vs returning participants
+- Demographics (if available)
+- Engagement metrics
+
+### Time-Based Insights:
+- Best days for events
+- Peak registration periods
+- Monthly comparisons
+- Year-over-year growth
+
+## 5. Quick Actions
+
+One-click access to:
+- ➕ Create New Event
+- 📋 View All Events
+- 👥 Manage Participants
+- 📧 Send Email Notification
+- 📜 Generate Certificates
+- 📊 Download Reports
+- ⚙️ Settings
+
+## 6. Event Calendar
+
+Visual calendar showing:
+- All your upcoming events
+- Registration deadlines
+- Event dates
+- Capacity status
+- Color-coded by category
+- Click to view/edit event
+
+## 7. Participant Management
+
+Manage registrations:
+- View all participants
+- Filter by event
+- Search participants
+- Export participant lists
+- Send bulk emails
+- Mark attendance
+- Issue certificates
+
+Participant Details:
+- Name and email
+- Registration date
+- Payment status
+- Attendance status
+- Certificate status
+- Contact information
+
+## 8. Notifications Center
+
+Stay updated with:
+- New registrations
+- Payment confirmations
+- Event reminders
+- System alerts
+- Feedback/reviews
+- Important deadlines
+
+Notification Types:
+- 🔔 Real-time notifications
+- 📧 Email summaries
+- 📱 Push notifications (if enabled)
+- 🔴 Urgent alerts
+
+## 9. Reports & Export
+
+Generate comprehensive reports:
+- **Event Reports**: Performance metrics per event
+- **Participant Reports**: Attendee lists and details
+- **Financial Reports**: Revenue and payments
+- **Attendance Reports**: Who attended what
+- **Certificate Reports**: Issued certificates
+
+Export Formats:
+- PDF (for presentations)
+- CSV (for Excel)
+- Excel (XLSX)
+- JSON (for data analysis)
+
+## 10. Settings & Configuration
+
+Manage your account:
+- Profile settings
+- Organization details
+- Email templates
+- Certificate templates
+- Payment settings
+- Notification preferences
+- Privacy settings
+
+For Organizers:
+
+### Event Management Features:
+✅ Create unlimited events
+✅ Edit event details anytime
+✅ Clone past events
+✅ Schedule events in advance
+✅ Set registration limits
+✅ Configure payment options
+✅ Customize registration forms
+✅ Add co-organizers
+
+### Participant Management:
+✅ View registration list real-time
+✅ Export participant data
+✅ Mark attendance
+✅ Send targeted emails
+✅ Issue certificates
+✅ Manage waitlist
+✅ Process refunds
+✅ Block/unblock participants
+
+### Communication Tools:
+✅ Bulk email to all participants
+✅ Custom email templates
+✅ Event update notifications
+✅ Reminder scheduling
+✅ QR code generation
+✅ Announcement board
+✅ FAQ management
+
+### Analytics Tools:
+✅ Registration trends
+✅ Popular event times
+✅ Demographic insights
+✅ Conversion rates
+✅ Revenue tracking
+✅ Attendance analysis
+✅ Feedback summaries
+
+For Admins:
+
+Additional admin features:
+- User management
+- Approve/reject organizers
+- System-wide analytics
+- Platform settings
+- Content moderation
+- User support tools
+- System health monitoring
+
+### Platform Analytics:
+- Total users on platform
+- Total events created
+- Total registrations
+- Platform growth rate
+- Popular categories
+- User engagement
+- Revenue statistics
+
+### User Management:
+- View all users
+- Grant organizer access
+- Suspend/ban users
+- Verify accounts
+- Manage permissions
+- User activity logs
+
+### System Management:
+- Platform settings
+- Email configuration
+- Payment gateway settings
+- Certificate templates
+- Banner management
+- Announcement system
+
+Dashboard Widgets:
+
+Customize your dashboard:
+- Drag and drop widgets
+- Show/hide sections
+- Resize panels
+- Save layout preferences
+- Create custom views
+- Quick access shortcuts
+
+Key Performance Indicators (KPIs):
+
+Track important metrics:
+- **Registration Rate**: % of views that register
+- **Attendance Rate**: % of registrations that attend
+- **Event Fill Rate**: % of capacity filled
+- **Average Event Size**: Avg participants per event
+- **Revenue per Event**: Avg revenue (if applicable)
+- **Satisfaction Score**: Average event rating
+- **Repeat Rate**: % of returning participants
+
+Quick Tips for Dashboard:
+
+💡 Check dashboard daily for updates
+💡 Monitor registration trends
+💡 Respond to new registrations promptly
+💡 Review analytics weekly
+💡 Export reports for records
+💡 Use quick actions for efficiency
+💡 Set up notification preferences
+💡 Keep participant data updated
+
+Common Dashboard Tasks:
+
+**Daily:**
+- Check new registrations
+- Review notifications
+- Respond to inquiries
+- Monitor event status
+
+**Weekly:**
+- Review analytics
+- Send event reminders
+- Update event details
+- Export participant lists
+
+**Monthly:**
+- Generate reports
+- Analyze trends
+- Plan future events
+- Review feedback
+
+**Before Events:**
+- Download participant list
+- Send final reminders
+- Prepare attendance sheet
+- Review event details
+
+**After Events:**
+- Mark attendance
+- Issue certificates
+- Send thank you emails
+- Collect feedback
+- Update statistics
+
+Mobile Dashboard Access:
+
+Access dashboard on the go:
+- Mobile-responsive design
+- All features available
+- Push notifications
+- Quick actions
+- Real-time updates
+- Optimized for touch
+
+Dashboard Best Practices:
+
+✅ Regular monitoring
+✅ Quick response to registrations
+✅ Data-driven decisions
+✅ Clear communication
+✅ Organized record-keeping
+✅ Regular backups
+✅ Security awareness
+✅ Continuous improvement
+
+Security Features:
+
+Your dashboard is secure:
+- 🔒 Encrypted connection
+- 👤 Role-based access
+- 🔑 Secure authentication
+- 📊 Activity logging
+- 🚨 Suspicious activity alerts
+- 🔄 Regular backups
+- 🛡️ Data protection
+
+Dashboard Shortcuts:
+
+Keyboard shortcuts for efficiency:
+- `Ctrl + N`: Create new event
+- `Ctrl + E`: View all events
+- `Ctrl + P`: Manage participants
+- `Ctrl + R`: View reports
+- `Ctrl + S`: Settings
+- `F5`: Refresh dashboard
+
+Need Help with Dashboard?
+
+Resources available:
+- Dashboard tour (first-time users)
+- Video tutorials
+- Documentation
+- Chatbot support
+- Email support: support@campuscrew.com
+- Help center
+
+Coming Soon:
+
+Upcoming dashboard features:
+- 📱 Mobile app
+- 🤖 AI-powered insights
+- 📊 Advanced analytics
+- 🎨 Custom branding
+- 🔗 Integration with other tools
+- 📅 Smart scheduling
+- 💬 In-app messaging
+
+Your dashboard is your control center for successful event management! 🚀
+
+---
+Description: Comprehensive dashboard for event organizers and admins. Manage events, track registrations, view analytics, communicate with participants, and access all management tools.

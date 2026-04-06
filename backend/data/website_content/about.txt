@@ -1,0 +1,19 @@
+About CampusCrew
+
+CampusCrew is a comprehensive event management platform designed specifically for university and college campuses. Our mission is to connect students with exciting campus events, clubs, and activities.
+
+Key Features:
+- Event Discovery: Browse and search for upcoming campus events by category, date, and location
+- Easy Registration: Quick and simple event registration process
+- Event Creation: Students and organizations can create and manage their own events
+- Digital Certificates: Attendees receive digital certificates for completed events
+- Profile Management: Personalized user profiles to track your event participation history
+- Real-time Updates: Get notifications about event changes and new opportunities
+
+Our platform helps students:
+- Stay informed about campus activities
+- Connect with like-minded peers
+- Build their resume with event participation certificates
+- Discover new interests and opportunities
+
+CampusCrew is built by students, for students, making campus life more engaging and connected.

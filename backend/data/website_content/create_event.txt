@@ -1,0 +1,311 @@
+Page: Create Event - Event Creation for Organizers
+URL: http://localhost:3000/create-event
+Crawled: 2025-10-08
+
+Create Event - Organize Your Campus Event
+
+Create and Publish Campus Events
+
+Welcome to the Event Creation page! As an organizer, you can create amazing campus events and reach hundreds of students. Our easy-to-use event creation tool makes organizing events a breeze.
+
+**Note**: You need organizer/admin privileges to create events. Contact admin at support@campuscrew.com to get access.
+
+How to Create an Event:
+
+**Step 1: Basic Information**
+- Event Title (clear and catchy)
+- Event Description (detailed information)
+- Event Category (Technical, Cultural, Sports, Academic, Social)
+- Event Type (Workshop, Competition, Seminar, Festival, Tournament, etc.)
+
+**Step 2: Date and Time**
+- Event Date and Time
+- Event Duration
+- Registration Deadline
+- Last date for registration
+
+**Step 3: Venue Details**
+- Physical location or
+- Online event (provide meeting link)
+- Room number or hall name
+- Campus or off-campus venue
+
+**Step 4: Registration Settings**
+- Maximum participants (optional)
+- Minimum participants (optional)
+- Registration fee (free or paid)
+- Payment method (if paid event)
+
+**Step 5: Event Media**
+- Upload event banner/poster
+- Add event photos (optional)
+- Add video link (optional)
+- Add PDF flyer (optional)
+
+**Step 6: Additional Details**
+- Contact information
+- Event organizer name
+- Special instructions
+- Requirements or prerequisites
+- What participants will learn/gain
+
+**Step 7: Review and Publish**
+- Preview your event
+- Make final edits
+- Click "Publish Event"
+- Your event goes live immediately!
+
+Event Title Tips:
+✅ Clear and descriptive
+✅ Include event type
+✅ Mention key attraction
+✅ Keep it concise (under 60 characters)
+
+Examples:
+✅ "Web Development Workshop with Industry Experts"
+✅ "Annual Cultural Festival 2025"
+✅ "Inter-College Cricket Tournament"
+✅ "AI & Machine Learning Seminar"
+❌ "Event" (too vague)
+❌ "Best event ever!!!" (not informative)
+
+Event Description Best Practices:
+Your description should include:
+1. **What**: What is the event about?
+2. **Who**: Who should attend?
+3. **When**: Date and time details
+4. **Where**: Venue information
+5. **Why**: Why should students join?
+6. **What to Bring**: Any requirements
+7. **What to Expect**: Outcomes and benefits
+
+Example Description:
+```
+Join us for an intensive Web Development Workshop where you'll learn modern web technologies from industry professionals!
+
+What You'll Learn:
+- HTML5, CSS3, and JavaScript fundamentals
+- React.js for frontend development
+- Node.js for backend development
+- Building and deploying real projects
+
+Who Should Attend:
+- Students interested in web development
+- Beginners welcome (no prior experience required)
+- Anyone looking to start a career in tech
+
+What to Bring:
+- Your laptop with charger
+- Text editor installed (VS Code recommended)
+- Enthusiasm to learn!
+
+Certificate:
+All participants will receive a certificate of completion.
+```
+
+Event Categories:
+
+**Technical Events:**
+- Workshops (coding, design, etc.)
+- Hackathons
+- Tech talks
+- Coding competitions
+- Project showcases
+
+**Cultural Events:**
+- Music concerts
+- Dance performances
+- Drama and theatre
+- Art exhibitions
+- Cultural festivals
+
+**Sports Events:**
+- Cricket/Football tournaments
+- Athletic competitions
+- Indoor games
+- Sports day
+- Fitness challenges
+
+**Academic Events:**
+- Guest lectures
+- Seminars and conferences
+- Research presentations
+- Workshops
+- Study groups
+
+**Career Events:**
+- Job fairs
+- Career counseling
+- Resume workshops
+- Mock interviews
+- Industry visits
+
+**Social Events:**
+- Meetups and networking
+- Club activities
+- Community service
+- Social gatherings
+- Orientation programs
+
+Registration Settings:
+
+**Free Events:**
+- No registration fee
+- Open to all students
+- Quick registration process
+- No payment required
+
+**Paid Events:**
+- Set registration fee amount
+- Integrated bKash payment
+- Secure payment processing
+- Auto confirmation after payment
+- Refund policy (if applicable)
+
+**Limited Seats:**
+- Set maximum participants
+- First-come-first-served
+- Registration closes when full
+- Waitlist option (coming soon)
+
+**Unlimited Seats:**
+- No participant limit
+- Open registration
+- Suitable for large events
+
+Banner/Poster Guidelines:
+- **Dimensions**: 1920x1080px (recommended)
+- **Format**: JPG, PNG
+- **Size**: Maximum 5MB
+- **Content**: Event title, date, venue
+- **Design**: Eye-catching and professional
+- **Text**: Clear and readable
+
+Tips for Successful Events:
+
+**Before Event:**
+✅ Promote early (2-3 weeks in advance)
+✅ Create engaging description
+✅ Use attractive banner
+✅ Set realistic participant limits
+✅ Provide clear instructions
+✅ Send reminders to registrants
+
+**During Event:**
+✅ Welcome participants
+✅ Take attendance
+✅ Engage with audience
+✅ Capture photos/videos
+✅ Collect feedback
+
+**After Event:**
+✅ Generate certificates
+✅ Send thank you emails
+✅ Share event photos
+✅ Get testimonials
+✅ Plan next event
+
+Event Management Features:
+After publishing, you can:
+- View all registrations in real-time
+- Export participant list (CSV/Excel)
+- Send email notifications to participants
+- Update event details
+- Cancel or postpone event
+- Close registrations early
+- Generate attendance reports
+- Issue certificates
+
+Edit Event:
+You can edit event details anytime:
+1. Go to "Manage Events"
+2. Find your event
+3. Click "Edit"
+4. Update information
+5. Click "Save Changes"
+6. Participants receive update notification
+
+Cancel Event:
+If you need to cancel:
+1. Go to "Manage Events"
+2. Click "Cancel Event"
+3. Provide reason
+4. All participants get refund (if paid)
+5. Notification sent to all registrants
+
+Event Visibility:
+Choose when your event goes live:
+- **Publish Immediately**: Event visible right away
+- **Schedule**: Set publish date/time
+- **Draft**: Save without publishing
+- **Private**: Only accessible via link
+
+Promotional Tools:
+Promote your event:
+- Share event link on social media
+- Email invitation to students
+- Post on campus notice boards
+- Announce in classes
+- Share in WhatsApp groups
+- QR code for easy registration (auto-generated)
+
+Event Analytics:
+Track your event performance:
+- Total views
+- Click-through rate
+- Registration count
+- Registration over time
+- Popular times for registration
+- Demographic insights
+
+Organizer Best Practices:
+💡 Start planning early
+💡 Set clear objectives
+💡 Communicate effectively
+💡 Be responsive to questions
+💡 Prepare backup plans
+💡 Follow up after event
+💡 Collect and act on feedback
+
+Common Mistakes to Avoid:
+❌ Vague event descriptions
+❌ Low-quality banner images
+❌ Setting unrealistic deadlines
+❌ Not responding to inquiries
+❌ Poor communication
+❌ Inadequate preparation
+
+Certificate Generation:
+After event completion:
+- Auto-generate certificates for all participants
+- Customizable certificate template
+- Include event details
+- Organizer signature
+- Download as PDF
+- Share via email
+
+Support for Organizers:
+Need help creating your event?
+- Use chatbot for instant support
+- Email: support@campuscrew.com
+- Check organizer guide
+- Watch tutorial videos
+- Contact admin for assistance
+
+Event Creation Checklist:
+Before publishing, make sure you have:
+- ✅ Clear, engaging title
+- ✅ Detailed description
+- ✅ Correct date and time
+- ✅ Venue information
+- ✅ Registration deadline
+- ✅ Attractive banner
+- ✅ Category and type selected
+- ✅ Contact information
+- ✅ Registration fee (if applicable)
+- ✅ Special instructions (if any)
+
+Start creating your event and make a difference in campus life! 🎉
+
+---
+Description: Create and publish campus events on CampusCrew. Event creation tool for organizers with features like registration management, participant tracking, and certificate generation.

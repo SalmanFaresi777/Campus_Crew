@@ -1,0 +1,40 @@
+How to Create an Event in CampusCrew
+
+Creating an event in CampusCrew is simple and straightforward. Follow these steps:
+
+1. Login to Your Account
+   - Go to the CampusCrew website
+   - Click on the "Login" button
+   - Enter your credentials
+
+2. Navigate to Create Event
+   - Click on "Create Event" in the dashboard
+   - Fill in the event details form
+
+3. Event Information Required
+   - Event Title: Give your event a catchy and descriptive name
+   - Date and Time: Select when your event will take place
+   - Location: Specify where the event will be held
+   - Description: Provide detailed information about your event
+   - Category: Choose the appropriate category (Cultural, Academic, Sports, etc.)
+   - Registration Fee: Set the fee amount (can be free)
+
+4. Event Settings
+   - Maximum Participants: Set the participant limit
+   - Registration Deadline: When registration closes
+   - Event Images: Upload attractive images for your event
+
+5. Review and Publish
+   - Preview your event details
+   - Make any necessary changes
+   - Click "Publish Event" to make it live
+
+Tips for Successful Events:
+- Use clear and engaging descriptions
+- Upload high-quality images
+- Set reasonable registration fees
+- Promote your event through social media
+- Respond to participant questions promptly
+
+Contact Support:
+If you need help creating an event, contact our support team at support@campuscrew.com

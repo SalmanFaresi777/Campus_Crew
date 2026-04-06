@@ -1,0 +1,271 @@
+Page: My Profile - User Profile Management
+URL: http://localhost:3000/profile
+Crawled: 2025-10-08
+
+My Profile - Manage Your CampusCrew Account
+
+View and Update Your Profile Information
+
+Welcome to your profile page! Here you can view and update your personal information, manage your account settings, and track your campus event activity.
+
+Profile Information:
+- Full Name
+- Email Address
+- Profile Picture
+- Phone Number (optional)
+- Department/Major (optional)
+- Year of Study (optional)
+- Student ID (optional)
+- Bio/About Me (optional)
+- Social Links (optional)
+
+How to Edit Your Profile:
+1. Click "Edit Profile" button
+2. Update the fields you want to change
+3. Upload a new profile picture (optional)
+4. Click "Save Changes"
+5. Your profile is updated instantly!
+
+Profile Picture:
+- Upload your photo for a personalized experience
+- Supported formats: JPG, PNG, GIF
+- Maximum size: 2MB
+- Recommended: Square image (500x500px)
+- Shows on event registrations
+- Optional but recommended
+
+Account Information:
+**Email Address:**
+- Your primary login credential
+- Used for all notifications
+- Can be updated (requires verification)
+- Keep it current and accessible
+
+**Password:**
+- Securely encrypted
+- Change regularly for security
+- Click "Change Password" to update
+- Use strong, unique password
+
+**Account Status:**
+- Active/Verified
+- Member since: [Join Date]
+- Events Joined: [Count]
+- Events Created: [Count] (if organizer)
+
+Change Password:
+1. Click "Change Password"
+2. Enter current password
+3. Enter new password
+4. Confirm new password
+5. Click "Update Password"
+6. You'll receive confirmation email
+
+Update Email Address:
+1. Click "Change Email"
+2. Enter new email address
+3. Verify with current password
+4. Check new email for verification link
+5. Click link to confirm
+6. Login with new email
+
+Profile Visibility:
+Choose what others can see:
+- Public: Everyone can see
+- Private: Only you can see
+- Events Only: Visible to event participants
+
+Options to control:
+- Profile picture visibility
+- Name display
+- Event history
+- Registration count
+- Bio and social links
+
+Account Statistics:
+Track your CampusCrew activity:
+- **Total Events Joined**: Number of events you've registered for
+- **Events Attended**: Events you participated in
+- **Certificates Earned**: Number of certificates received
+- **Upcoming Events**: Events you're registered for
+- **Past Events**: Your event history
+- **Favorite Events**: Events you've bookmarked
+
+Notification Settings:
+Customize your email notifications:
+- Event registration confirmations
+- Event reminders (1 day before, 1 hour before)
+- Event updates and changes
+- Certificate availability alerts
+- New event recommendations
+- Platform updates and news
+
+Email Preferences:
+✅ Registration Confirmations (always on)
+⚙️ Event Reminders (customize timing)
+⚙️ Promotional Emails (opt-in/out)
+⚙️ Weekly Digest (opt-in/out)
+⚙️ Event Recommendations (opt-in/out)
+
+Privacy Settings:
+Control your data and privacy:
+- Who can see your profile
+- Who can see your event history
+- Data download (export your data)
+- Data deletion (delete your data)
+- Cookie preferences
+
+Download Your Data:
+You can export all your CampusCrew data:
+- Profile information
+- Event registration history
+- Certificates earned
+- Account activity log
+- Format: JSON or PDF
+- Compliant with GDPR
+
+Delete Account:
+If you want to delete your account:
+1. Go to "Account Settings"
+2. Click "Delete Account"
+3. Confirm with password
+4. Your account will be permanently deleted
+5. All data will be removed (cannot be undone)
+
+**Note**: Deleting account:
+- Cancels all upcoming event registrations
+- Removes your data from our servers
+- Cannot be reversed
+- You can create new account anytime
+
+For Organizers/Admins:
+Additional profile features:
+- Organization/Club name
+- Organizer badge
+- Contact information
+- Past events created
+- Average event rating
+- Total participants hosted
+
+Profile Completion:
+Complete your profile for better experience:
+- ⬜ Add profile picture
+- ⬜ Add phone number
+- ⬜ Add department/major
+- ⬜ Write a short bio
+- ⬜ Add social media links
+- ⬜ Verify email address
+
+Why Complete Your Profile?
+- Better event recommendations
+- Easier for organizers to contact you
+- Professional appearance
+- Build your campus network
+- Show your interests
+- Stand out in events
+
+Profile Tips:
+💡 Use a clear profile picture
+💡 Keep your email updated
+💡 Add your department for relevant events
+💡 Write a friendly bio
+💡 Update your interests
+💡 Enable helpful notifications
+💡 Review privacy settings
+
+Quick Actions:
+From your profile, you can:
+- View all joined events
+- Download certificates
+- Edit profile information
+- Change password
+- Manage notifications
+- View account activity
+- Update preferences
+- Contact support
+
+**How to Download Certificates:**
+Certificates are available in the Profile section:
+1. Click on your Profile Icon (top right corner of the page)
+2. Click "View Certificates" button in your profile
+3. You'll see a list of all certificates you've earned
+4. Each certificate shows:
+   - Event name
+   - Event date
+   - Certificate status (Available/Pending)
+   - Download button
+5. Click "Download Certificate" next to the event
+6. Certificate downloads as a PDF file
+7. Save it to your device or print it
+
+**Certificate Availability:**
+- Certificates are issued ONLY for events you attended
+- Organizer must mark your attendance as "Attended"
+- Certificates usually become available within 24-48 hours after the event
+- Check your profile's "View Certificates" section regularly
+- You'll receive an email notification when certificate is ready
+
+**Certificate Requirements:**
+✅ Must have registered for the event
+✅ Must have attended the event
+✅ Attendance must be marked by organizer
+✅ Payment completed (for paid events)
+⚠️ Certificates are NOT available if attendance is "Not Attended"
+
+**Certificate Troubleshooting:**
+If you don't see your certificate:
+1. Confirm your attendance status is "Attended" (check with organizer)
+2. Wait 24-48 hours after event completion
+3. Check if payment is completed (for paid events)
+4. Contact event organizer to verify attendance marking
+5. Email support@campuscrew.com if issue persists
+
+**Where to Find View Certificates Button:**
+- Login to CampusCrew
+- Click your Profile Icon (top right corner)
+- Look for "View Certificates" button in your profile page
+- This button shows all your earned certificates in one place
+
+Account Security:
+Keep your account secure:
+- Use strong, unique password
+- Don't share login credentials
+- Enable email notifications for login alerts
+- Logout from shared devices
+- Update password regularly
+- Review account activity
+- Report suspicious activity
+
+Profile Badge System (Coming Soon):
+Earn badges for your activity:
+- 🎯 First Event - Register for your first event
+- 🔥 Event Enthusiast - Join 10+ events
+- ⭐ Super Participant - Join 50+ events
+- 👑 Community Leader - Create 10+ events
+- 💎 Early Adopter - Among first 100 users
+
+Connected Accounts (Coming Soon):
+Link your social accounts:
+- Google account
+- Facebook account
+- GitHub account
+- LinkedIn profile
+- Instagram handle
+
+Mobile App Access (Coming Soon):
+- Download CampusCrew mobile app
+- Login with same credentials
+- Sync across all devices
+- Push notifications
+- Offline access to your events
+
+Need Help with Profile?
+- Use chatbot for instant help
+- Email: support@campuscrew.com
+- Check FAQ section
+- Watch video tutorials
+
+Manage your profile and make the most of CampusCrew! 🎓
+
+---
+Description: View and manage your CampusCrew profile. Update personal information, change password, manage notifications, view event history, and control privacy settings.

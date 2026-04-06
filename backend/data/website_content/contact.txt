@@ -1,0 +1,50 @@
+Page: Contact Us
+
+Contact CampusCrew
+
+Get in Touch
+
+Have questions, feedback, or need support? We're here to help!
+
+Contact Information:
+- Address: 141 & 142, Love Road, Tejgaon Industrial Area, Dhaka-1208
+- Phone: 01924753893
+- Email: campuscrew@gmail.com
+- Support Hours: 24/7
+
+Frequently Asked Questions:
+
+Q: How do I create an account?
+A: Click on "Sign Up" button, enter your details, and verify your email.
+
+Q: How do I register for an event?
+A: Browse events, click on the event you want, and click "Register" button.
+
+Q: Can I cancel my registration?
+A: Yes, you can cancel from "Joined Events" page before the deadline.
+
+Q: How do I get my certificate?
+A: Certificates are available after the event. Download from "Joined Events" page.
+
+Q: What payment methods are supported?
+A: We support bKash for paid events.
+
+Q: How do I become an event organizer?
+A: Contact admin team to get organizer privileges.
+
+Q: Can I edit event details after creation?
+A: Yes, organizers can edit events from "Manage Events" page.
+
+Q: Is the platform free to use?
+A: Yes, CampusCrew is free for all users. Some events may have registration fees.
+
+Q: How do I reset my password?
+A: Click "Forgot Password" on login page and follow email instructions.
+
+Q: Can I use the chatbot for help?
+A: Yes! Our AI chatbot can answer questions about events and platform usage.
+
+For technical issues or feature requests, please email our support team. We typically respond within 24 hours.
+
+Follow Us:
+Stay updated with latest features and campus events through our platform notifications.

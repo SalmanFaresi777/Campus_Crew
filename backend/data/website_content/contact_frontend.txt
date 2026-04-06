@@ -1,0 +1,264 @@
+Contact Page
+
+}
+      <
+
+Contact Us<
+
+If you have any questions, feel free to reach out!
+          <
+
+Get In Touch<
+
+141 & 142, Love Road, Tejgaon Industrial Area, Dhaka-1208
+              <
+
+01924753893<
+
+campuscrew@gmail.com<
+
+Send us a Message<
+
+Name:<
+
+Email:<
+
+Message:<
+
+../utils/toastUtils
+
+,
+    email:
+
+,
+    message:
+
+,
+  });
+  const [isLoading, setIsLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 800);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const validateForm = () => {
+    if (!formData.name.trim()) {
+      showWarningToast(
+
+);
+      return false;
+    }
+    if (!formData.email.trim()) {
+      showWarningToast(
+
+);
+      return false;
+    }
+    if (!formData.message.trim()) {
+      showWarningToast(
+
+);
+      return false;
+    }
+    if (formData.message.trim().length < 10) {
+      showWarningToast(
+
+);
+      return false;
+    }
+    return true;
+  };
+
+  const simulateMessageSend = () => {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        // Simulate success most of the time, occasional failure for demo
+        const success = Math.random() > 0.1; // 90% success rate
+        if (success) {
+          resolve(
+
+);
+        } else {
+          reject(new Error(
+
+));
+        }
+      }, 2000); // 2 second delay to simulate network request
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!validateForm()) {
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      // Using promise toast for better UX
+      await showPromiseToast(simulateMessageSend(), {
+        pending:
+
+,
+        success:
+
+ll get back to you soon!
+
+Failed to send message. Please try again or contact us directly.
+
+,
+        email:
+
+,
+        message:
+
+,
+      });
+    } catch (error) {
+      console.error(
+
+, error);
+      // Error is already handled by the promise toast
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  return (
+    <>
+      {loading && <Loader color={document.documentElement.getAttribute(
+
+} />}
+      <Header />
+      <div
+        style={{ maxHeight:
+
+}}
+        className=
+
+>
+        <div className=
+
+>
+          <h1>Contact Us</h1>
+          <p className=
+
+>
+            If you have any questions, feel free to reach out!
+          </p>
+        </div>
+
+        <div className=
+
+>
+          <div className=
+
+>
+            <h2>Get In Touch</h2>
+            <div className=
+
+>
+              <span className=
+
+>📍</span>
+              <span className=
+
+>
+                141 & 142, Love Road, Tejgaon Industrial Area, Dhaka-1208
+              </span>
+            </div>
+            <div className=
+
+>
+              <span className=
+
+>📞</span>
+              <span className=
+
+>01924753893</span>
+            </div>
+            <div className=
+
+>
+              <span className=
+
+>✉️</span>
+              <span className=
+
+>
+            <h2>Send us a Message</h2>
+            <form className=
+
+onSubmit={handleSubmit}>
+              <div className=
+
+>
+                <label htmlFor=
+
+>Name:</label>
+                <input
+                  type=
+
+value={formData.name}
+                  onChange={handleInputChange}
+                  disabled={isLoading}
+                  required
+                />
+              </div>
+              <div className=
+
+>
+                <label htmlFor=
+
+>Email:</label>
+                <input
+                  type=
+
+value={formData.email}
+                  onChange={handleInputChange}
+                  disabled={isLoading}
+                  required
+                />
+              </div>
+              <div className=
+
+>
+                <label htmlFor=
+
+>Message:</label>
+                <textarea
+                  id=
+
+value={formData.message}
+                  onChange={handleInputChange}
+                  disabled={isLoading}
+                  placeholder=
+
+required
+                ></textarea>
+              </div>
+              <button
+                type=
+
+className={`submit-btn ${isLoading ?
+
+}`}
+                disabled={isLoading}
+              >
+                <span className=
+
+>
+                  {isLoading ?
+
+Send Message

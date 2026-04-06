@@ -1,0 +1,11 @@
+Success Page
+
+clearTimeout(timer);
+  }, []);
+
+  return (
+    <
+
+}
+      Payment successful
+    <

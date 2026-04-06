@@ -1,0 +1,601 @@
+Login Page
+
+} {/* Render the loader when loading is true */}
+      <
+
+Welcome To <
+
+CampusCrew<
+
+Sign In
+            <
+
+Sign Up
+            <
+
+Email<
+
+Password<
+
+) : (
+                        <
+
+)}
+                    <
+
+Forgot Password?<
+
+) : (
+              <
+
+Username<
+
+Email<
+
+Password<
+
+) : (
+                        <
+
+)}
+                    <
+
+Date of Birth
+                    <
+
+Location<
+
+)}
+            <
+
+&nbsp;&nbsp;&nbsp;&nbsp;Sign up
+                <
+
+as an admin
+              <
+
+)} */}
+      <
+
+../Utils/authUtils
+
+, password:
+
+});
+  const [registerForm, setRegisterForm] = useState({
+    username:
+
+,
+    email:
+
+,
+    password:
+
+,
+    dob: new Date(),
+  });
+  const [loading, setLoading] = useState(false); // Loading state
+  const datePickerRef = useRef(null);
+  const [isPasswordValid, setIsPasswordValid] = useState(false); // Password validity state
+  const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate(); // Initialize useNavigate
+  const { login, isAuthenticated } = useAuth(); // Get login function and auth state from auth context
+
+  // Redirect to homepage if user is already logged in
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate(
+
+);
+    }
+  }, [isAuthenticated, navigate]);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const changeHandler = (e) => {
+    const { name, value, type, checked } = e.target;
+    if (showLogin) {
+      setLoginForm({ ...loginForm, [name]: value });
+    } else {
+      setRegisterForm({
+        ...registerForm,
+        [name]: type ===
+
+? checked : value,
+      });
+    }
+  };
+
+  const signin = async () => {
+    console.log(
+
+);
+    setLoading(true); // Show loader
+    try {
+      const response = await axios.post(
+        `${backend_link}/api/login`,
+        loginForm, // Axios automatically stringifies JSON
+        {
+          headers: {
+            Accept:
+
+application/json
+
+You are not approved as an admin yet.
+
+s visible
+          setLoading(false);
+          toast.success(
+
+, {
+            autoClose: 1000,
+            onClose: () => navigate(
+
+), // Navigate after toast closes
+          });
+          return; // Skip finally navigation logic
+        }
+      } else {
+        toast.error(data.errors ||
+
+);
+      }
+    } catch (error) {
+      if (error.response) {
+        // Server responded with a status other than 2xx
+        console.error(
+
+, error.response);
+        toast.error(
+          error.response.data?.errors ||
+            `HTTP error! status: ${error.response.status}`
+        );
+      } else if (error.request) {
+        // Request was made but no response
+        console.error(
+
+, error.request);
+        toast.error(
+
+);
+      } else {
+        // Other errors
+        console.error(
+
+, error.message);
+        toast.error(
+
+);
+      }
+    } finally {
+      // If we already turned loading off & scheduled navigation via toast, this is harmless
+      setLoading(false);
+    }
+  };
+
+  const refreshAccessToken = async () => {
+    try {
+      const refreshToken = localStorage.getItem(
+
+);
+      if (!refreshToken) throw new Error(
+
+);
+
+      const response = await fetch(
+
+,
+        {
+          method:
+
+,
+          headers: {
+            Accept:
+
+application/json
+
+Failed to refresh token
+
+Error refreshing access token:
+
+Session expired, please log in again.
+
+);
+    }
+  };
+
+  const signup = async () => {
+    if (!isPasswordValid) {
+      toast.warning(
+
+);
+      return; // Exit the function if password criteria are not met
+    }
+    setLoading(true); // Show loader
+    toast.info(
+
+, { autoClose: 1500 });
+
+    try {
+      const response = await axios.post(`${backend_link}/api/signup`, {
+        username: registerForm.username,
+        email: registerForm.email,
+        password: registerForm.password,
+        dob: registerForm.dob, // Include DOB
+        location: registerForm.location, // Include Location
+        isAdmin: false,
+      });
+
+      const data = response.data; // axios automatically parses JSON
+
+      if (data.success) {
+        toast.success(
+          data.message ||
+
+);
+        setShowLogin(true); // Redirect to sign-in state
+      } else {
+        toast.error(data.errors ||
+
+);
+      }
+    } catch (error) {
+      console.error(
+
+, error);
+      toast.error(error.response?.data?.errors ||
+
+);
+    } finally {
+      setLoading(false); // Hide loader
+    }
+  };
+
+  const handleLoginClick = () => {
+    setShowLogin(true);
+    toast.info(
+
+, { autoClose: 1000 });
+  };
+
+  const handleRegisterClick = () => {
+    setShowLogin(false);
+    toast.info(
+
+, { autoClose: 1000 });
+  };
+
+  const handleDateChange = (date) => {
+    setRegisterForm({ ...registerForm, dob: date });
+  };
+
+  const handleCalendarIconClick = () => {
+    datePickerRef.current.setFocus();
+  };
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    if (showLogin) {
+      signin();
+    } else {
+      signup();
+    }
+  };
+  const handlePasswordChange = (password) => {
+    console.log(
+
+, password); // Debugging password change
+    setRegisterForm({ ...registerForm, password });
+  };
+
+  const handlePasswordValidityChange = (isValid) => {
+    console.log(
+
+, isValid); // Debugging password validity
+    setIsPasswordValid(isValid);
+  };
+  const handleForgotPassword = () => {
+    navigate(
+
+); // Navigate to the forgot password page
+  };
+
+  return (
+    <div className=
+
+>
+      <ToastContainer
+        position=
+
+newestOnTop
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme=
+
+/>
+      {loading && <Loader />} {/* Render the loader when loading is true */}
+      <div className={`form-container ${loading ?
+
+}`}>
+        {
+
+}
+        {/* Optionally blur the form when loading */}
+        <div
+          className=
+
+style={{ borderRadius: showLogin ?
+
+0 20% 30% 0
+
+/>
+            <img src={dots} className=
+
+/>
+            <img src={coin} className=
+
+/>
+            <img src={spring} className=
+
+/>
+            <img src={rocket} className=
+
+/>
+            <img src={cloud} className=
+
+/>
+            <img
+              src={stars}
+              //   src={stars}
+              className=
+
+/>
+          </div>
+          <Link to=
+
+>
+            <i className=
+
+></i>
+          </Link>
+          <p className=
+
+>
+            Welcome To <span>CampusCrew</span>
+          </p>
+        </div>
+        <div className=
+
+>
+          <div className=
+
+>
+            <button
+              className=
+
+onClick={handleLoginClick}
+              style={{
+                backgroundColor: showLogin
+                  ?
+
+,
+              }}
+            >
+              Sign In
+            </button>
+            <button
+              className=
+
+onClick={handleRegisterClick}
+              style={{
+                backgroundColor: showLogin
+                  ?
+
+,
+              }}
+            >
+              Sign Up
+            </button>
+          </div>
+
+          <form
+            className={showLogin ?
+
+Create Account
+
+value={loginForm.email}
+                      onChange={changeHandler}
+                      required
+                    />
+                    <label>Email</label>
+                  </div>
+                  <div className=
+
+>
+                    <input
+                      type={showPassword ?
+
+}
+                      name=
+
+value={loginForm.password}
+                      onChange={changeHandler}
+                      required
+                    />
+                    <label>Password</label>
+                    <button
+                      type=
+
+onClick={togglePasswordVisibility}
+                    >
+                      {showPassword ? (
+                        <i className=
+
+></i>
+                      ) : (
+                        <i className=
+
+></i>
+                      )}
+                    </button>
+                  </div>
+
+                  <div className=
+
+>
+                    <a onClick={handleForgotPassword}>Forgot Password?</a>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className=
+
+>
+                  <div className=
+
+>
+                    <input
+                      type=
+
+value={registerForm.username}
+                      onChange={changeHandler}
+                      required
+                    />
+                    <label>Username</label>
+                  </div>
+                  <div className=
+
+>
+                    <input
+                      type=
+
+value={registerForm.email}
+                      onChange={changeHandler}
+                      required
+                    />
+                    <label>Email</label>
+                  </div>
+                  <div className=
+
+>
+                    <input
+                      type={showPassword ?
+
+}
+                      name=
+
+value={registerForm.password}
+                      onChange={changeHandler}
+                      required
+                    />
+                    <label>Password</label>
+                    <button
+                      type=
+
+onClick={togglePasswordVisibility}
+                    >
+                      {showPassword ? (
+                        <i className=
+
+></i>
+                      ) : (
+                        <i className=
+
+></i>
+                      )}
+                    </button>
+                  </div>
+
+                  <div className=
+
+>
+                    <label htmlFor=
+
+>
+                      Date of Birth
+                    </label>
+                    <div className=
+
+>
+                      <DatePicker
+                        ref={datePickerRef}
+                        id=
+
+selected={registerForm.dob}
+                        onChange={handleDateChange}
+                        dateFormat=
+
+placeholderText=
+
+peekNextMonth
+                        showMonthDropdown
+                        showYearDropdown
+                        dropdownMode=
+
+/>
+                      <FaRegCalendarAlt
+                        className=
+
+onClick={handleCalendarIconClick}
+                      />
+                    </div>
+                  </div>
+                  <div className=
+
+>
+                    <input
+                      type=
+
+value={registerForm.location}
+                      onChange={changeHandler}
+                      required
+                    />
+                    <label>Location</label>
+                  </div>
+                </div>
+                <PasswordChecklist
+                  rules={[
+
+,
+                  ]}
+                  minLength={8}
+                  value={registerForm.password}
+                  onChange={handlePasswordValidityChange} // Update password validity and show error toast
+                />
+              </>
+            )}
+            <div className=
+
+>
+              <button
+                type=
+
+className={`input-submit ${
+                  showLogin ?
+
+}
+                <i className=
+
+></i>
+              </button>
+            </div>
+          </form>
+        </div>
+        {/* {!showLogin && (
+          <div className=
+
+>
+            <label className=
+
+>
+              <input
+                type=
+
+checked={registerForm.isAdmin}
+                onChange={changeHandler}
+              />
+              <span className=

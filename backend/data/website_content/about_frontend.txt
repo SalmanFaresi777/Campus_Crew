@@ -1,0 +1,31 @@
+===========================================
+CAMPUSCREW TEAM INFORMATION
+===========================================
+
+About CampusCrew:
+Who are we? We are a passionate team dedicated to delivering the best products and services. Our mission is to drive innovation and quality in every aspect of our work.
+
+===========================================
+OUR TEAM MEMBERS:
+===========================================
+
+The CampusCrew team consists of three dedicated developers:
+
+1. Asif A Khuda
+   Email: asif13.aak@gmail.com
+   Role: Developer
+
+2. Sanjida Amin
+   Email: sanjidasunny25@gmail.com
+   Role: Developer
+
+3. Tajuddin Ahmed
+   Email: bijoy.ahmed12555@gmail.com
+   Role: Developer
+
+Team Information Summary:
+- Team Members: Asif A Khuda, Sanjida Amin, Tajuddin Ahmed
+- Total Members: 3
+- Team Emails: asif13.aak@gmail.com, sanjidasunny25@gmail.com, bijoy.ahmed12555@gmail.com
+
+If you need to contact our team, you can reach out to any of the members listed above.

@@ -1,0 +1,207 @@
+Adminsignup Page
+
+}
+      <
+
+Admin Signup<
+
+}
+        {message && <
+
+}
+
+        <
+
+,
+    email:
+
+,
+    password:
+
+,
+    confirm_password:
+
+,
+    dob:
+
+,
+    location:
+
+,
+    isAdmin: true,
+    admin_secret:
+
+,
+  });
+
+  useEffect(() => {
+    const timer = setTimeout(() => setPageLoading(false), 800);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const [message, setMessage] = useState(
+
+);
+  const [error, setError] = useState(
+
+);
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError(
+
+);
+
+    if (formData.confirm_password !== formData.password) {
+      setError(
+
+);
+      return;
+    }
+    if (formData.admin_secret !== secret) {
+      setError(
+
+);
+      return;
+    }
+
+    setLoading(true);
+    setMessage(
+
+);
+
+    try {
+      const { data } = await axios.post(`${backend}/api/signup`, formData);
+      if (data.success) {
+        setMessage(
+
+);
+        setFormData({
+          username:
+
+,
+          email:
+
+,
+          password:
+
+,
+          confirm_password:
+
+,
+          dob:
+
+,
+          location:
+
+,
+          isAdmin: true,
+          admin_secret:
+
+,
+        });
+        navigate(
+
+);
+      }
+    } catch (error) {
+      setError(
+        error.response?.data?.message ||
+
+);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className=
+
+>
+      {pageLoading && <Loader color={document.documentElement.getAttribute(
+
+} />}
+      <div className=
+
+>
+        <h2 className=
+
+>Admin Signup</h2>
+
+        {error && <p className=
+
+>{error}</p>}
+        {message && <p className=
+
+>{message}</p>}
+
+        <form onSubmit={handleSubmit} className=
+
+>
+          <input
+            type=
+
+placeholder=
+
+value={formData.username}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type=
+
+placeholder=
+
+value={formData.email}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type=
+
+placeholder=
+
+value={formData.password}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type=
+
+placeholder=
+
+value={formData.confirm_password}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type=
+
+value={formData.dob}
+            onChange={handleChange}
+          />
+          <input
+            type=
+
+placeholder=
+
+value={formData.location}
+            onChange={handleChange}
+          />
+          <input
+            type=
+
+placeholder=
+
+value={formData.admin_secret}
+            onChange={handleChange}
+          />
+          <button type=
+
+disabled={loading}>
+            {loading ?

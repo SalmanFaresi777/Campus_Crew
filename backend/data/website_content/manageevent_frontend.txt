@@ -1,0 +1,12 @@
+Manageevent Page
+
+clearTimeout(timer);
+  }, []);
+
+  return (
+    <
+
+}
+      <
+
+Manage Events Page<

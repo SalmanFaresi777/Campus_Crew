@@ -1,0 +1,180 @@
+Forbidden Page
+
+(
+  <
+
+403 – Not authorized<
+
+A friendly padlock character with a smile, indicating access is restricted.<
+
+Oops! Access denied<
+
+403<
+
+Not authorized to view this page<
+
+If you think this is a mistake, try signing in with the right account or contact support.<
+
+clearTimeout(timer);
+  }, []);
+
+  return (
+    <
+
+}
+      <
+
+Home<
+
+Events<
+
+Switch Account<
+
+0 0 800 500
+
+aria-labelledby=
+
+style={{ maxWidth:
+
+}}
+  >
+    <title id=
+
+>403 – Not authorized</title>
+    <desc id=
+
+>A friendly padlock character with a smile, indicating access is restricted.</desc>
+    <defs>
+      <linearGradient id=
+
+>
+        <stop offset=
+
+/>
+        <stop offset=
+
+/>
+    <g opacity=
+
+>
+      <path
+        d=
+
+/>
+    </g>
+    <ellipse cx=
+
+var(--blob-a)
+
+/>
+    <g className=
+
+>
+      <path d=
+
+var(--blob-b)
+
+var(--primary)
+
+/>
+      <rect x=
+
+var(--primary)
+
+/>
+      <circle cx=
+
+var(--text)
+
+/>
+      <circle cx=
+
+var(--text)
+
+/>
+      <path d=
+
+var(--accent)
+
+strokeLinecap=
+
+/>
+      <g transform=
+
+>
+        <circle r=
+
+var(--primary)
+
+var(--primary)
+
+translate(510, 210)
+
+M0 28 a28 28 0 0 1 28 -28 h140 a28 28 0 0 1 28 28 v22 a28 28 0 0 1 -28 28 h-88 l-22 22 -4 -22 h-26 a28 28 0 0 1 -28 -28z
+
+var(--blob-b)
+
+/>
+      <text x=
+
+fontFamily=
+
+var(--muted)
+
+>
+      <text x=
+
+fontWeight=
+
+fontFamily=
+
+var(--text)
+
+fontFamily=
+
+var(--muted)
+
+fontFamily=
+
+>
+      <text x=
+
+var(--muted)
+
+, flexDirection:
+
+, fontFamily:
+
+}}>
+      {loading && <Loader color={document.documentElement.getAttribute(
+
+} />}
+      <Header />
+      <main style={{ flex: 1, display:
+
+, flexDirection:
+
+, alignItems:
+
+, justifyContent:
+
+}}>
+        <Illustration />
+        <div style={{ display:
+
+, flexWrap:
+
+}}>
+          <Link to=
+
+><span className=
+
+>Home</span></Link>
+          <Link to=
+
+><span className=
+
+>Events</span></Link>
+          <Link to=
+
+><span className=
