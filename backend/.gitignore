@@ -59,7 +59,6 @@ utils/smartAutoUpdateQdrant.js
 utils/chromaEmbeddings.js
 utils/enhancedRagIntegration.js
 utils/ragIntegration.js
-utils/vectorDatabaseMonitor.js
 utils/crawler.js
 utils/puppeteerCrawler.js
 utils/websiteScraper.js
