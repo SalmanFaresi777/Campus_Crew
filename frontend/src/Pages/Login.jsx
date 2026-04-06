@@ -1,12 +1,22 @@
 import React, { useState, useRef, useEffect } from "react";
-import { FaRegCalendarAlt } from "react-icons/fa";
+import {
+  FaRegCalendarAlt,
+  FaEnvelope,
+  FaLock,
+  FaUser,
+  FaMapMarkerAlt,
+  FaSun,
+  FaMoon,
+  FaGithub,
+} from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "../CSS/login.css";
 import { Link, useNavigate } from "react-router-dom";
-import Loader from "../Components/loader_login"; // Import the Loader component
+import Loader from "../Components/loader_login";
 import { useAuth } from "../contexts/AuthContext";
-// import { fetchWithToken } from "../Utils/authUtils";
+import { useTheme } from "../contexts/ThemeContext";
 import PasswordChecklist from "react-password-checklist";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -21,193 +31,191 @@ import stars from "../assets/img/stars.png";
 import white_outline from "../assets/img/white_outline.png";
 
 function Login() {
-  const backend_link = import.meta.env.VITE_BACKEND_LINK;
-  console.log(backend_link);
+  const backendLink = import.meta.env.VITE_BACKEND_LINK;
+  const navigate = useNavigate();
+  const datePickerRef = useRef(null);
+
+  const { login, isAuthenticated } = useAuth();
+  const { isDarkMode, toggleTheme } = useTheme();
+
   const [showLogin, setShowLogin] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [isPasswordValid, setIsPasswordValid] = useState(false);
+  const [rememberMe, setRememberMe] = useState(
+    localStorage.getItem("remember-login") === "true"
+  );
+
+  const [loginErrors, setLoginErrors] = useState({});
+
   const [loginForm, setLoginForm] = useState({ email: "", password: "" });
   const [registerForm, setRegisterForm] = useState({
     username: "",
     email: "",
     password: "",
     dob: new Date(),
+    location: "",
   });
-  const [loading, setLoading] = useState(false); // Loading state
-  const datePickerRef = useRef(null);
-  const [isPasswordValid, setIsPasswordValid] = useState(false); // Password validity state
-  const [showPassword, setShowPassword] = useState(false);
-  const navigate = useNavigate(); // Initialize useNavigate
-  const { login, isAuthenticated } = useAuth(); // Get login function and auth state from auth context
 
-  // Redirect to homepage if user is already logged in
   useEffect(() => {
     if (isAuthenticated) {
       navigate("/");
     }
   }, [isAuthenticated, navigate]);
 
+  useEffect(() => {
+    const rememberedEmail = localStorage.getItem("remembered-email") || "";
+    if (rememberedEmail) {
+      setLoginForm((prev) => ({ ...prev, email: rememberedEmail }));
+      setRememberMe(true);
+    }
+  }, []);
+
   const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
+    setShowPassword((prev) => !prev);
+  };
+
+  const handleRememberToggle = (e) => {
+    const checked = e.target.checked;
+    setRememberMe(checked);
+    localStorage.setItem("remember-login", String(checked));
   };
 
   const changeHandler = (e) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value } = e.target;
+
     if (showLogin) {
-      setLoginForm({ ...loginForm, [name]: value });
+      setLoginForm((prev) => ({ ...prev, [name]: value }));
+      setLoginErrors((prev) => ({ ...prev, [name]: "" }));
     } else {
-      setRegisterForm({
-        ...registerForm,
-        [name]: type === "checkbox" ? checked : value,
-      });
+      setRegisterForm((prev) => ({ ...prev, [name]: value }));
     }
+  };
+
+  const validateLoginForm = () => {
+    const errors = {};
+
+    if (!loginForm.email.trim()) {
+      errors.email = "Email is required.";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(loginForm.email)) {
+      errors.email = "Please enter a valid email address.";
+    }
+
+    if (!loginForm.password.trim()) {
+      errors.password = "Password is required.";
+    } else if (loginForm.password.length < 6) {
+      errors.password = "Password should be at least 6 characters.";
+    }
+
+    setLoginErrors(errors);
+    return Object.keys(errors).length === 0;
   };
 
   const signin = async () => {
-    console.log("sign in executed");
-    setLoading(true); // Show loader
-    try {
-      const response = await axios.post(
-        `${backend_link}/api/login`,
-        loginForm, // Axios automatically stringifies JSON
-        {
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-        }
-      );
+    if (!validateLoginForm()) {
+      toast.error("Please correct the highlighted fields.");
+      return;
+    }
 
-      const data = response.data; // Axios response data is here
+    setLoading(true);
+
+    try {
+      const response = await axios.post(`${backendLink}/api/login`, loginForm, {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      });
+
+      const data = response.data;
 
       if (data.success) {
         const user = data.user;
-        if (user && user.isAdmin && !user.isApprovedAdmin) {
-          setLoading(false); // allow toast to show unobstructed
-          toast.warning("You are not approved as an admin yet.");
-        } else {
-          // Use the auth context login function
-          await login(data.token, data.refreshtoken, user);
-          localStorage.setItem("refresh-token", data.refreshtoken); // Store refresh token
-          // Hide loader before showing toast so it's visible
+
+        if (user && user.isApproved === false) {
           setLoading(false);
-          toast.success("Login successful! Welcome back!", {
-            autoClose: 1000,
-            onClose: () => navigate("/"), // Navigate after toast closes
-          });
-          return; // Skip finally navigation logic
+          toast.warning("Your account is pending admin approval.");
+          return;
         }
-      } else {
-        toast.error(data.errors || "Login failed. Please try again.");
+
+        await login(data.token, data.refreshtoken, user);
+
+        if (rememberMe) {
+          localStorage.setItem("remembered-email", loginForm.email);
+        } else {
+          localStorage.removeItem("remembered-email");
+        }
+
+        localStorage.setItem("refresh-token", data.refreshtoken);
+        setLoading(false);
+
+        toast.success("Login successful! Welcome back.", {
+          autoClose: 1000,
+          onClose: () => navigate("/"),
+        });
+        return;
       }
+
+      toast.error(data.errors || "Login failed. Please try again.");
     } catch (error) {
       if (error.response) {
-        // Server responded with a status other than 2xx
-        console.error("Server error:", error.response);
         toast.error(
           error.response.data?.errors ||
-            `HTTP error! status: ${error.response.status}`
+            `Request failed with status ${error.response.status}`
         );
       } else if (error.request) {
-        // Request was made but no response
-        console.error("No response received:", error.request);
-        toast.error("No response from server. Please try again.");
+        toast.error("Server is not responding. Please try again.");
       } else {
-        // Other errors
-        console.error("Axios error:", error.message);
-        toast.error("An error occurred during login. Please try again.");
+        toast.error("An unexpected error occurred during login.");
       }
     } finally {
-      // If we already turned loading off & scheduled navigation via toast, this is harmless
       setLoading(false);
-    }
-  };
-
-  const refreshAccessToken = async () => {
-    try {
-      const refreshToken = localStorage.getItem("refresh-token");
-      if (!refreshToken) throw new Error("No refresh token available");
-
-      const response = await fetch(
-        "https://backend-beryl-nu-15.vercel.app/token",
-        {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ token: refreshToken }),
-        }
-      );
-
-      const data = await response.json();
-
-      if (data.accessToken) {
-        localStorage.setItem("auth-token", data.accessToken); // Update access token
-        return data.accessToken;
-      } else {
-        throw new Error("Failed to refresh token");
-      }
-    } catch (error) {
-      console.error("Error refreshing access token:", error);
-      toast.error("Session expired, please log in again.");
-      localStorage.removeItem("auth-token");
-      localStorage.removeItem("refresh-token");
-      window.location.replace("/login");
     }
   };
 
   const signup = async () => {
     if (!isPasswordValid) {
-      toast.warning("Password does not meet the criteria.");
-      return; // Exit the function if password criteria are not met
+      toast.warning("Password does not meet the required criteria.");
+      return;
     }
-    setLoading(true); // Show loader
-    toast.info("Creating your account...", { autoClose: 1500 });
+
+    setLoading(true);
+    toast.info("Creating your account...", { autoClose: 1000 });
 
     try {
-      const response = await axios.post(`${backend_link}/api/signup`, {
+      const response = await axios.post(`${backendLink}/api/signup`, {
         username: registerForm.username,
         email: registerForm.email,
         password: registerForm.password,
-        dob: registerForm.dob, // Include DOB
-        location: registerForm.location, // Include Location
+        dob: registerForm.dob,
+        location: registerForm.location,
         isAdmin: false,
       });
 
-      const data = response.data; // axios automatically parses JSON
+      const data = response.data;
 
       if (data.success) {
         toast.success(
           data.message ||
-            "Signup successful! Please check your email for a verification link."
+            "Signup successful! Please verify email and wait for admin approval."
         );
-        setShowLogin(true); // Redirect to sign-in state
+        setShowLogin(true);
       } else {
         toast.error(data.errors || "Signup failed");
       }
     } catch (error) {
-      console.error("Failed to fetch during signup:", error);
       toast.error(error.response?.data?.errors || "Signup request failed");
     } finally {
-      setLoading(false); // Hide loader
+      setLoading(false);
     }
   };
 
-  const handleLoginClick = () => {
-    setShowLogin(true);
-    toast.info("Switched to Sign In", { autoClose: 1000 });
-  };
-
-  const handleRegisterClick = () => {
-    setShowLogin(false);
-    toast.info("Switched to Sign Up", { autoClose: 1000 });
-  };
-
   const handleDateChange = (date) => {
-    setRegisterForm({ ...registerForm, dob: date });
+    setRegisterForm((prev) => ({ ...prev, dob: date }));
   };
 
   const handleCalendarIconClick = () => {
-    datePickerRef.current.setFocus();
+    datePickerRef.current?.setFocus();
   };
 
   const handleFormSubmit = (e) => {
@@ -218,17 +226,17 @@ function Login() {
       signup();
     }
   };
-  const handlePasswordChange = (password) => {
-    console.log("Password:", password); // Debugging password change
-    setRegisterForm({ ...registerForm, password });
-  };
 
   const handlePasswordValidityChange = (isValid) => {
-    console.log("Is password valid:", isValid); // Debugging password validity
     setIsPasswordValid(isValid);
   };
+
   const handleForgotPassword = () => {
-    navigate("/forgot-password"); // Navigate to the forgot password page
+    navigate("/forgot-password");
+  };
+
+  const handleSocialClick = (provider) => {
+    toast.info(`${provider} sign in is coming soon.`);
   };
 
   return (
@@ -239,16 +247,30 @@ function Login() {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-        theme="colored"
+        theme={isDarkMode ? "dark" : "light"}
       />
-      {loading && <Loader />} {/* Render the loader when loading is true */}
+
+      {loading && <Loader />}
+
       <div className={`form-container ${loading ? "blurred" : ""}`}>
-        {" "}
-        {/* Optionally blur the form when loading */}
-        <div
-          className="col col-1"
-          style={{ borderRadius: showLogin ? "0 30% 20% 0" : "0 20% 30% 0" }}
+        <button
+          type="button"
+          className="theme-switch"
+          role="switch"
+          aria-checked={isDarkMode}
+          aria-label="Toggle light and dark theme"
+          onClick={toggleTheme}
+          title={`Switch to ${isDarkMode ? "light" : "dark"} mode`}
         >
+          <span className="theme-switch-track">
+            <span className="theme-switch-thumb">
+              {isDarkMode ? <FaMoon /> : <FaSun />}
+            </span>
+          </span>
+          <span className="theme-switch-label">{isDarkMode ? "Dark" : "Light"}</span>
+        </button>
+
+        <div className="col col-1">
           <div className="image-layer">
             <img src={white_outline} className="form-image-main" alt="main" />
             <img src={dots} className="form-image dots" alt="dots" />
@@ -256,41 +278,34 @@ function Login() {
             <img src={spring} className="form-image spring" alt="spring" />
             <img src={rocket} className="form-image rocket" alt="rocket" />
             <img src={cloud} className="form-image cloud" alt="cloud" />
-            <img
-              src={stars}
-              //   src={stars}
-              className="form-image stars"
-              alt="star"
-            />
+            <img src={stars} className="form-image stars" alt="stars" />
           </div>
-          <Link to="/" className="home-icon">
-            <i className="bx bx-home"></i>
+          <Link to="/" className="home-icon" aria-label="Go to home page">
+            <i className="bx bx-home" />
           </Link>
           <p className="featured-words">
-            Welcome To <span>CampusCrew</span>
+            The easiest way to manage and discover university events with
+            <span> CampusCrew</span>
           </p>
         </div>
+
         <div className="col col-2">
-          <div className="btn-box">
+          <div className="btn-box" role="tablist" aria-label="Auth tabs">
             <button
-              className="btn btn-1"
-              onClick={handleLoginClick}
-              style={{
-                backgroundColor: showLogin
-                  ? "#21264D"
-                  : "rgba(255, 255, 255, 0.2)",
-              }}
+              type="button"
+              className={`btn btn-1 ${showLogin ? "active" : ""}`}
+              role="tab"
+              aria-selected={showLogin}
+              onClick={() => setShowLogin(true)}
             >
               Sign In
             </button>
             <button
-              className="btn btn-2"
-              onClick={handleRegisterClick}
-              style={{
-                backgroundColor: showLogin
-                  ? "rgba(255, 255, 255, 0.2)"
-                  : "#21264D",
-              }}
+              type="button"
+              className={`btn btn-2 ${!showLogin ? "active" : ""}`}
+              role="tab"
+              aria-selected={!showLogin}
+              onClick={() => setShowLogin(false)}
             >
               Sign Up
             </button>
@@ -299,47 +314,90 @@ function Login() {
           <form
             className={showLogin ? "login-form" : "register-form"}
             onSubmit={handleFormSubmit}
+            noValidate
           >
             <div className="form-title">
-              <span>{showLogin ? "Sign In" : "Create Account"}</span>
+              <span>{showLogin ? "Welcome back" : "Create your account"}</span>
             </div>
+
             {showLogin ? (
               <>
                 <div className="form-inputs">
                   <div className="input-group">
+                    <span className="input-icon" aria-hidden="true">
+                      <FaEnvelope />
+                    </span>
                     <input
-                      type="text"
+                      id="login-email"
+                      type="email"
                       name="email"
                       value={loginForm.email}
                       onChange={changeHandler}
                       required
+                      aria-invalid={Boolean(loginErrors.email)}
+                      aria-describedby={loginErrors.email ? "login-email-error" : undefined}
                     />
-                    <label>Email</label>
+                    <label htmlFor="login-email">Email</label>
+                    {loginErrors.email && (
+                      <p id="login-email-error" className="field-error" role="alert">
+                        {loginErrors.email}
+                      </p>
+                    )}
                   </div>
+
                   <div className="input-group">
+                    <span className="input-icon" aria-hidden="true">
+                      <FaLock />
+                    </span>
                     <input
+                      id="login-password"
                       type={showPassword ? "text" : "password"}
                       name="password"
                       value={loginForm.password}
                       onChange={changeHandler}
                       required
+                      aria-invalid={Boolean(loginErrors.password)}
+                      aria-describedby={
+                        loginErrors.password ? "login-password-error" : undefined
+                      }
                     />
-                    <label>Password</label>
+                    <label htmlFor="login-password">Password</label>
                     <button
                       type="button"
                       className="password-toggle"
                       onClick={togglePasswordVisibility}
+                      aria-label={showPassword ? "Hide password" : "Show password"}
                     >
-                      {showPassword ? (
-                        <i className="bx bx-hide"></i>
-                      ) : (
-                        <i className="bx bx-show"></i>
-                      )}
+                      <i className={showPassword ? "bx bx-hide" : "bx bx-show"} />
                     </button>
+                    {loginErrors.password && (
+                      <p
+                        id="login-password-error"
+                        className="field-error"
+                        role="alert"
+                      >
+                        {loginErrors.password}
+                      </p>
+                    )}
                   </div>
 
-                  <div className="forgot-pass">
-                    <a onClick={handleForgotPassword}>Forgot Password?</a>
+                  <div className="auth-row">
+                    <label className="remember-wrap">
+                      <input
+                        type="checkbox"
+                        checked={rememberMe}
+                        onChange={handleRememberToggle}
+                      />
+                      <span>Remember me</span>
+                    </label>
+
+                    <button
+                      type="button"
+                      className="forgot-link"
+                      onClick={handleForgotPassword}
+                    >
+                      Forgot password?
+                    </button>
                   </div>
                 </div>
               </>
@@ -347,44 +405,55 @@ function Login() {
               <>
                 <div className="form-inputs">
                   <div className="input-group">
+                    <span className="input-icon" aria-hidden="true">
+                      <FaUser />
+                    </span>
                     <input
+                      id="register-username"
                       type="text"
                       name="username"
                       value={registerForm.username}
                       onChange={changeHandler}
                       required
                     />
-                    <label>Username</label>
+                    <label htmlFor="register-username">Username</label>
                   </div>
+
                   <div className="input-group">
+                    <span className="input-icon" aria-hidden="true">
+                      <FaEnvelope />
+                    </span>
                     <input
+                      id="register-email"
                       type="email"
                       name="email"
                       value={registerForm.email}
                       onChange={changeHandler}
                       required
                     />
-                    <label>Email</label>
+                    <label htmlFor="register-email">Email</label>
                   </div>
+
                   <div className="input-group">
+                    <span className="input-icon" aria-hidden="true">
+                      <FaLock />
+                    </span>
                     <input
+                      id="register-password"
                       type={showPassword ? "text" : "password"}
                       name="password"
                       value={registerForm.password}
                       onChange={changeHandler}
                       required
                     />
-                    <label>Password</label>
+                    <label htmlFor="register-password">Password</label>
                     <button
                       type="button"
                       className="password-toggle"
                       onClick={togglePasswordVisibility}
+                      aria-label={showPassword ? "Hide password" : "Show password"}
                     >
-                      {showPassword ? (
-                        <i className="bx bx-hide"></i>
-                      ) : (
-                        <i className="bx bx-show"></i>
-                      )}
+                      <i className={showPassword ? "bx bx-hide" : "bx bx-show"} />
                     </button>
                   </div>
 
@@ -409,64 +478,86 @@ function Login() {
                       <FaRegCalendarAlt
                         className="calendar-icon"
                         onClick={handleCalendarIconClick}
+                        aria-hidden="true"
                       />
                     </div>
                   </div>
+
                   <div className="input-group">
+                    <span className="input-icon" aria-hidden="true">
+                      <FaMapMarkerAlt />
+                    </span>
                     <input
+                      id="register-location"
                       type="text"
                       name="location"
                       value={registerForm.location}
                       onChange={changeHandler}
                       required
                     />
-                    <label>Location</label>
+                    <label htmlFor="register-location">Location</label>
                   </div>
                 </div>
+
                 <PasswordChecklist
-                  rules={[
-                    "minLength",
-                    "specialChar",
-                    "number",
-                    "capital",
-                    "lowercase",
-                  ]}
+                  rules={["minLength", "specialChar", "number", "capital", "lowercase"]}
                   minLength={8}
                   value={registerForm.password}
-                  onChange={handlePasswordValidityChange} // Update password validity and show error toast
+                  onChange={handlePasswordValidityChange}
                 />
               </>
             )}
-            <div className="input-box">
+
+            <div className="input-box submit-wrap">
               <button
                 type="submit"
-                className={`input-submit ${
-                  showLogin ? "login-btn" : "signup-btn"
-                }`}
+                className={`input-submit ${showLogin ? "login-btn" : "signup-btn"}`}
+                disabled={loading}
               >
-                {showLogin ? "Login" : "Sign Up"}
-                <i className="bx bx-right-arrow-alt"></i>
+                {loading ? (
+                  <>
+                    <span className="submit-spinner" aria-hidden="true" />
+                    Please wait...
+                  </>
+                ) : showLogin ? (
+                  "Login"
+                ) : (
+                  "Sign Up"
+                )}
+                {!loading && <i className="bx bx-right-arrow-alt" />}
               </button>
             </div>
+
+            {showLogin && (
+              <>
+                <div className="divider" aria-hidden="true">
+                  <span />
+                  <p>or continue with</p>
+                  <span />
+                </div>
+
+                <div className="social-auth">
+                  <button
+                    type="button"
+                    className="social-btn"
+                    onClick={() => handleSocialClick("Google")}
+                  >
+                    <FcGoogle />
+                    <span>Google</span>
+                  </button>
+                  <button
+                    type="button"
+                    className="social-btn"
+                    onClick={() => handleSocialClick("GitHub")}
+                  >
+                    <FaGithub />
+                    <span>GitHub</span>
+                  </button>
+                </div>
+              </>
+            )}
           </form>
         </div>
-        {/* {!showLogin && (
-          <div className="admin-box">
-            <label className="admin-checkbox">
-              <input
-                type="checkbox"
-                name="isAdmin"
-                checked={registerForm.isAdmin}
-                onChange={changeHandler}
-              />
-              <span className="admin-text">
-                &nbsp;&nbsp;&nbsp;&nbsp;Sign up
-                <br />
-                as an admin
-              </span>
-            </label>
-          </div>
-        )} */}
       </div>
     </div>
   );

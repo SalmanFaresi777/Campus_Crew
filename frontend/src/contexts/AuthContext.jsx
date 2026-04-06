@@ -39,6 +39,7 @@ export const AuthProvider = ({ children }) => {
               username: response.data.user.username,
               email: response.data.user.email,
               isAdmin: response.data.user.isAdmin,
+              isApproved: response.data.user.isApproved,
               isApprovedAdmin: response.data.user.isApprovedAdmin
             }));
           } else {
@@ -73,6 +74,7 @@ export const AuthProvider = ({ children }) => {
           username: response.data.user.username,
           email: response.data.user.email,
           isAdmin: response.data.user.isAdmin,
+          isApproved: response.data.user.isApproved,
           isApprovedAdmin: response.data.user.isApprovedAdmin
         }));
       } else {
@@ -109,6 +111,7 @@ export const AuthProvider = ({ children }) => {
             username: response.data.user.username,
             email: response.data.user.email,
             isAdmin: response.data.user.isAdmin,
+            isApproved: response.data.user.isApproved,
             isApprovedAdmin: response.data.user.isApprovedAdmin
           }));
           return response.data.user;

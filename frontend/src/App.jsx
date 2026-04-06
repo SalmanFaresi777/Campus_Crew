@@ -8,6 +8,7 @@ import CreateEvent from "./Pages/CreateEvent.jsx";
 import JoinedEvent from "./Pages/JoinedEvent.jsx";
 import About from "./Pages/About.jsx";
 import Contact from "./Pages/Contact.jsx";
+import Privacy from "./Pages/Privacy.jsx";
 import { useAuth } from "./contexts/AuthContext.jsx";
 import EventDetails from "./Pages/EventDetails.jsx";
 import EditEvent from "./Pages/EditEvent.jsx";
@@ -16,6 +17,7 @@ import Failure from "./Pages/Failure.jsx";
 import Forbidden from "./Pages/Forbidden.jsx";
 import NotFound from "./Pages/NotFound.jsx";
 import Dashboard from "./Pages/Dashboard.jsx";
+import PendingRequests from "./Pages/PendingRequests.jsx";
 import VerifyEmail from "./Pages/VerifyEmail.jsx";
 import ForgotPassword from "./Pages/ForgotPassword.jsx";
 import ResetPassword from "./Pages/ResetPassword.jsx";
@@ -80,6 +82,7 @@ function App() {
         />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/privacy" element={<Privacy />} />
 
         <Route path="/success" element={<Success />} />
         <Route path="/failure?" element={<Failure />} />
@@ -113,14 +116,18 @@ function App() {
           path="/dashboard"
           element={user?.isAdmin ? <Dashboard /> : <Forbidden />}
         />
+        <Route
+          path="/pending-requests"
+          element={user?.isAdmin ? <PendingRequests /> : <Forbidden />}
+        />
         <Route path="/forbidden" element={<Forbidden />} />
         <Route path="/event-attendee/:id" element={<EventAttendee />} />
         <Route path="*" element={<NotFound />} />
         <Route path="/admin/signup" element={<AdminSignup />} />
       </Routes>
       
-      {/* Chatbot available on all pages */}
-      <ChatbotButton />
+      {/* Chatbot visible only for authenticated users */}
+      {isAuthenticated && <ChatbotButton />}
     </>
   );
 }

@@ -67,6 +67,12 @@ export const apiService = {
   // Register
   register: (userData) => api.post('/signup', userData),
 
+  // Admin: pending signup requests
+  getPendingRequests: () => api.get('/pending-requests'),
+  approvePendingRequest: (requestId) => api.patch(`/pending-requests/${requestId}/approve`),
+  approvePendingEmail: (requestId) => api.patch(`/pending-requests/${requestId}/approve-email`),
+  rejectPendingRequest: (requestId) => api.delete(`/pending-requests/${requestId}/reject`),
+
   // Event APIs
   createEvent: (eventData) => {
     return axios.post(`${API_BASE_URL}/events`, eventData, {

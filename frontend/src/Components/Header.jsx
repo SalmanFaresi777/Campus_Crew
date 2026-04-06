@@ -103,7 +103,7 @@ function Header() {
               )}
               {!isAdmin && (
                 <NavLink to="/joined-events" className="nav-link">
-                  Joined Events
+                  Registered Events
                 </NavLink>
               )}
               <NavLink to="/about" className="nav-link">
@@ -115,6 +115,11 @@ function Header() {
               {isAdmin && (
                 <NavLink to="/dashboard" className="nav-link">
                   Dashboard
+                </NavLink>
+              )}
+              {isAdmin && (
+                <NavLink to="/pending-requests" className="nav-link">
+                  Pending Requests
                 </NavLink>
               )}
 
@@ -251,7 +256,7 @@ function Header() {
                       className="mobile-nav-link"
                       onClick={closeMobileMenu}
                     >
-                      Joined Events
+                      Registered Events
                     </Link>
                   )}
                   <Link
@@ -275,6 +280,15 @@ function Header() {
                       onClick={closeMobileMenu}
                     >
                       Dashboard
+                    </Link>
+                  )}
+                  {isAdmin && (
+                    <Link
+                      to="/pending-requests"
+                      className="mobile-nav-link"
+                      onClick={closeMobileMenu}
+                    >
+                      Pending Requests
                     </Link>
                   )}
 

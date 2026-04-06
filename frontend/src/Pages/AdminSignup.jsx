@@ -53,7 +53,7 @@ function AdminSignup() {
       const { data } = await axios.post(`${backend}/api/signup`, formData);
       if (data.success) {
         setMessage(
-          "Admin registered successfully! Please check your email for verification."
+          "Admin signup submitted! Please verify your email and wait for approval."
         );
         setFormData({
           username: "",

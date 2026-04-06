@@ -265,9 +265,6 @@ The application will be available at:
 
 
 
-
-
-
 ---
 
 **CampusCrew** - Connecting Campus Communities Through Events 🎓✨
