@@ -19,9 +19,16 @@ const path = require('path');
 const fs = require('fs').promises;
 
 // Initialize Qdrant vector service
-const qdrantService = new MonitoredVectorService({
-  collectionName: process.env.QDRANT_COLLECTION || 'campuscrew_docs'
-});
+let qdrantService = null;
+let qdrantInitError = null;
+try {
+  qdrantService = new MonitoredVectorService({
+    collectionName: process.env.QDRANT_COLLECTION || 'campuscrew_docs'
+  });
+} catch (error) {
+  qdrantInitError = error;
+  console.warn('⚠️  Vector service disabled:', error.message);
+}
 
 // ChatAnywhere GPT API configuration (OpenAI-compatible)
 const CHATANYWHERE_API_KEY = process.env.CHATANYWHERE_API_KEY;
@@ -283,6 +290,10 @@ router.post('/chat', async (req, res) => {
     try {
       // Primary: Qdrant Vector Database (semantic search)
       console.log('🔍 Searching Qdrant vector database...');
+      if (!qdrantService) {
+        throw new Error(qdrantInitError?.message || 'Vector service not configured');
+      }
+
       const qdrantResults = await qdrantService.searchRelevantDocuments(message, effectiveUserId);
       
       if (qdrantResults.success && qdrantResults.documents.length > 0) {
@@ -571,11 +582,15 @@ router.get('/chat/health', async (req, res) => {
     const configuredModel = CHATANYWHERE_MODEL;
     
     // Check Qdrant connection
-    let qdrantStatus = { healthy: false, error: 'Not tested' };
-    try {
-      qdrantStatus = await qdrantService.testConnection();
-    } catch (error) {
-      qdrantStatus = { healthy: false, error: error.message };
+    let qdrantStatus = { healthy: false, error: 'Not configured' };
+    if (qdrantService) {
+      try {
+        qdrantStatus = await qdrantService.testConnection();
+      } catch (error) {
+        qdrantStatus = { healthy: false, error: error.message };
+      }
+    } else if (qdrantInitError) {
+      qdrantStatus = { healthy: false, error: qdrantInitError.message };
     }
     
     res.json({
@@ -608,6 +623,14 @@ router.get('/chat/health', async (req, res) => {
  */
 router.post('/chat/reload-knowledge', async (req, res) => {
   try {
+    if (!qdrantService) {
+      return res.status(503).json({
+        success: false,
+        message: 'Vector service is not configured',
+        error: qdrantInitError?.message || 'Missing vector/embedding configuration'
+      });
+    }
+
     // Test Qdrant connection
     const connectionTest = await qdrantService.testConnection();
     
@@ -691,15 +714,19 @@ router.get('/chat/stats', async (req, res) => {
     
     // Get Qdrant stats
     let qdrantStats = { available: false, vectorCount: 0 };
-    try {
-      const collectionInfo = await qdrantService.vectorDB.getCollectionInfo();
-      qdrantStats = {
-        available: true,
-        collection: collectionInfo.collectionName,
-        vectorCount: collectionInfo.vectorsCount
-      };
-    } catch (error) {
-      qdrantStats.error = error.message;
+    if (qdrantService) {
+      try {
+        const collectionInfo = await qdrantService.vectorDB.getCollectionInfo();
+        qdrantStats = {
+          available: true,
+          collection: collectionInfo.collectionName,
+          vectorCount: collectionInfo.vectorsCount
+        };
+      } catch (error) {
+        qdrantStats.error = error.message;
+      }
+    } else {
+      qdrantStats.error = qdrantInitError?.message || 'Vector service not configured';
     }
     
     res.json({
