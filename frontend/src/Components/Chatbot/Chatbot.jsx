@@ -19,7 +19,7 @@ const Chatbot = ({ onClose }) => {
     ? user.profilePic
     : userAvatar;
   const [messages, setMessages] = useState(() => {
-    // Load from sessionStorage if available, else use default greeting
+    // retrieve chat history from session storage or initialize with welcome message
     try {
       const raw = sessionStorage.getItem(STORAGE_KEY);
       if (raw) {
@@ -34,7 +34,7 @@ const Chatbot = ({ onClose }) => {
         }
       }
     } catch (e) {
-      // ignore and fall back to default
+      // disregard parsing error and use default message initialization
     }
     return [
       {
@@ -49,7 +49,7 @@ const Chatbot = ({ onClose }) => {
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
 
-  // Auto-scroll to bottom when new messages arrive
+  // automatically scroll chat display to most recent message
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -58,7 +58,7 @@ const Chatbot = ({ onClose }) => {
     scrollToBottom();
   }, [messages]);
 
-  // Persist messages in this browser tab until it is closed
+  // save chat messages to session storage for retention during current browser session
   useEffect(() => {
     try {
       sessionStorage.setItem(STORAGE_KEY, JSON.stringify(messages));

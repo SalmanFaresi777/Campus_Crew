@@ -5,9 +5,10 @@ import aboutUs from "../assets/img/aboutUs.jpg";
 import Footer from "../Components/Footer";
 import Loader from "../Components/loader";
 
-//import sunny from "../assets/img/Sunny.jpg";
-//import bijoy from "../assets/img/Bijoy.jpg";
-//import asif from "../assets/img/Asif.jpg";
+// Unused import: previously used team member photo
+// import sunny from "../assets/img/Sunny.jpg";
+// import bijoy from "../assets/img/Bijoy.jpg";
+// import asif from "../assets/img/Asif.jpg";
 import { useNavigate } from "react-router-dom";
 
 const AboutUs = () => {

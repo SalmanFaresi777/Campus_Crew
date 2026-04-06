@@ -28,7 +28,7 @@ function App() {
 
   if (loading) {
     return <div>Loading...</div>;
-    // Or a proper spinner component
+    // Alternative option: implement a dedicated loading spinner component
   }
 
   return (
@@ -67,7 +67,7 @@ function App() {
             )
           }
         />
-        {/* Common typo / alias redirect */}
+        {/* Handle alternate spelling variation for route accessibility */}
         <Route
           path="/create-events"
           element={<Navigate to="/create-event" replace />}
@@ -119,7 +119,7 @@ function App() {
         <Route path="/admin/signup" element={<AdminSignup />} />
       </Routes>
       
-      {/* Chatbot available on all pages */}
+      {/* Global chatbot component accessible across all application pages */}
       <ChatbotButton />
     </>
   );

@@ -14,7 +14,7 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  // Hydrate from localStorage (non-sensitive snapshot for faster first paint)
+  // Initialize user state from browser storage using cached non-sensitive data for improved first page load performance
   const initialUser = (() => {
     try {
       const raw = localStorage.getItem('auth-user');
@@ -33,7 +33,7 @@ export const AuthProvider = ({ children }) => {
           if (response.data.success) {
             setIsAuthenticated(true);
             setUser(response.data.user);
-            // persist snapshot
+            // save user information snapshot to localStorage for quick restoration on page reload
             localStorage.setItem('auth-user', JSON.stringify({
               _id: response.data.user._id,
               username: response.data.user.username,
@@ -63,7 +63,7 @@ export const AuthProvider = ({ children }) => {
   }
     setIsAuthenticated(true);
     
-    // Fetch complete user profile after login
+    // retrieve full user profile details following successful authentication
     try {
       const response = await apiService.getProfile();
       if (response.data.success) {
@@ -76,13 +76,13 @@ export const AuthProvider = ({ children }) => {
           isApprovedAdmin: response.data.user.isApprovedAdmin
         }));
       } else {
-        // Fallback to provided userData if profile fetch fails
+        // use the provided user data as fallback when profile retrieval request fails
         setUser(userData);
         if (userData) localStorage.setItem('auth-user', JSON.stringify(userData));
       }
     } catch (error) {
       console.error('Failed to fetch profile after login:', error);
-      // Fallback to provided userData if profile fetch fails
+      // use the provided user data as fallback when profile retrieval request fails
       setUser(userData);
       if (userData) localStorage.setItem('auth-user', JSON.stringify(userData));
     }
