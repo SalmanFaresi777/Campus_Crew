@@ -1,0 +1,60 @@
+/* Reusable Theme Utility Classes
+   Import this (and themes.css) once globally (already handled in main.jsx after update)
+   Then in any component just use these classes + CSS variables.
+*/
+
+/* Layout */
+.layout-container { width:100%; max-width:1200px; margin:0 auto; padding:0 1.25rem; box-sizing:border-box; }
+.flex-center { display:flex; align-items:center; justify-content:center; }
+.flex-col { display:flex; flex-direction:column; }
+.gap-sm { gap:.5rem; } .gap-md { gap:1rem; } .gap-lg { gap:2rem; }
+
+/* Surfaces */
+.surface { background:var(--bg-card); border:1px solid var(--border-light); border-radius:16px; box-shadow:0 4px 18px var(--shadow-light); transition:background .3s,border-color .3s,box-shadow .3s; }
+.surface.hoverable:hover { box-shadow:0 6px 28px var(--shadow-medium); }
+[data-theme="dark"] .surface { box-shadow:0 6px 28px rgba(0,0,0,.6); }
+
+/* Typography helpers */
+.text-primary { color:var(--text-primary); }
+.text-secondary { color:var(--text-secondary); }
+.text-muted { color:var(--text-muted); }
+.text-center { text-align:center; }
+
+/* Buttons */
+.btn { display:inline-flex; align-items:center; justify-content:center; font-weight:600; font-size:.95rem; padding:.65rem 1.2rem; border-radius:10px; cursor:pointer; border:1px solid transparent; background:var(--bg-tertiary); color:var(--text-primary); transition:background .3s,color .3s,box-shadow .3s,transform .2s; text-decoration:none; }
+.btn:hover { transform:translateY(-2px); box-shadow:0 4px 18px var(--shadow-light); }
+.btn:active { transform:translateY(0); }
+.btn-primary { background:var(--gradient-primary); color:var(--text-inverse); }
+.btn-primary:hover { filter:brightness(1.05); }
+.btn-outline { background:transparent; border:1px solid var(--border-light); }
+.btn-outline:hover { background:var(--bg-card); }
+.btn-danger { background:var(--accent-color); color:#fff; }
+.btn-danger:hover { filter:brightness(1.05); }
+
+/* Forms */
+.field { width:100%; display:flex; flex-direction:column; gap:.4rem; }
+.input, .select, .textarea { width:100%; background:var(--bg-card); color:var(--text-primary); border:2px solid var(--border-light); border-radius:10px; padding:.7rem 1rem; font:inherit; transition:border-color .25s,background .25s,box-shadow .25s; }
+.input:focus, .select:focus, .textarea:focus { outline:none; border-color:var(--primary-color); box-shadow:0 0 0 3px rgba(100,100,255,.25); }
+[data-theme="dark"] .input, [data-theme="dark"] .select, [data-theme="dark"] .textarea { background:var(--bg-secondary); }
+
+/* Utility Spacing */
+.mt-sm { margin-top:.5rem; } .mt-md { margin-top:1rem; } .mt-lg { margin-top:2rem; }
+.mb-sm { margin-bottom:.5rem; } .mb-md { margin-bottom:1rem; } .mb-lg { margin-bottom:2rem; }
+.p-sm { padding:.5rem; } .p-md { padding:1rem; } .p-lg { padding:2rem; }
+.rounded { border-radius:10px; } .rounded-full { border-radius:999px; }
+
+/* Cards Grid */
+.grid { display:grid; gap:1.5rem; }
+.grid-cols-2 { grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); }
+.grid-cols-3 { grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); }
+
+/* Elevation tokens if needed */
+.shadow-sm { box-shadow:0 2px 6px var(--shadow-light); }
+.shadow-md { box-shadow:0 4px 14px var(--shadow-medium); }
+.shadow-lg { box-shadow:0 8px 28px var(--shadow-strong); }
+
+/* Scrollbar (optional) */
+::-webkit-scrollbar { width:10px; }
+::-webkit-scrollbar-track { background:var(--bg-primary); }
+::-webkit-scrollbar-thumb { background:var(--border-light); border-radius:6px; }
+::-webkit-scrollbar-thumb:hover { background:var(--primary-color); }
